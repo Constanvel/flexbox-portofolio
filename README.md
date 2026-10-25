@@ -62,7 +62,7 @@ Blue text adalah adaptasi aksesibilitas, bukan HEX yang diklaim berasal dari scr
 ## Cakupan verifikasi
 
 - Build Vite dan 4 unit test dijalankan.
-- Empat skenario Chromium headless mencakup horizontal desktop, keyboard antar kartu, dialog/Escape/fokus, anchor bypass, toggle gerak, menu narrow desktop, mobile touch emulasi, reduced-motion, dan perubahan tinggi viewport.
+- Enam skenario Chromium headless mencakup horizontal desktop/wheel, keyboard antar kartu, dialog/Escape/fokus, anchor bypass, toggle gerak saat pin aktif, menu narrow desktop, mobile touch emulasi, reduced-motion, perubahan tinggi viewport, dan lebar 320 px.
 - Pemeriksaan axe memakai tag WCAG 2 A/AA dan WCAG 2.1 AA pada halaman dan dialog yang diuji. Ini **bukan sertifikasi WCAG** atau pengganti uji pembaca layar.
 - Screenshot desktop dan mobile diperiksa. Screenshot full-page saat motion aktif tidak mewakili hasil scroll secara akurat karena reveal dan pin bergantung viewport.
 - Belum diuji pada Safari/Firefox, perangkat touch fisik, pembaca layar, atau browser desktop interaktif. Belum ada pengukuran FPS atau Lighthouse.

@@ -363,6 +363,7 @@ function App() {
       element.removeEventListener('focusin', onFocus);
       horizontal.current = null;
       ctx.revert();
+      gsap.set(element, { clearProps: 'transform' });
     };
   }, [horizontalEnabled]);
 

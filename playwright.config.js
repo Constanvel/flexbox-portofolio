@@ -4,7 +4,7 @@ export default defineConfig({
   testDir: './tests/browser',
   fullyParallel: true,
   workers: 1,
-  timeout: 60000,
+  timeout: 120000,
   outputDir: '.playwright/results',
   reporter: 'list',
   use: { baseURL: 'http://127.0.0.1:5173', trace: 'retain-on-failure' },

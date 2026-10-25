@@ -6,7 +6,9 @@ test('wheel drives showcase; disabling motion mid-pin clears transforms', async 
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await page.evaluate(() => document.fonts.ready);
-  await page.getByRole('link', { name: 'Eksplorasi karya', exact: true }).click();
+  await page
+    .getByRole('link', { name: 'Eksplorasi karya', exact: true })
+    .click();
   await expect(page.locator('#karya')).toBeFocused();
   await page.mouse.wheel(0, 900);
   await expect
