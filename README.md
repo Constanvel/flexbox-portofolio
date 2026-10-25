@@ -1,5 +1,7 @@
 # Flexbox / Motion Study 01
 
+Website portofolio-flexbox.
+
 Percobaan React untuk **hero + showcase karya**, dengan arah “ekspresif terkontrol”. Bukan website produksi atau portofolio klien final. Semua karya diberi label konsep; tidak ada kontak, testimoni, metrik, atau identitas tim rekaan.
 
 ## Menjalankan
