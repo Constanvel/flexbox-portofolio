@@ -1,0 +1,4 @@
+node_modules/
+dist/
+.playwright/
+package-lock.json
