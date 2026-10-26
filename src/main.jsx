@@ -20,6 +20,35 @@ import { canAnimate, showcaseScrollPosition } from './motion-policy';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const pageRoutes = {
+  main: '/',
+  karya: '/karya',
+  layanan: '/layanan',
+  proses: '/layanan#proses',
+  tim: '/tentang',
+  faq: '/layanan#faq',
+  kontak: '/kontak',
+};
+// Keep links from the former single-page site working.
+const legacySection = window.location.hash.slice(1);
+if (
+  window.location.pathname === '/' &&
+  pageRoutes[legacySection] &&
+  legacySection !== 'main'
+) {
+  window.location.replace(pageRoutes[legacySection]);
+}
+const pathname = window.location.pathname.replace(/\/$/, '') || '/';
+const currentPage =
+  {
+    '/': 'home',
+    '/karya': 'karya',
+    '/layanan': 'layanan',
+    '/tentang': 'tentang',
+    '/kontak': 'kontak',
+  }[pathname] || 'not-found';
+const routeFor = (id) => pageRoutes[id] || '/';
+
 const projects = [
   {
     id: '01',
@@ -210,19 +239,9 @@ function App() {
   const [selected, setSelected] = useState(null);
   const [active, setActive] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('main');
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const sections = [
-      'main',
-      'karya',
-      'layanan',
-      'proses',
-      'tim',
-      'faq',
-      'kontak',
-    ];
     let frame;
     let directionAnchor = window.scrollY;
     const update = () => {
@@ -237,14 +256,6 @@ function App() {
           setHeaderHidden(y > directionAnchor);
           directionAnchor = y;
         }
-        const marker = window.innerHeight * 0.35;
-        const current = sections.reduce((result, id) => {
-          const section = document.getElementById(id);
-          return section && section.getBoundingClientRect().top <= marker
-            ? id
-            : result;
-        }, 'main');
-        setActiveSection(current);
       });
     };
     update();
@@ -266,6 +277,25 @@ function App() {
   // Keep the work in the normal document flow on every screen.
   const horizontalEnabled = false;
   const overlayOpen = menuOpen || dialogOpen;
+
+  useEffect(() => {
+    const titles = {
+      home: 'Website untuk usaha Anda',
+      karya: 'Eksplorasi karya',
+      layanan: 'Layanan & cara kerja',
+      tentang: 'Tentang kami',
+      kontak: 'Ceritakan proyekmu',
+      'not-found': 'Halaman tidak ditemukan',
+    };
+    document.title = `${titles[currentPage]} — Flexbox`;
+    if (window.location.hash) {
+      requestAnimationFrame(() =>
+        document
+          .getElementById(window.location.hash.slice(1))
+          ?.scrollIntoView(),
+      );
+    }
+  }, []);
 
   useEffect(() => {
     if (!animated || !finePointer) return;
@@ -360,29 +390,24 @@ function App() {
   useLayoutEffect(() => {
     if (!animated) return;
     const ctx = gsap.context(() => {
-      gsap.from('.hero .char', {
-        yPercent: 110,
-        rotate: 5,
-        opacity: 0,
-        stagger: 0.018,
-        duration: 0.8,
-        ease: 'power3.out',
-      });
-      gsap.from('.hero-reveal', {
-        y: 20,
-        opacity: 0,
-        stagger: 0.09,
-        duration: 0.7,
-        delay: 0.3,
-        ease: 'power3.out',
-      });
-      gsap.from('.hero-cube .cube-body', {
-        y: 35,
-        opacity: 0,
-        duration: 1.1,
-        delay: 0.2,
-        ease: 'power3.out',
-      });
+      if (currentPage === 'home') {
+        gsap.from('.hero .char', {
+          yPercent: 110,
+          rotate: 5,
+          opacity: 0,
+          stagger: 0.018,
+          duration: 0.8,
+          ease: 'power3.out',
+        });
+        gsap.from('.hero-reveal', {
+          y: 20,
+          opacity: 0,
+          stagger: 0.09,
+          duration: 0.7,
+          delay: 0.3,
+          ease: 'power3.out',
+        });
+      }
       gsap.utils.toArray('.section-reveal').forEach((element) => {
         gsap.from(element, {
           y: 22,
@@ -392,18 +417,19 @@ function App() {
           scrollTrigger: { trigger: element, start: 'top 94%', once: true },
         });
       });
-      gsap.from('.showcase-heading .char', {
-        yPercent: 105,
-        opacity: 0,
-        stagger: 0.018,
-        duration: 0.65,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.showcase-heading',
-          start: 'top 92%',
-          once: true,
-        },
-      });
+      if (currentPage === 'home' || currentPage === 'karya')
+        gsap.from('.showcase-heading .char', {
+          yPercent: 105,
+          opacity: 0,
+          stagger: 0.018,
+          duration: 0.65,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.showcase-heading',
+            start: 'top 92%',
+            once: true,
+          },
+        });
     }, root);
     return () => ctx.revert();
   }, [animated]);
@@ -509,8 +535,19 @@ function App() {
       return;
     event?.preventDefault();
     closeMenu();
-    const element = document.getElementById(id);
-    if (!element) return;
+    const destination = routeFor(id);
+    const [destinationPath, hash] = destination.split('#');
+    if (destinationPath !== pathname) {
+      window.location.assign(destination);
+      return;
+    }
+    const element = document.getElementById(
+      hash || (id === 'main' ? 'main' : id),
+    );
+    if (!element) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      return;
+    }
     const y =
       id === 'karya' && horizontal.current
         ? horizontal.current.start
@@ -528,7 +565,7 @@ function App() {
       window.scrollTo({ top: y, behavior: 'instant' });
       focusTarget();
     }
-    window.history.pushState(null, '', `#${id}`);
+    window.history.pushState(null, '', hash ? destination : destinationPath);
   }
   function closeMenu() {
     if (menuDialog.current?.open) {
@@ -570,14 +607,21 @@ function App() {
 
   return (
     <div ref={root} className={`app ${animated ? 'motion-on' : 'motion-off'}`}>
-      <a href="#main" className="skip-link" onClick={(e) => goTo('main', e)}>
+      <a
+        href="#main"
+        className="skip-link"
+        onClick={(e) => {
+          e.preventDefault();
+          document.getElementById('main')?.focus();
+        }}
+      >
         Lewati navigasi
       </a>
       <header
         className={`header ${scrolled ? 'is-scrolled' : ''} ${headerHidden && !menuOpen ? 'is-hidden' : ''}`}
       >
         <a
-          href="#main"
+          href="/"
           className="brand"
           aria-label="Flexbox, kembali ke awal"
           onClick={(e) => goTo('main', e)}
@@ -598,8 +642,8 @@ function App() {
           ].map(([id, label]) => (
             <a
               key={id}
-              href={`#${id}`}
-              aria-current={activeSection === id ? 'location' : undefined}
+              href={routeFor(id)}
+              aria-current={pathname === routeFor(id) ? 'page' : undefined}
               onClick={(e) => goTo(id, e)}
             >
               {label}
@@ -609,7 +653,7 @@ function App() {
         <div className="header-controls">
           <a
             className="nav-contact"
-            href="#kontak"
+            href="/kontak"
             onClick={(e) => goTo('kontak', e)}
           >
             <span>Ceritakan proyekmu</span>
@@ -638,157 +682,186 @@ function App() {
       </header>
 
       <main id="main" tabIndex={-1}>
-        <section className="hero" aria-labelledby="hero-title">
-          <div className="hero-copy">
-            <p className="eyebrow hero-reveal">
-              <span className="square" /> WEBSITE UNTUK UMKM & BISNIS LOKAL
-            </p>
-            <SplitTitle
-              id="hero-title"
-              lines={['Website yang', 'memahami', 'usaha Anda.']}
-            />
-            <p className="hero-description hero-reveal">
-              Kami membantu usaha lokal menjelaskan produknya, membangun
-              kepercayaan, dan memudahkan pelanggan menghubungi mereka.
-            </p>
-            <div className="hero-actions hero-reveal">
-              <a
-                className="button button-primary"
-                href="#karya"
-                onClick={(e) => goTo('karya', e)}
-              >
-                Lihat karya <Arrow down />
-              </a>
-              <a
-                className="text-link"
-                href="#kontak"
-                onClick={(e) => goTo('kontak', e)}
-              >
-                Ceritakan usahamu <Arrow />
-              </a>
+        {currentPage === 'home' && (
+          <section className="hero" aria-labelledby="hero-title">
+            <div className="hero-copy">
+              <p className="eyebrow hero-reveal">
+                <span className="square" /> WEBSITE UNTUK UMKM & BISNIS LOKAL
+              </p>
+              <SplitTitle
+                id="hero-title"
+                lines={['Website yang', 'memahami', 'usaha Anda.']}
+              />
+              <p className="hero-description hero-reveal">
+                Kami membantu usaha lokal menjelaskan produknya, membangun
+                kepercayaan, dan memudahkan pelanggan menghubungi mereka.
+              </p>
+              <div className="hero-actions hero-reveal">
+                <a
+                  className="button button-primary"
+                  href="/karya"
+                  onClick={(e) => goTo('karya', e)}
+                >
+                  Lihat karya <Arrow down />
+                </a>
+                <a
+                  className="text-link"
+                  href="/kontak"
+                  onClick={(e) => goTo('kontak', e)}
+                >
+                  Ceritakan usahamu <Arrow />
+                </a>
+              </div>
             </div>
-          </div>
-          <aside
-            className="hero-aside hero-reveal"
-            aria-label="Pendekatan Flexbox"
-          >
-            <span className="hero-aside-mark" aria-hidden="true">
-              ↘
-            </span>
-            <p>
-              Mulai dari cerita.
-              <br />
-              Bukan dari template.
-            </p>
-            <span>
-              Desain & pengembangan
-              <br />
-              untuk usaha yang terus bergerak.
-            </span>
-          </aside>
-          <div className="hero-bottom hero-reveal">
-            <span>Desain dengan arah. Teknologi dengan tujuan.</span>
-            <a
-              href="#karya"
-              onClick={(e) => goTo('karya', e)}
-              aria-label="Turun ke eksplorasi karya"
+            <aside
+              className="hero-aside hero-reveal"
+              aria-label="Pendekatan Flexbox"
             >
-              SCROLL TO EXPLORE <Arrow down />
-            </a>
-          </div>
-        </section>
-
-        <section
-          id="karya"
-          tabIndex={-1}
-          aria-labelledby="work-title"
-          className={`showcase ${horizontalEnabled ? 'is-horizontal' : ''}`}
-        >
-          <div ref={stage} className="showcase-stage">
-            <div className="showcase-heading">
-              <div>
-                <p className="eyebrow">01 / EKSPLORASI TERPILIH</p>
-                <SplitTitle
-                  id="work-title"
-                  as="h2"
-                  lines={['Bukan sekadar', 'terlihat berbeda.']}
-                />
-              </div>
-              <div className="showcase-note">
-                <span className="concept-tag">KONSEP, BUKAN PROYEK KLIEN</span>
-                <p>
-                  Tiga kemungkinan. Satu cara berpikir:
-                  <br />
-                  mulai dari kebutuhan, bukan template.
-                </p>
-                <span className="scroll-hint">
-                  {horizontalEnabled
-                    ? 'SCROLL UNTUK MENJELAJAHI →'
-                    : 'JELAJAHI KONSEP DI BAWAH ↓'}
-                </span>
-              </div>
+              <span className="hero-aside-mark" aria-hidden="true">
+                ↘
+              </span>
+              <p>
+                Mulai dari cerita.
+                <br />
+                Bukan dari template.
+              </p>
+              <span>
+                Desain & pengembangan
+                <br />
+                untuk usaha yang terus bergerak.
+              </span>
+            </aside>
+            <div className="hero-bottom hero-reveal">
+              <span>Desain dengan arah. Teknologi dengan tujuan.</span>
+              <a
+                href="/karya"
+                onClick={(e) => goTo('karya', e)}
+                aria-label="Turun ke eksplorasi karya"
+              >
+                SCROLL TO EXPLORE <Arrow down />
+              </a>
             </div>
-            <div className="showcase-window">
-              <div className="project-track" ref={track}>
-                {projects.map((project, index) => (
-                  <article
-                    className={`project-card ${project.className}`}
-                    key={project.id}
-                    data-project-index={index}
-                    onPointerMove={tilt}
-                    onPointerLeave={resetTilt}
-                  >
-                    <button
-                      type="button"
-                      className="project-open"
-                      aria-label={`Lihat konsep ${project.name}`}
-                      data-cursor="Lihat"
-                      onClick={(event) =>
-                        openProject(index, event.currentTarget)
-                      }
+          </section>
+        )}
+
+        {(currentPage === 'home' || currentPage === 'karya') && (
+          <section
+            id="karya"
+            tabIndex={-1}
+            aria-labelledby="work-title"
+            className={`showcase ${currentPage === 'home' ? 'home-showcase' : 'work-page'} ${horizontalEnabled ? 'is-horizontal' : ''}`}
+          >
+            <div ref={stage} className="showcase-stage">
+              <div className="showcase-heading">
+                <div>
+                  <p className="eyebrow">01 / EKSPLORASI TERPILIH</p>
+                  <SplitTitle
+                    id="work-title"
+                    as={currentPage === 'karya' ? 'h1' : 'h2'}
+                    lines={['Bukan sekadar', 'terlihat berbeda.']}
+                  />
+                </div>
+                <div className="showcase-note">
+                  <span className="concept-tag">
+                    KONSEP, BUKAN PROYEK KLIEN
+                  </span>
+                  <p>
+                    {currentPage === 'home'
+                      ? 'Sekilas dari ruang eksplorasi kami.'
+                      : 'Tiga kemungkinan. Satu cara berpikir:'}
+                    <br />
+                    mulai dari kebutuhan, bukan template.
+                  </p>
+                  <span className="scroll-hint">
+                    {horizontalEnabled
+                      ? 'SCROLL UNTUK MENJELAJAHI →'
+                      : 'JELAJAHI KONSEP DI BAWAH ↓'}
+                  </span>
+                </div>
+              </div>
+              <div className="showcase-window">
+                <div className="project-track" ref={track}>
+                  {(currentPage === 'home'
+                    ? projects.slice(0, 1)
+                    : projects
+                  ).map((project, index) => (
+                    <article
+                      className={`project-card ${project.className}`}
+                      key={project.id}
+                      data-project-index={index}
+                      onPointerMove={tilt}
+                      onPointerLeave={resetTilt}
                     >
-                      <div className="project-visual">
-                        <ProjectArt project={project} />
-                        <span className="project-open-icon" aria-hidden="true">
+                      <button
+                        type="button"
+                        className="project-open"
+                        aria-label={`Lihat konsep ${project.name}`}
+                        data-cursor="Lihat"
+                        onClick={(event) =>
+                          openProject(index, event.currentTarget)
+                        }
+                      >
+                        <div className="project-visual">
+                          <ProjectArt project={project} />
+                          <span
+                            className="project-open-icon"
+                            aria-hidden="true"
+                          >
+                            ↗
+                          </span>
+                        </div>
+                      </button>
+                      <div className="project-meta">
+                        <span className="project-number">/{project.id}</span>
+                        <div>
+                          <p>{project.type} / Eksplorasi</p>
+                          <h3>{project.name}</h3>
+                        </div>
+                        <p className="project-purpose">{project.text}</p>
+                        <span className="project-meta-arrow" aria-hidden="true">
                           ↗
                         </span>
                       </div>
-                    </button>
-                    <div className="project-meta">
-                      <span className="project-number">/{project.id}</span>
-                      <div>
-                        <p>{project.type} / Eksplorasi</p>
-                        <h3>{project.name}</h3>
-                      </div>
-                      <p className="project-purpose">{project.text}</p>
-                      <span className="project-meta-arrow" aria-hidden="true">
-                        ↗
-                      </span>
-                    </div>
-                  </article>
-                ))}
+                    </article>
+                  ))}
+                </div>
+              </div>
+              <div className="showcase-footer">
+                <span>
+                  {horizontalEnabled
+                    ? `${String(active + 1).padStart(2, '0')} / 03`
+                    : '03 KONSEP / BELUM DIPUBLIKASIKAN SEBAGAI KARYA'}
+                </span>
+                <div className="progress-track" aria-hidden="true">
+                  <span style={{ transform: `translateX(${active * 100}%)` }} />
+                </div>
+                <a
+                  href={currentPage === 'home' ? '/karya' : '/layanan'}
+                  className="text-link"
+                  onClick={(e) =>
+                    goTo(currentPage === 'home' ? 'karya' : 'layanan', e)
+                  }
+                >
+                  {currentPage === 'home'
+                    ? 'Semua eksplorasi'
+                    : 'Lihat layanan'}{' '}
+                  <Arrow />
+                </a>
               </div>
             </div>
-            <div className="showcase-footer">
-              <span>
-                {horizontalEnabled
-                  ? `${String(active + 1).padStart(2, '0')} / 03`
-                  : '03 KONSEP / BELUM DIPUBLIKASIKAN SEBAGAI KARYA'}
-              </span>
-              <div className="progress-track" aria-hidden="true">
-                <span style={{ transform: `translateX(${active * 100}%)` }} />
-              </div>
-              <a
-                href="#layanan"
-                className="text-link"
-                onClick={(e) => goTo('layanan', e)}
-              >
-                Lewati showcase <Arrow down />
-              </a>
-            </div>
-          </div>
-        </section>
-        <PageSections goTo={goTo} />
+          </section>
+        )}
+        {currentPage === 'not-found' && (
+          <section className="route-intro">
+            <p className="eyebrow">404 / HALAMAN TIDAK DITEMUKAN</p>
+            <h1>Sepertinya salah ruang.</h1>
+            <p>Halaman ini tidak tersedia. Mulai lagi dari beranda.</p>
+            <a className="button button-primary" href="/">
+              Kembali ke beranda <Arrow />
+            </a>
+          </section>
+        )}
+        <PageSections page={currentPage} goTo={goTo} />
       </main>
 
       <dialog
@@ -812,19 +885,19 @@ function App() {
           </button>
         </div>
         <nav aria-label="Navigasi mobile">
-          <a href="#karya" onClick={(e) => goTo('karya', e)}>
+          <a href="/karya" onClick={(e) => goTo('karya', e)}>
             Eksplorasi <Arrow />
           </a>
-          <a href="#layanan" onClick={(e) => goTo('layanan', e)}>
+          <a href="/layanan" onClick={(e) => goTo('layanan', e)}>
             Layanan <Arrow />
           </a>
-          <a href="#proses" onClick={(e) => goTo('proses', e)}>
+          <a href="/layanan#proses" onClick={(e) => goTo('proses', e)}>
             Proses <Arrow />
           </a>
-          <a href="#tim" onClick={(e) => goTo('tim', e)}>
+          <a href="/tentang" onClick={(e) => goTo('tim', e)}>
             Tim <Arrow />
           </a>
-          <a href="#kontak" onClick={(e) => goTo('kontak', e)}>
+          <a href="/kontak" onClick={(e) => goTo('kontak', e)}>
             Hubungi <Arrow />
           </a>
         </nav>

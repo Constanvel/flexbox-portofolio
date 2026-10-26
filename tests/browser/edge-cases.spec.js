@@ -1,13 +1,19 @@
 import { test, expect } from '@playwright/test';
 
-test('wheel scrolls vertically; motion toggle preserves native showcase', async ({
+test('wheel scrolls vertically; reduced motion preserves native showcase', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await page.evaluate(() => document.fonts.ready);
-  await page.getByRole('link', { name: 'Karya', exact: true }).click();
-  await expect(page.locator('#karya')).toBeFocused();
+  await page
+    .getByRole('navigation', { name: 'Navigasi utama', exact: true })
+    .getByRole('link', { name: 'Karya', exact: true })
+    .click();
+  await expect(page).toHaveURL('/karya');
+  await expect(page.getByRole('button', { name: /^Lihat konsep/ })).toHaveCount(
+    3,
+  );
   const initialScroll = await page.evaluate(() => scrollY);
   await page.mouse.wheel(0, 900);
   await expect
@@ -44,5 +50,11 @@ test('320px reduced-motion layout does not overflow', async ({ page }) => {
   );
   await page.getByRole('button', { name: 'Menu +' }).click();
   await page.getByRole('link', { name: 'Eksplorasi', exact: true }).click();
-  await expect(page.locator('#karya')).toBeFocused();
+  await expect(page).toHaveURL('/karya');
+  await expect(page.getByRole('button', { name: /^Lihat konsep/ })).toHaveCount(
+    3,
+  );
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(
+    320,
+  );
 });

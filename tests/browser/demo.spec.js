@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-async function ready(page) {
+async function ready(page, route = '/') {
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto('/');
+  await page.goto(route);
   await page.evaluate(() => document.fonts.ready);
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await page.waitForTimeout(1500);
@@ -40,7 +40,7 @@ async function checkAxe(page) {
   ).toEqual([]);
 }
 
-test('desktop: horizontal, keyboard, dialog, bypass, motion toggle', async ({
+test('desktop: project navigation, keyboard, dialog and reduced motion', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
@@ -50,7 +50,13 @@ test('desktop: horizontal, keyboard, dialog, bypass, motion toggle', async ({
   await checkAxe(page);
   await page.screenshot({ path: '.playwright/desktop.png', fullPage: false });
 
+  await expect(page.getByRole('button', { name: /^Lihat konsep/ })).toHaveCount(
+    1,
+  );
+  await page.getByRole('link', { name: 'Semua eksplorasi' }).click();
+  await expect(page).toHaveURL('/karya');
   const cards = page.getByRole('button', { name: /^Lihat konsep/ });
+  await expect(cards).toHaveCount(3);
   await cards.first().focus();
   for (let i = 0; i < 3; i++) {
     const card = cards.nth(i);
@@ -76,13 +82,15 @@ test('desktop: horizontal, keyboard, dialog, bypass, motion toggle', async ({
   expect(await page.evaluate(() => scrollY)).toBe(scroll);
   await page.keyboard.press('Escape');
   await expect(cards.nth(2)).toBeFocused();
-  await page.getByRole('link', { name: 'Lewati showcase' }).click();
-  await expect(page.locator('#layanan')).toBeFocused();
+  await page.getByRole('link', { name: 'Lihat layanan', exact: true }).click();
+  await expect(page).toHaveURL('/layanan');
+  await expect(page.locator('#layanan')).toBeVisible();
+  await checkAxe(page);
   await page
     .getByRole('link', { name: 'Kembali ke atas', exact: true })
     .click();
-  await expect(page.locator('#main')).toBeFocused();
-  await expect(page.locator('.motion-toggle')).toHaveCount(0);
+  await expect(page).toHaveURL('/');
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);
   await expect(page.locator('.pin-spacer')).toHaveCount(0);
@@ -93,7 +101,7 @@ test('desktop: horizontal, keyboard, dialog, bypass, motion toggle', async ({
   expect(errors).toEqual([]);
 });
 
-test('mobile touch: vertical, native dialog lock, menu anchors', async ({
+test('mobile touch: vertical, native dialog lock, menu routes', async ({
   browser,
 }) => {
   const context = await browser.newContext({
@@ -122,7 +130,10 @@ test('mobile touch: vertical, native dialog lock, menu anchors', async ({
     ),
   ).toBe('hidden');
   await page.getByRole('link', { name: 'Eksplorasi', exact: true }).click();
-  await expect(page.locator('#karya')).toBeFocused();
+  await expect(page).toHaveURL('/karya');
+  await expect(page.getByRole('button', { name: /^Lihat konsep/ })).toHaveCount(
+    3,
+  );
   await expect(page.getByRole('dialog')).not.toBeVisible();
   await page
     .getByRole('button', { name: 'Lihat konsep Ruang untuk cerita.' })
@@ -145,7 +156,7 @@ test('reduced-motion and live viewport changes clean up pinning', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
-  await ready(page);
+  await ready(page, '/karya');
   await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(page.locator('.app')).toHaveClass(/motion-off/);
@@ -160,7 +171,7 @@ test('reduced-motion and live viewport changes clean up pinning', async ({
   await noOverflow(page);
 });
 
-test('narrow desktop menu restarts Lenis before navigation', async ({
+test('narrow desktop menu navigates to services and releases scroll lock', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 900, height: 800 });
@@ -170,10 +181,13 @@ test('narrow desktop menu restarts Lenis before navigation', async ({
     .getByRole('dialog')
     .getByRole('link', { name: 'Layanan', exact: true })
     .click();
-  await expect(page.locator('#layanan')).toBeFocused();
-  expect(
-    await page
-      .locator('#layanan')
-      .evaluate((el) => el.getBoundingClientRect().top),
-  ).toBeLessThan(400);
+  await expect(page).toHaveURL('/layanan');
+  await expect(page.locator('#layanan')).toBeVisible();
+  await expect(page.getByRole('dialog')).not.toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate(() => getComputedStyle(document.documentElement).overflow),
+    )
+    .not.toBe('hidden');
+  await noOverflow(page);
 });

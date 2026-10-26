@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './sections.css';
+import './pages.css';
 
 const services = [
   {
@@ -67,7 +68,29 @@ function SectionLabel({ children }) {
   return <p className="eyebrow ps-label">{children}</p>;
 }
 
-export default function PageSections({ goTo }) {
+const pageIntros = {
+  layanan: {
+    eyebrow: 'Layanan / Dari kebutuhan ke arah',
+    title: 'Website dengan tujuan yang jelas.',
+    description:
+      'Pilih kebutuhan Anda. Kita susun arah, proses, dan langkah berikutnya bersama.',
+  },
+  tentang: {
+    eyebrow: 'Tentang / Di balik Flexbox',
+    title: 'Partner berpikir. Teman membangun.',
+    description:
+      'Studio digital dengan ruang untuk mendengar, berdiskusi, dan menerjemahkan cerita usaha Anda.',
+  },
+  kontak: {
+    eyebrow: 'Kontak / Percakapan pertama',
+    title: 'Mulai dengan cerita Anda.',
+    description:
+      'Tidak perlu brief yang sempurna. Susun kebutuhan Anda lewat pratinjau pesan di bawah.',
+  },
+};
+
+export default function PageSections({ page = 'home', goTo }) {
+  const intro = pageIntros[page];
   const [preview, setPreview] = useState(null);
 
   function previewMessage(event) {
@@ -82,248 +105,302 @@ export default function PageSections({ goTo }) {
 
   return (
     <div className="page-sections">
-      <section
-        id="layanan"
-        className="ps-section ps-services"
-        tabIndex={-1}
-        aria-labelledby="services-title"
-      >
-        <div className="ps-services-panel">
+      {intro && (
+        <header className="ps-page-intro">
+          <SectionLabel>{intro.eyebrow}</SectionLabel>
+          <h1>{intro.title}</h1>
+          <p>{intro.description}</p>
+        </header>
+      )}
+
+      {page === 'home' && (
+        <section
+          className="ps-section ps-home-preview"
+          aria-labelledby="preview-title"
+        >
           <header className="ps-heading section-reveal">
             <div>
-              <SectionLabel>02 / Layanan</SectionLabel>
-              <h2 id="services-title">
-                Kebutuhan berbeda.
-                <br />
-                Arah yang tepat.
-              </h2>
+              <SectionLabel>02 / Ruang untuk usaha Anda</SectionLabel>
+              <h2 id="preview-title">Kebutuhan Anda. Titik berangkat kita.</h2>
             </div>
-            <p className="ps-intro">
-              Bukan sekadar hadir di internet. Website yang membantu orang
-              memahami usaha Anda dan tahu langkah selanjutnya.
-            </p>
+            <a className="text-link" href="/layanan">
+              Jelajahi layanan <span aria-hidden="true">↗</span>
+            </a>
           </header>
-          <div className="ps-service-grid">
+          <div className="ps-preview-services">
             {services.map((service, index) => (
-              <article
-                className="ps-service-card section-reveal"
+              <a
+                href="/layanan"
+                className="ps-preview-service section-reveal"
                 key={service.title}
               >
-                <span className="ps-index" aria-hidden="true">
-                  / 0{index + 1}
-                </span>
+                <span className="ps-index">0{index + 1}</span>
                 <h3>{service.title}</h3>
-                <div className="ps-service-copy">
-                  <p>{service.description}</p>
-                  <p className="ps-service-detail">{service.detail}</p>
-                </div>
-                <a
-                  className="text-link ps-service-link"
-                  href="#kontak"
-                  onClick={(event) => goTo?.('kontak', event)}
-                >
-                  Bahas {service.title.toLowerCase()}
-                  <span aria-hidden="true">↗</span>
-                </a>
-              </article>
+                <p>{service.detail}</p>
+                <span aria-hidden="true">↗</span>
+              </a>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section
-        id="proses"
-        className="ps-section ps-process"
-        tabIndex={-1}
-        aria-labelledby="process-title"
-      >
-        <header className="ps-heading section-reveal">
-          <div>
-            <SectionLabel>03 / Cara kerja</SectionLabel>
-            <h2 id="process-title">Satu meja. Arah yang sama.</h2>
-          </div>
-          <p className="ps-intro">
-            Ada ruang untuk bertanya, meninjau, dan menyepakati. Dari percakapan
-            pertama sampai website siap digunakan.
-          </p>
-        </header>
-        <ol className="ps-process-list">
-          {stages.map((stage, index) => (
-            <li className="ps-process-row section-reveal" key={stage.title}>
-              <span className="ps-index" aria-hidden="true">
-                0{index + 1}
-              </span>
-              <h3>{stage.title}</h3>
-              <p>{stage.description}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section
-        id="tim"
-        className="ps-section ps-team"
-        tabIndex={-1}
-        aria-labelledby="team-title"
-      >
-        <div className="ps-team-brand section-reveal">
-          <span className="ps-index">Flexbox / Studio digital</span>
-          <p className="ps-team-statement">
-            Ide Anda.
-            <br />
-            Ruang kita.
-          </p>
-          <div className="ps-team-signature">
-            <span>Percakapan dulu. Website kemudian.</span>
-            <span aria-hidden="true">f.</span>
-          </div>
-        </div>
-        <div className="ps-team-copy section-reveal">
-          <SectionLabel>04 / Di balik Flexbox</SectionLabel>
-          <h2 id="team-title">Tim kecil. Ruang diskusi terbuka.</h2>
-          <p>
-            Anda paling mengenal usaha Anda. Kami membantu menerjemahkannya
-            menjadi pengalaman digital yang mudah dipahami dan nyaman digunakan.
-          </p>
-          <p>
-            Kami memilih percakapan yang langsung, keputusan desain yang punya
-            alasan, dan proses yang bisa diikuti bersama. Tidak perlu datang
-            dengan istilah teknis. Mulai dengan cerita Anda.
-          </p>
-          <a
-            className="text-link ps-team-link"
-            href="#kontak"
-            onClick={(event) => goTo?.('kontak', event)}
-          >
-            Mulai percakapan <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </section>
-
-      <section
-        id="faq"
-        className="ps-section ps-faq"
-        tabIndex={-1}
-        aria-labelledby="faq-title"
-      >
-        <header className="section-reveal">
-          <SectionLabel>05 / Pertanyaan umum</SectionLabel>
-          <h2 id="faq-title">Sebelum kita mulai.</h2>
-          <p className="ps-intro">
-            Beberapa hal yang mungkin sedang Anda pikirkan.
-          </p>
-        </header>
-        <div className="ps-faq-list">
-          {questions.map(({ question, answer }) => (
-            <details className="ps-faq-item section-reveal" key={question}>
-              <summary>
-                <h3>{question}</h3>
-                <span className="ps-faq-indicator" aria-hidden="true" />
-              </summary>
-              <p>{answer}</p>
-            </details>
-          ))}
-        </div>
-      </section>
-
-      <section
-        id="kontak"
-        className="ps-section ps-contact"
-        tabIndex={-1}
-        aria-labelledby="contact-title"
-      >
-        <div className="ps-contact-copy section-reveal">
-          <SectionLabel>06 / Mulai dari cerita</SectionLabel>
-          <h2 id="contact-title">
-            Usaha Anda punya cerita. <span>Mari kita bawa ke website.</span>
-          </h2>
-          <p>
-            Tuliskan usaha Anda, apa yang dibutuhkan, dan apa yang ingin
-            dicapai. Tidak harus berupa brief yang sempurna.
-          </p>
-        </div>
-        <form
-          className="ps-contact-form section-reveal"
-          onSubmit={previewMessage}
-          onChange={() => setPreview(null)}
-          aria-labelledby="contact-form-title"
-          aria-describedby="contact-form-note"
-        >
-          <h3 id="contact-form-title">Susun pesan Anda</h3>
-          <p id="contact-form-note" className="ps-form-note">
-            Formulir demo — hanya pratinjau lokal. Pesan tidak dikirim ke siapa
-            pun dan tidak disimpan permanen. Semua kolom wajib diisi.
-          </p>
-          <div className="ps-field">
-            <label htmlFor="contact-name">Nama</label>
-            <input
-              id="contact-name"
-              name="name"
-              type="text"
-              autoComplete="off"
-              maxLength={120}
-              required
-            />
-          </div>
-          <div className="ps-field">
-            <label htmlFor="contact-address">Email atau nomor WhatsApp</label>
-            <input
-              id="contact-address"
-              name="contact"
-              type="text"
-              autoComplete="off"
-              maxLength={160}
-              aria-describedby="contact-address-hint"
-              required
-            />
-            <span id="contact-address-hint" className="ps-field-hint">
-              Pilih salah satu. Contoh: email Anda atau nomor dengan kode
-              negara.
-            </span>
-          </div>
-          <div className="ps-field">
-            <label htmlFor="contact-needs">Ceritakan kebutuhan Anda</label>
-            <textarea
-              id="contact-needs"
-              name="needs"
-              rows={4}
-              maxLength={3000}
-              required
-            />
-          </div>
-          <button type="submit" className="button ps-preview-button">
-            Pratinjau pesan <span aria-hidden="true">↗</span>
-          </button>
-          <p className="ps-form-status" role="status" aria-atomic="true">
-            {preview
-              ? 'Pratinjau lokal tersedia di bawah. Pesan belum dikirim dan tidak akan dikirim oleh formulir ini.'
-              : ''}
-          </p>
-          {preview && (
-            <div className="ps-message-preview">
-              <h3>Pratinjau pesan</h3>
-              <dl>
-                <dt>Nama</dt>
-                <dd>{preview.name}</dd>
-                <dt>Email atau WhatsApp</dt>
-                <dd>{preview.contact}</dd>
-                <dt>Kebutuhan</dt>
-                <dd>{preview.needs}</dd>
-              </dl>
-              <p>Pratinjau ini hilang saat halaman dimuat ulang.</p>
+          <div className="ps-home-next section-reveal">
+            <div>
+              <SectionLabel>Percakapan dulu. Website kemudian.</SectionLabel>
+              <p>
+                Kenali cara kami berpikir, lalu ceritakan apa yang ingin Anda
+                bangun.
+              </p>
             </div>
-          )}
-        </form>
-      </section>
+            <nav aria-label="Kenali Flexbox">
+              <a className="text-link" href="/tentang">
+                Tentang Flexbox <span aria-hidden="true">↗</span>
+              </a>
+              <a className="text-link" href="/kontak">
+                Mulai percakapan <span aria-hidden="true">↗</span>
+              </a>
+            </nav>
+          </div>
+        </section>
+      )}
+
+      {page === 'layanan' && (
+        <>
+          <section
+            id="layanan"
+            className="ps-section ps-services"
+            tabIndex={-1}
+            aria-labelledby="services-title"
+          >
+            <div className="ps-services-panel">
+              <header className="ps-heading section-reveal">
+                <div>
+                  <SectionLabel>02 / Layanan</SectionLabel>
+                  <h2 id="services-title">
+                    Kebutuhan berbeda.
+                    <br />
+                    Arah yang tepat.
+                  </h2>
+                </div>
+                <p className="ps-intro">
+                  Bukan sekadar hadir di internet. Website yang membantu orang
+                  memahami usaha Anda dan tahu langkah selanjutnya.
+                </p>
+              </header>
+              <div className="ps-service-grid">
+                {services.map((service, index) => (
+                  <article
+                    className="ps-service-card section-reveal"
+                    key={service.title}
+                  >
+                    <span className="ps-index" aria-hidden="true">
+                      / 0{index + 1}
+                    </span>
+                    <h3>{service.title}</h3>
+                    <div className="ps-service-copy">
+                      <p>{service.description}</p>
+                      <p className="ps-service-detail">{service.detail}</p>
+                    </div>
+                    <a className="text-link ps-service-link" href="/kontak">
+                      Bahas {service.title.toLowerCase()}
+                      <span aria-hidden="true">↗</span>
+                    </a>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section
+            id="proses"
+            className="ps-section ps-process"
+            tabIndex={-1}
+            aria-labelledby="process-title"
+          >
+            <header className="ps-heading section-reveal">
+              <div>
+                <SectionLabel>03 / Cara kerja</SectionLabel>
+                <h2 id="process-title">Satu meja. Arah yang sama.</h2>
+              </div>
+              <p className="ps-intro">
+                Ada ruang untuk bertanya, meninjau, dan menyepakati. Dari
+                percakapan pertama sampai website siap digunakan.
+              </p>
+            </header>
+            <ol className="ps-process-list">
+              {stages.map((stage, index) => (
+                <li className="ps-process-row section-reveal" key={stage.title}>
+                  <span className="ps-index" aria-hidden="true">
+                    0{index + 1}
+                  </span>
+                  <h3>{stage.title}</h3>
+                  <p>{stage.description}</p>
+                </li>
+              ))}
+            </ol>
+          </section>
+        </>
+      )}
+
+      {page === 'tentang' && (
+        <section
+          id="tim"
+          className="ps-section ps-team"
+          tabIndex={-1}
+          aria-labelledby="team-title"
+        >
+          <div className="ps-team-brand section-reveal">
+            <span className="ps-index">Flexbox / Studio digital</span>
+            <p className="ps-team-statement">
+              Ide Anda.
+              <br />
+              Ruang kita.
+            </p>
+            <div className="ps-team-signature">
+              <span>Percakapan dulu. Website kemudian.</span>
+              <span aria-hidden="true">f.</span>
+            </div>
+          </div>
+          <div className="ps-team-copy section-reveal">
+            <SectionLabel>04 / Di balik Flexbox</SectionLabel>
+            <h2 id="team-title">Tim kecil. Ruang diskusi terbuka.</h2>
+            <p>
+              Anda paling mengenal usaha Anda. Kami membantu menerjemahkannya
+              menjadi pengalaman digital yang mudah dipahami dan nyaman
+              digunakan.
+            </p>
+            <p>
+              Kami memilih percakapan yang langsung, keputusan desain yang punya
+              alasan, dan proses yang bisa diikuti bersama. Tidak perlu datang
+              dengan istilah teknis. Mulai dengan cerita Anda.
+            </p>
+            <a className="text-link ps-team-link" href="/kontak">
+              Mulai percakapan <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </section>
+      )}
+
+      {page === 'layanan' && (
+        <section
+          id="faq"
+          className="ps-section ps-faq"
+          tabIndex={-1}
+          aria-labelledby="faq-title"
+        >
+          <header className="section-reveal">
+            <SectionLabel>05 / Pertanyaan umum</SectionLabel>
+            <h2 id="faq-title">Sebelum kita mulai.</h2>
+            <p className="ps-intro">
+              Beberapa hal yang mungkin sedang Anda pikirkan.
+            </p>
+          </header>
+          <div className="ps-faq-list">
+            {questions.map(({ question, answer }) => (
+              <details className="ps-faq-item section-reveal" key={question}>
+                <summary>
+                  <h3>{question}</h3>
+                  <span className="ps-faq-indicator" aria-hidden="true" />
+                </summary>
+                <p>{answer}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {page === 'kontak' && (
+        <section
+          id="kontak"
+          className="ps-section ps-contact"
+          tabIndex={-1}
+          aria-labelledby="contact-title"
+        >
+          <div className="ps-contact-copy section-reveal">
+            <SectionLabel>06 / Mulai dari cerita</SectionLabel>
+            <h2 id="contact-title">
+              Usaha Anda punya cerita. <span>Mari kita bawa ke website.</span>
+            </h2>
+            <p>
+              Tuliskan usaha Anda, apa yang dibutuhkan, dan apa yang ingin
+              dicapai. Tidak harus berupa brief yang sempurna.
+            </p>
+          </div>
+          <form
+            className="ps-contact-form section-reveal"
+            onSubmit={previewMessage}
+            onChange={() => setPreview(null)}
+            aria-labelledby="contact-form-title"
+            aria-describedby="contact-form-note"
+          >
+            <h3 id="contact-form-title">Susun pesan Anda</h3>
+            <p id="contact-form-note" className="ps-form-note">
+              Formulir demo — hanya pratinjau lokal. Pesan tidak dikirim ke
+              siapa pun dan tidak disimpan permanen. Semua kolom wajib diisi.
+            </p>
+            <div className="ps-field">
+              <label htmlFor="contact-name">Nama</label>
+              <input
+                id="contact-name"
+                name="name"
+                type="text"
+                autoComplete="off"
+                maxLength={120}
+                required
+              />
+            </div>
+            <div className="ps-field">
+              <label htmlFor="contact-address">Email atau nomor WhatsApp</label>
+              <input
+                id="contact-address"
+                name="contact"
+                type="text"
+                autoComplete="off"
+                maxLength={160}
+                aria-describedby="contact-address-hint"
+                required
+              />
+              <span id="contact-address-hint" className="ps-field-hint">
+                Pilih salah satu. Contoh: email Anda atau nomor dengan kode
+                negara.
+              </span>
+            </div>
+            <div className="ps-field">
+              <label htmlFor="contact-needs">Ceritakan kebutuhan Anda</label>
+              <textarea
+                id="contact-needs"
+                name="needs"
+                rows={4}
+                maxLength={3000}
+                required
+              />
+            </div>
+            <button type="submit" className="button ps-preview-button">
+              Pratinjau pesan <span aria-hidden="true">↗</span>
+            </button>
+            <p className="ps-form-status" role="status" aria-atomic="true">
+              {preview
+                ? 'Pratinjau lokal tersedia di bawah. Pesan belum dikirim dan tidak akan dikirim oleh formulir ini.'
+                : ''}
+            </p>
+            {preview && (
+              <div className="ps-message-preview">
+                <h3>Pratinjau pesan</h3>
+                <dl>
+                  <dt>Nama</dt>
+                  <dd>{preview.name}</dd>
+                  <dt>Email atau WhatsApp</dt>
+                  <dd>{preview.contact}</dd>
+                  <dt>Kebutuhan</dt>
+                  <dd>{preview.needs}</dd>
+                </dl>
+                <p>Pratinjau ini hilang saat halaman dimuat ulang.</p>
+              </div>
+            )}
+          </form>
+        </section>
+      )}
 
       <footer className="ps-footer">
         <div className="ps-footer-top">
-          <a
-            className="ps-footer-brand"
-            href="#main"
-            onClick={(event) => goTo?.('main', event)}
-            aria-label="Flexbox, kembali ke atas"
-          >
+          <a className="ps-footer-brand" href="/" aria-label="Flexbox, beranda">
             Flexbox<span aria-hidden="true">.</span>
           </a>
           <p>Website yang berangkat dari cerita usaha Anda.</p>
@@ -339,17 +416,14 @@ export default function PageSections({ goTo }) {
           <span>Desain yang jelas. Percakapan yang terbuka.</span>
           <nav aria-label="Navigasi footer">
             {[
-              ['layanan', 'Layanan'],
-              ['proses', 'Proses'],
-              ['tim', 'Tim'],
-              ['faq', 'FAQ'],
-              ['kontak', 'Kontak'],
-            ].map(([id, label]) => (
-              <a
-                key={id}
-                href={`#${id}`}
-                onClick={(event) => goTo?.(id, event)}
-              >
+              ['/karya', 'Karya'],
+              ['/layanan', 'Layanan'],
+              ['/layanan#proses', 'Proses'],
+              ['/tentang', 'Tentang'],
+              ['/layanan#faq', 'FAQ'],
+              ['/kontak', 'Kontak'],
+            ].map(([href, label]) => (
+              <a key={href} href={href}>
                 {label}
               </a>
             ))}
