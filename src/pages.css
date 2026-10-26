@@ -206,10 +206,14 @@
 
 .faq-indicator::after {
   transform: rotate(90deg);
+  transition:
+    transform 0.22s ease,
+    opacity 0.22s ease;
 }
 
 .support-faq-list details[open] .faq-indicator::after {
-  display: none;
+  transform: rotate(0deg);
+  opacity: 0;
 }
 
 .support-faq-list details > p {

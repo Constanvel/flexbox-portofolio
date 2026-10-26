@@ -5,11 +5,16 @@
   padding: 20px var(--gutter);
   transition:
     transform 0.28s,
-    opacity 0.28s;
+    opacity 0.28s,
+    background-color 0.32s ease;
   background: var(--paper);
 }
 .nav-inner {
+  width: 100%;
   max-width: 1320px;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-radius: 0;
   margin: auto;
   display: flex;
   align-items: center;
@@ -17,9 +22,11 @@
   gap: 32px;
   min-height: 56px;
   transition:
-    background 0.28s,
-    box-shadow 0.28s,
-    border-radius 0.28s;
+    max-width 0.44s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.32s ease,
+    border-color 0.32s ease,
+    box-shadow 0.32s ease,
+    border-radius 0.44s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .brand {
   display: flex;
@@ -44,6 +51,27 @@
   font-size: 14px;
   position: relative;
 }
+.header nav a {
+  transition: color 0.2s ease;
+}
+.header nav a:hover {
+  color: var(--blue-text);
+}
+.header nav a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 5px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.24s ease;
+}
+.header nav a:hover::before {
+  transform: scaleX(1);
+}
 .header nav a[aria-current='page']::after {
   content: '';
   height: 4px;
@@ -61,9 +89,8 @@
 .is-scrolled .nav-inner {
   background: var(--paper);
   box-shadow: 0 8px 32px #05050512;
-  border: 1px solid var(--line);
+  border-color: var(--line);
   border-radius: 60px;
-  padding: 8px 16px;
   max-width: 1000px;
   pointer-events: auto;
 }
@@ -95,6 +122,36 @@
   padding: 28px;
   max-height: 90dvh;
   overscroll-behavior: contain;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.22s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    display 0.3s allow-discrete,
+    overlay 0.3s allow-discrete;
+}
+.menu-dialog[open] {
+  opacity: 1;
+  transform: translateY(0);
+}
+.menu-dialog::backdrop {
+  background: rgb(5 5 5 / 0);
+  transition:
+    background 0.3s ease,
+    display 0.3s allow-discrete,
+    overlay 0.3s allow-discrete;
+}
+.menu-dialog[open]::backdrop {
+  background: rgb(5 5 5 / 0.67);
+}
+@starting-style {
+  .menu-dialog[open] {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  .menu-dialog[open]::backdrop {
+    background: rgb(5 5 5 / 0);
+  }
 }
 .menu-top {
   display: flex;
@@ -129,7 +186,7 @@
   .header {
     padding: 16px var(--gutter);
   }
-  .is-scrolled .nav-inner {
+  .nav-inner {
     padding: 8px 12px;
   }
   .brand {
