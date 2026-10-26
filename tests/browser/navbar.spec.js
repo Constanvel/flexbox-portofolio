@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 
-test('navbar changes from open header to compact directional navigation', async ({ page }) => {
+test('navbar changes from open header to compact directional navigation', async ({
+  page,
+}) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');

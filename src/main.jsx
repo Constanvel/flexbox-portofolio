@@ -573,7 +573,9 @@ function App() {
       <a href="#main" className="skip-link" onClick={(e) => goTo('main', e)}>
         Lewati navigasi
       </a>
-      <header className={`header ${scrolled ? 'is-scrolled' : ''} ${headerHidden && !menuOpen ? 'is-hidden' : ''}`}>
+      <header
+        className={`header ${scrolled ? 'is-scrolled' : ''} ${headerHidden && !menuOpen ? 'is-hidden' : ''}`}
+      >
         <a
           href="#main"
           className="brand"
