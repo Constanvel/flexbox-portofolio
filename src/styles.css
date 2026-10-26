@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-
 :root {
   --paper: #f7f7f3;
   --ink: #050505;
@@ -10,7 +8,9 @@
   --line: #d8d8d5;
   --white: #fff;
   --gutter: clamp(22px, 4.5vw, 86px);
-  font-family: 'DM Sans', Arial, sans-serif;
+  --font-display: 'Bricolage Grotesque Variable', Arial, sans-serif;
+  --font-body: 'Hanken Grotesk Variable', Arial, sans-serif;
+  font-family: var(--font-body);
   color: var(--ink);
   background: var(--paper);
   font-synthesis: none;
@@ -87,7 +87,6 @@ section:focus {
 .object-topline,
 .object-bottomline,
 .hero-bottom,
-.marquee-caption,
 .concept-tag,
 .scroll-hint,
 .showcase-footer,
@@ -95,7 +94,6 @@ section:focus {
 .mini-label,
 .art-caption,
 .product > span,
-.closing footer,
 .dialog-top {
   font:
     500 11px/1.5 ui-monospace,
@@ -145,7 +143,7 @@ section:focus {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-display);
   font-weight: 600;
   font-size: 25px;
   letter-spacing: -1px;
@@ -225,11 +223,11 @@ section:focus {
   margin-bottom: 34px;
 }
 .split-title {
-  font-family: 'Space Grotesk', Arial, sans-serif;
+  font-family: var(--font-display);
   font-size: clamp(56px, 7.55vw, 126px);
   font-weight: 500;
   line-height: 0.99;
-  letter-spacing: -0.065em;
+  letter-spacing: -0.055em;
 }
 .title-line {
   display: block;
@@ -370,52 +368,6 @@ section:focus {
   font-size: 23px;
   color: var(--blue);
 }
-.marquee-shell {
-  display: flex;
-  align-items: stretch;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  overflow: hidden;
-}
-.marquee-caption {
-  position: relative;
-  z-index: 1;
-  flex: 0 0 240px;
-  padding: 26px 24px 26px var(--gutter);
-  background: var(--paper);
-  font-size: 9px;
-  display: flex;
-  align-items: center;
-}
-.marquee {
-  overflow: hidden;
-  flex: 1;
-  background: var(--pale);
-  padding: 15px 0;
-}
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee 28s linear infinite;
-}
-.marquee-track > span {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 27px;
-  white-space: nowrap;
-  font-weight: 500;
-  letter-spacing: -1px;
-}
-.marquee b {
-  font-size: 30px;
-  margin: 0 32px;
-  color: var(--blue);
-  font-weight: 400;
-}
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
 .showcase {
   background: var(--paper);
 }
@@ -532,7 +484,7 @@ section:focus {
   letter-spacing: 0.06em;
 }
 .project-meta h3 {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-display);
   font-size: 24px;
   font-weight: 500;
   letter-spacing: -0.035em;
@@ -635,9 +587,7 @@ section:focus {
   color: var(--graphite);
 }
 .story-copy strong {
-  font:
-    500 6.5cqw/0.99 'Space Grotesk',
-    sans-serif;
+  font: 500 6.5cqw/0.99 var(--font-display);
   letter-spacing: -0.055em;
   display: block;
   margin: 5% 0 8%;
@@ -693,9 +643,7 @@ section:focus {
   background: var(--pale);
 }
 .catalog-heading {
-  font:
-    500 4.2cqw 'Space Grotesk',
-    sans-serif;
+  font: 500 4.2cqw var(--font-display);
   letter-spacing: -0.05em;
   position: absolute;
   top: 22%;
@@ -768,9 +716,7 @@ section:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  font:
-    400 6cqw 'Space Grotesk',
-    sans-serif;
+  font: 400 6cqw var(--font-display);
 }
 .module-0,
 .module-4,
@@ -782,55 +728,6 @@ section:focus {
 .module-6 {
   background: var(--ink);
   color: var(--paper);
-}
-.closing {
-  padding: 100px var(--gutter) 0;
-  background: var(--ink);
-  color: var(--paper);
-  position: relative;
-}
-.closing .eyebrow {
-  color: var(--pale);
-  margin-bottom: 30px;
-}
-.closing h2 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(42px, 6.5vw, 100px);
-  font-weight: 500;
-  line-height: 1.04;
-  letter-spacing: -0.06em;
-}
-.closing h2 span {
-  color: var(--blue);
-}
-.closing-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 32px;
-  padding: 40px 0 70px;
-}
-.closing-bottom p {
-  max-width: 490px;
-  font-size: 14px;
-  line-height: 1.8;
-  color: #c3c6cd;
-}
-.closing .button-outline {
-  border-color: #f7f7f370;
-}
-.closing .button-outline:hover {
-  background: var(--paper);
-  color: var(--ink);
-}
-.closing footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  border-top: 1px solid #ffffff30;
-  padding: 24px 0;
-  font-size: 9px;
-  color: #c3c6cd;
 }
 .custom-cursor {
   position: fixed;
@@ -915,17 +812,43 @@ dialog::backdrop {
   margin-bottom: 28px;
 }
 .project-dialog h2 {
-  font:
-    500 clamp(30px, 5vw, 48px)/1.1 'Space Grotesk',
-    sans-serif;
+  font: 500 clamp(30px, 5vw, 48px)/1.1 var(--font-display);
   letter-spacing: -0.05em;
   margin: 12px 0;
 }
-.project-dialog > p:last-child {
+.project-dialog-copy > p:not(.eyebrow) {
   font-size: 15px;
   color: var(--graphite);
   line-height: 1.7;
   max-width: 580px;
+}
+.project-facts {
+  margin: 26px 0 0;
+}
+.project-facts > div {
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) 3fr;
+  gap: 18px;
+  border-top: 1px solid var(--line);
+  padding: 14px 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.project-facts dt {
+  color: var(--graphite);
+}
+.project-facts dd {
+  margin: 0;
+}
+.custom-cursor-on input,
+.custom-cursor-on textarea {
+  cursor: text;
+}
+.custom-cursor-on select {
+  cursor: auto;
+}
+.custom-cursor-on summary {
+  cursor: pointer;
 }
 .menu-dialog {
   width: 500px;
@@ -939,9 +862,7 @@ dialog::backdrop {
 .menu-dialog nav a {
   display: flex;
   justify-content: space-between;
-  font:
-    500 34px 'Space Grotesk',
-    sans-serif;
+  font: 500 34px var(--font-display);
   letter-spacing: -0.05em;
   padding: 15px 0;
   border-bottom: 1px solid var(--line);
@@ -950,7 +871,6 @@ dialog::backdrop {
   font-size: 13px;
   color: var(--graphite);
 }
-.motion-off .marquee-track,
 .motion-off .shimmer:before {
   animation: none;
 }
@@ -1024,10 +944,6 @@ dialog::backdrop {
   }
   .project-track {
     gap: 45px;
-  }
-  .marquee-caption {
-    flex-basis: 180px;
-    padding-left: var(--gutter);
   }
 }
 @media (max-width: 600px) {
@@ -1116,19 +1032,6 @@ dialog::backdrop {
     font-size: 8px;
     gap: 10px;
   }
-  .marquee-caption {
-    display: none;
-  }
-  .marquee {
-    padding: 14px 0;
-  }
-  .marquee-track > span {
-    font-size: 23px;
-  }
-  .marquee b {
-    margin: 0 20px;
-    font-size: 24px;
-  }
   .showcase-stage {
     padding-top: 45px;
   }
@@ -1186,24 +1089,6 @@ dialog::backdrop {
     gap: 9px;
     min-height: 30px;
   }
-  .closing {
-    padding-top: 65px;
-  }
-  .closing h2 {
-    font-size: 45px;
-  }
-  .closing-bottom {
-    flex-direction: column;
-    align-items: start;
-    padding: 28px 0 45px;
-    gap: 25px;
-  }
-  .closing-bottom p {
-    font-size: 13px;
-  }
-  .closing footer {
-    font-size: 8px;
-  }
   .browser-bar {
     font-size: 8px;
   }
@@ -1251,7 +1136,7 @@ dialog::backdrop {
   .project-dialog h2 {
     font-size: 34px;
   }
-  .project-dialog > p:last-child {
+  .project-dialog-copy > p:not(.eyebrow) {
     font-size: 14px;
   }
 }

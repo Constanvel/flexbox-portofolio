@@ -10,7 +10,10 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
+import '@fontsource-variable/bricolage-grotesque';
+import '@fontsource-variable/hanken-grotesk';
 import './styles.css';
+import PageSections from './PageSections';
 import {
   canAnimate,
   useHorizontalShowcase,
@@ -210,6 +213,7 @@ function App() {
   const [active, setActive] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogClosing, setDialogClosing] = useState(false);
   const reducedMotion = useMedia('(prefers-reduced-motion: reduce)');
   const finePointer = useMedia('(hover: hover) and (pointer: fine)');
   const forcedColors = useMedia('(forced-colors: active)');
@@ -262,6 +266,47 @@ function App() {
     }
   }, [dialogOpen, selected]);
 
+  useLayoutEffect(() => {
+    if (!dialogOpen || selected === null) return;
+    const dialog = projectDialog.current;
+    if (!animated) {
+      if (dialogClosing) dialog.close();
+      return;
+    }
+    const ctx = gsap.context(() => {
+      if (dialogClosing) {
+        gsap.to(dialog, {
+          y: 14,
+          autoAlpha: 0,
+          scale: 0.985,
+          duration: 0.18,
+          ease: 'power2.in',
+          onComplete: () => dialog.close(),
+        });
+      } else {
+        const source = lastProjectTrigger.current?.getBoundingClientRect();
+        const destination = dialog.getBoundingClientRect();
+        const origin = source
+          ? `${source.x + source.width / 2 - destination.x}px ${source.y + source.height / 2 - destination.y}px`
+          : 'center';
+        gsap.fromTo(
+          dialog,
+          { y: 22, scale: 0.96, autoAlpha: 0, transformOrigin: origin },
+          { y: 0, scale: 1, autoAlpha: 1, duration: 0.38, ease: 'power3.out' },
+        );
+        gsap.from('.dialog-art, .project-dialog-copy', {
+          y: 16,
+          opacity: 0,
+          stagger: 0.06,
+          duration: 0.38,
+          delay: 0.1,
+          ease: 'power2.out',
+        });
+      }
+    }, dialog);
+    return () => ctx.revert();
+  }, [dialogOpen, dialogClosing, selected, animated]);
+
   useEffect(() => {
     const visuals = [...root.current.querySelectorAll('.project-visual')];
     const clear = () => {
@@ -297,6 +342,15 @@ function App() {
         duration: 1.1,
         delay: 0.2,
         ease: 'power3.out',
+      });
+      gsap.utils.toArray('.section-reveal').forEach((element) => {
+        gsap.from(element, {
+          y: 22,
+          opacity: 0,
+          duration: 0.65,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: element, start: 'top 94%', once: true },
+        });
       });
       gsap.from('.showcase-heading .char', {
         yPercent: 105,
@@ -375,7 +429,7 @@ function App() {
     const move = (event) => {
       moveX(event.clientX);
       moveY(event.clientY);
-      const interactive = event.target.closest('a, button');
+      const interactive = event.target.closest('a, button, summary');
       const form = event.target.closest('input, textarea, select, dialog');
       el.dataset.visible = form ? 'false' : 'true';
       el.dataset.interactive = interactive ? 'true' : 'false';
@@ -432,11 +486,14 @@ function App() {
   }
   function openProject(index, trigger) {
     setSelected(index);
+    setDialogClosing(false);
     lastProjectTrigger.current = trigger;
     setDialogOpen(true);
   }
   function closeProject() {
-    projectDialog.current.close();
+    if (dialogClosing) return;
+    if (animated) setDialogClosing(true);
+    else projectDialog.current.close();
   }
   function tilt(event) {
     if (!animated || !finePointer || forcedColors) return;
@@ -485,8 +542,14 @@ function App() {
           <a href="#karya" onClick={(e) => goTo('karya', e)}>
             Eksplorasi karya <Arrow down />
           </a>
-          <a href="#catatan" onClick={(e) => goTo('catatan', e)}>
-            Tentang percobaan <Arrow />
+          <a href="#layanan" onClick={(e) => goTo('layanan', e)}>
+            Layanan
+          </a>
+          <a href="#tim" onClick={(e) => goTo('tim', e)}>
+            Tim
+          </a>
+          <a href="#kontak" onClick={(e) => goTo('kontak', e)}>
+            Hubungi <Arrow />
           </a>
         </nav>
         <div className="header-controls">
@@ -523,7 +586,7 @@ function App() {
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero-copy">
             <p className="eyebrow hero-reveal">
-              <span className="square" /> INDEPENDENT DIGITAL STUDIO
+              <span className="square" /> WEBSITE UNTUK UMKM & BISNIS LOKAL
             </p>
             <SplitTitle
               id="hero-title"
@@ -543,8 +606,8 @@ function App() {
               </a>
               <a
                 className="text-link"
-                href="#catatan"
-                onClick={(e) => goTo('catatan', e)}
+                href="#proses"
+                onClick={(e) => goTo('proses', e)}
               >
                 Dibangun bersama <Arrow />
               </a>
@@ -552,7 +615,7 @@ function App() {
           </div>
           <div className="hero-object hero-reveal">
             <div className="object-topline">
-              <span>FB / MOTION STUDY</span>
+              <span>FLEXBOX / DESAIN & PENGEMBANGAN</span>
               <span>001</span>
             </div>
             <Cube />
@@ -576,20 +639,6 @@ function App() {
             </a>
           </div>
         </section>
-
-        <div className="marquee-shell">
-          <div className="marquee-caption">RUANG KERJA BERSAMA</div>
-          <div className="marquee" aria-hidden="true">
-            <div className="marquee-track">
-              {[0, 1].map((i) => (
-                <span key={i}>
-                  CERITA ANDA <b>✳</b> IDE BERSAMA <b>✳</b> BENTUK BARU{' '}
-                  <b>✳</b>{' '}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
 
         <section
           id="karya"
@@ -671,46 +720,16 @@ function App() {
                 <span style={{ transform: `translateX(${active * 100}%)` }} />
               </div>
               <a
-                href="#catatan"
+                href="#layanan"
                 className="text-link"
-                onClick={(e) => goTo('catatan', e)}
+                onClick={(e) => goTo('layanan', e)}
               >
                 Lewati showcase <Arrow down />
               </a>
             </div>
           </div>
         </section>
-        <section
-          id="catatan"
-          tabIndex={-1}
-          className="closing"
-          aria-labelledby="closing-title"
-        >
-          <p className="eyebrow">EKSPRESIF. TETAP TERARAH.</p>
-          <h2 id="closing-title">
-            Gerak punya peran.
-            <br />
-            <span>Bukan sekadar hiasan.</span>
-          </h2>
-          <div className="closing-bottom">
-            <p>
-              Ini laboratorium interaksi Flexbox. Seluruh visual karya merupakan
-              ilustrasi editable berbasis CSS, bukan bukti proyek atau klien.
-              Tidak ada formulir atau data yang dikirim.
-            </p>
-            <a
-              href="#main"
-              className="button button-outline"
-              onClick={(e) => goTo('main', e)}
-            >
-              Kembali ke awal <Arrow />
-            </a>
-          </div>
-          <footer>
-            <span>FLEXBOX / MOTION STUDY 01</span>
-            <span>REACT · GSAP · LENIS</span>
-          </footer>
-        </section>
+        <PageSections goTo={goTo} />
       </main>
 
       <dialog
@@ -737,8 +756,17 @@ function App() {
           <a href="#karya" onClick={(e) => goTo('karya', e)}>
             Eksplorasi <Arrow />
           </a>
-          <a href="#catatan" onClick={(e) => goTo('catatan', e)}>
-            Tentang demo <Arrow />
+          <a href="#layanan" onClick={(e) => goTo('layanan', e)}>
+            Layanan <Arrow />
+          </a>
+          <a href="#proses" onClick={(e) => goTo('proses', e)}>
+            Proses <Arrow />
+          </a>
+          <a href="#tim" onClick={(e) => goTo('tim', e)}>
+            Tim <Arrow />
+          </a>
+          <a href="#kontak" onClick={(e) => goTo('kontak', e)}>
+            Hubungi <Arrow />
           </a>
         </nav>
         <p>Different parts. One direction.</p>
@@ -746,8 +774,13 @@ function App() {
       <dialog
         ref={projectDialog}
         className="project-dialog"
+        onCancel={(event) => {
+          event.preventDefault();
+          closeProject();
+        }}
         onClose={() => {
           setDialogOpen(false);
+          setDialogClosing(false);
           lastProjectTrigger.current?.focus({ preventScroll: true });
         }}
         aria-labelledby="project-dialog-title"
@@ -770,11 +803,32 @@ function App() {
             <div className="dialog-art">
               <ProjectArt project={projects[selected]} />
             </div>
-            <p className="eyebrow">{projects[selected].type}</p>
-            <h2 id="project-dialog-title">{projects[selected].name}</h2>
-            <p id="project-dialog-description">
-              {projects[selected].description}
-            </p>
+            <div className="project-dialog-copy">
+              <p className="eyebrow">{projects[selected].type}</p>
+              <h2 id="project-dialog-title">{projects[selected].name}</h2>
+              <p id="project-dialog-description">
+                {projects[selected].description}
+              </p>
+              <dl className="project-facts">
+                <div>
+                  <dt>Fokus</dt>
+                  <dd>{projects[selected].text}</dd>
+                </div>
+                <div>
+                  <dt>Lingkup konsep</dt>
+                  <dd>
+                    Struktur konten, arah visual, dan interaksi responsif.
+                  </dd>
+                </div>
+                <div>
+                  <dt>Status</dt>
+                  <dd>
+                    Studi desain internal. Tidak memiliki hasil bisnis
+                    terverifikasi.
+                  </dd>
+                </div>
+              </dl>
+            </div>
           </>
         )}
       </dialog>

@@ -18,14 +18,14 @@ Catatan pengembangan, bukan nasihat hukum. Versi pasti terdapat dalam `package-l
 - Playwright mengunduh Chromium untuk pengujian lokal; browser tersebut bukan bagian dari bundle aplikasi.
 - React Bits, Aceternity, Magic UI, Motion, dan Radix tidak dimasukkan.
 
-## Font eksternal
+## Font lokal
 
-DM Sans dan Space Grotesk dimuat dari Google Fonts. Keduanya dipublikasikan dengan SIL Open Font License 1.1 di repositori Google Fonts:
+Bricolage Grotesque dan Hanken Grotesk didistribusikan melalui paket `@fontsource-variable/bricolage-grotesque` dan `@fontsource-variable/hanken-grotesk` (versi dalam lockfile), dengan SIL Open Font License 1.1. WOFF2 dibundel lokal oleh Vite; tidak memakai Google Fonts saat runtime.
 
-- https://github.com/google/fonts/tree/main/ofl/dmsans
-- https://github.com/google/fonts/tree/main/ofl/spacegrotesk
+- https://github.com/google/fonts/tree/main/ofl/bricolagegrotesque
+- https://github.com/google/fonts/tree/main/ofl/hankengrotesk
 
-Font tidak disalin ke repository. Jika self-host dilakukan, sertakan teks OFL dari distribusi font yang dipakai.
+Salinan teks lisensi dari paket yang terpasang disertakan di `public/licenses/`, ikut tersalin ke build produksi.
 
 ## Visual dan referensi
 

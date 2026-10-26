@@ -20,6 +20,15 @@ async function noOverflow(page) {
 }
 
 async function checkAxe(page) {
+  const projectDialog = page.locator('.project-dialog[open]');
+  if (await projectDialog.count()) {
+    await expect
+      .poll(() =>
+        projectDialog.evaluate((el) => Number(getComputedStyle(el).opacity)),
+      )
+      .toBe(1);
+    await page.waitForTimeout(650);
+  }
   const result = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
     .analyze();
@@ -68,9 +77,9 @@ test('desktop: horizontal, keyboard, dialog, bypass, motion toggle', async ({
   await page.keyboard.press('Escape');
   await expect(cards.nth(2)).toBeFocused();
   await page.getByRole('link', { name: 'Lewati showcase' }).click();
-  await expect(page.locator('#catatan')).toBeFocused();
+  await expect(page.locator('#layanan')).toBeFocused();
   await page
-    .getByRole('link', { name: 'Kembali ke awal', exact: true })
+    .getByRole('link', { name: 'Kembali ke atas', exact: true })
     .click();
   await expect(page.locator('#main')).toBeFocused();
   await page.getByRole('button', { name: 'Matikan gerak' }).click();
@@ -122,11 +131,11 @@ test('mobile touch: vertical, native dialog lock, menu anchors', async ({
   ).toBeVisible();
   await checkAxe(page);
   await page.getByRole('button', { name: 'Tutup detail konsep' }).click();
-  expect(
-    await page.evaluate(
-      () => getComputedStyle(document.documentElement).overflow,
-    ),
-  ).not.toBe('hidden');
+  await expect
+    .poll(() =>
+      page.evaluate(() => getComputedStyle(document.documentElement).overflow),
+    )
+    .not.toBe('hidden');
   expect(errors).toEqual([]);
   await context.close();
 });
@@ -144,11 +153,7 @@ test('reduced-motion and live viewport changes clean up pinning', async ({
   await expect(page.locator('.pin-spacer')).toHaveCount(0);
   await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);
   await checkAxe(page);
-  expect(
-    await page
-      .locator('.marquee-track')
-      .evaluate((el) => getComputedStyle(el).animationName),
-  ).toBe('none');
+  await expect(page.locator('.marquee-track')).toHaveCount(0);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await expect(page.locator('#karya')).toHaveClass(/is-horizontal/);
   await page.setViewportSize({ width: 1280, height: 600 });
@@ -162,11 +167,14 @@ test('narrow desktop menu restarts Lenis before navigation', async ({
   await page.setViewportSize({ width: 900, height: 800 });
   await ready(page);
   await page.getByRole('button', { name: 'Menu +' }).click();
-  await page.getByRole('link', { name: 'Tentang demo', exact: true }).click();
-  await expect(page.locator('#catatan')).toBeFocused();
+  await page
+    .getByRole('dialog')
+    .getByRole('link', { name: 'Layanan', exact: true })
+    .click();
+  await expect(page.locator('#layanan')).toBeFocused();
   expect(
     await page
-      .locator('#catatan')
+      .locator('#layanan')
       .evaluate((el) => el.getBoundingClientRect().top),
   ).toBeLessThan(400);
 });
