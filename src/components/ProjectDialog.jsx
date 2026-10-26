@@ -1,9 +1,10 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import ProjectPreview from './previews/ProjectPreview';
 export default function ProjectDialog({ project, onClose, reduced, trigger }) {
   const ref = useRef(null);
   const closing = useRef(false);
+  const [mobilePreview, setMobilePreview] = useState(false);
   useLayoutEffect(() => {
     const dialog = ref.current;
     dialog.showModal();
@@ -82,8 +83,51 @@ export default function ProjectDialog({ project, onClose, reduced, trigger }) {
         </section>
       </div>
       <div className="study-preview">
-        <p className="eyebrow">01 / Tampilan desktop</p>
-        <ProjectPreview project={project} />
+        <div className="preview-toolbar">
+          <p className="eyebrow" id="preview-label">
+            01 / Tampilan responsif
+          </p>
+          <div
+            className="preview-switch"
+            role="group"
+            aria-label="Ukuran preview"
+          >
+            <button
+              type="button"
+              aria-pressed={!mobilePreview}
+              aria-controls="responsive-preview"
+              onClick={() => setMobilePreview(false)}
+            >
+              Desktop
+            </button>
+            <button
+              type="button"
+              aria-pressed={mobilePreview}
+              aria-controls="responsive-preview"
+              onClick={() => setMobilePreview(true)}
+            >
+              Mobile
+            </button>
+          </div>
+        </div>
+        <div
+          className={`responsive-preview-stage ${mobilePreview ? 'shows-mobile' : ''}`}
+          id="responsive-preview"
+          aria-labelledby="preview-label"
+        >
+          <div className="responsive-preview-frame">
+            <div className="responsive-desktop">
+              <ProjectPreview project={project} />
+            </div>
+            <div className="responsive-mobile">
+              <ProjectPreview project={project} mobile />
+            </div>
+          </div>
+        </div>
+        <p className="preview-status" role="status">
+          Preview {mobilePreview ? 'mobile' : 'desktop'} · ilustrasi antarmuka,
+          bukan website interaktif.
+        </p>
       </div>
       <div className="study-details">
         <div>

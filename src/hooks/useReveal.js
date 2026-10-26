@@ -23,10 +23,19 @@ export default function useReveal(root, reduced) {
       });
       gsap.from('[data-hero-visual]', {
         y: 20,
-        opacity: 0,
         duration: motion.visual,
         ease: motion.ease,
       });
+      gsap.fromTo(
+        '.hero-preview',
+        { clipPath: 'inset(0 0 100% 0 round 28px)' },
+        {
+          clipPath: 'inset(0 0 0% 0 round 28px)',
+          duration: motion.visual,
+          ease: motion.ease,
+          clearProps: 'clipPath',
+        },
+      );
       gsap.utils.toArray('[data-reveal]').forEach((element) => {
         gsap.from(element, {
           y: 18,

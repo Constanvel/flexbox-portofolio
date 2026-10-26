@@ -14,7 +14,16 @@ export default function Button({
   return (
     <a href={href} className={secondary ? 'text-link' : 'button'} {...props}>
       {children}
-      <Arrow />
+      {secondary ? (
+        <Arrow />
+      ) : (
+        <span className="button-arrow-orb" aria-hidden="true">
+          <span className="button-arrow-track">
+            <span>↗</span>
+            <span>↗</span>
+          </span>
+        </span>
+      )}
     </a>
   );
 }
