@@ -1,195 +1,128 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-async function ready(page, route = '/') {
-  const errors = [];
-  page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto(route);
-  await page.evaluate(() => document.fonts.ready);
-  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-  await page.waitForTimeout(1500);
-  return errors;
-}
-
-async function noOverflow(page) {
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= innerWidth,
-    ),
-  ).toBe(true);
-}
-
-async function checkAxe(page) {
-  const projectDialog = page.locator('.project-dialog[open]');
-  if (await projectDialog.count()) {
-    await expect
-      .poll(() =>
-        projectDialog.evaluate((el) => Number(getComputedStyle(el).opacity)),
-      )
-      .toBe(1);
-    await page.waitForTimeout(650);
-  }
+async function axe(page) {
   const result = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
     .analyze();
   expect(
     result.violations.map(({ id, nodes }) => ({
       id,
-      targets: nodes.map((n) => n.target),
+      targets: nodes.map((node) => node.target),
     })),
   ).toEqual([]);
 }
 
-test('desktop: project navigation, keyboard, dialog and reduced motion', async ({
+test('project studies support keyboard activation, modal focus, locking, Escape and reopening', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
-  const errors = await ready(page);
-  await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);
-  await noOverflow(page);
-  await checkAxe(page);
-  await page.screenshot({ path: '.playwright/desktop.png', fullPage: false });
-
-  await expect(page.getByRole('button', { name: /^Lihat konsep/ })).toHaveCount(
-    1,
-  );
-  await page.getByRole('link', { name: 'Semua eksplorasi' }).click();
+  const errors = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto('/');
+  await expect(
+    page.getByRole('button', { name: /^Lihat studi desain/ }),
+  ).toHaveCount(2);
+  await page.getByRole('link', { name: 'Semua studi desain' }).click();
   await expect(page).toHaveURL('/karya');
-  const cards = page.getByRole('button', { name: /^Lihat konsep/ });
+  const cards = page.getByRole('button', { name: /^Lihat studi desain/ });
   await expect(cards).toHaveCount(3);
   await cards.first().focus();
-  for (let i = 0; i < 3; i++) {
-    const card = cards.nth(i);
-    await expect(card).toBeFocused();
-    const rect = await card.boundingBox();
-    expect(rect.x).toBeGreaterThanOrEqual(-1);
-    expect(rect.x + rect.width).toBeLessThanOrEqual(1441);
-    if (i < 2) await page.keyboard.press('Tab');
+  for (let index = 0; index < 3; index++) {
+    await expect(cards.nth(index)).toBeFocused();
+    if (index < 2) await page.keyboard.press('Tab');
   }
-  await page.waitForTimeout(1500);
-  await page.screenshot({ path: '.playwright/showcase.png' });
   await page.keyboard.press('Enter');
-  await expect(
-    page.getByRole('dialog', { name: 'Ide bertemu bentuk.' }),
-  ).toBeVisible();
-  await expect(
-    page.getByRole('button', { name: 'Tutup detail konsep' }),
-  ).toBeFocused();
-  await checkAxe(page);
+  const dialog = page.getByRole('dialog', {
+    name: 'Panel pengelolaan katalog',
+  });
+  const close = page.getByRole('button', { name: 'Tutup studi desain' });
+  await expect(dialog).toBeVisible();
+  await expect(close).toBeFocused();
+  await expect
+    .poll(() => dialog.evaluate((el) => Number(getComputedStyle(el).opacity)))
+    .toBe(1);
+  await expect(dialog).toContainText('Bukan proyek klien');
+  await page.keyboard.press('Tab');
+  // A native dialog with one focusable control may cycle through browser chrome.
+  // Returning with Shift+Tab must focus the modal, never a background control.
+  await page.keyboard.press('Shift+Tab');
+  await expect(close).toBeFocused();
+  await expect(page.locator('html')).toHaveCSS('overflow', 'hidden');
   const scroll = await page.evaluate(() => scrollY);
-  await page.mouse.wheel(0, 400);
-  await page.waitForTimeout(300);
+  await page.mouse.move(10, 500);
+  await page.mouse.wheel(0, 500);
+  await page.waitForTimeout(200);
   expect(await page.evaluate(() => scrollY)).toBe(scroll);
   await page.keyboard.press('Escape');
+  await expect(dialog).toHaveCount(0);
   await expect(cards.nth(2)).toBeFocused();
-  await page.getByRole('link', { name: 'Lihat layanan', exact: true }).click();
-  await expect(page).toHaveURL('/layanan');
-  await expect(page.locator('#layanan')).toBeVisible();
+  await expect(page.locator('html')).not.toHaveCSS('overflow', 'hidden');
+  await cards.nth(2).click();
+  await expect(dialog).toBeVisible();
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await checkAxe(page);
-  await page
-    .getByRole('button', { name: 'Kembali ke atas', exact: true })
-    .click();
-  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
-  await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);
-  await expect(page.locator('.pin-spacer')).toHaveCount(0);
   await expect(page.locator('html')).not.toHaveClass(/lenis/);
-  await noOverflow(page);
-  await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);
+  await close.click();
+  await expect(dialog).toHaveCount(0);
+  await expect(cards.nth(2)).toBeFocused();
+  await cards.first().click();
+  await expect(
+    page.getByRole('dialog', { name: 'Profil bisnis usaha lokal' }),
+  ).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(cards.first()).toBeFocused();
   expect(errors).toEqual([]);
 });
 
-test('mobile touch: vertical, native dialog lock, menu routes', async ({
+for (const name of [
+  'Profil bisnis usaha lokal',
+  'Katalog produk',
+  'Panel pengelolaan katalog',
+]) {
+  test(`study dialog ${name} passes Axe`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/karya');
+    await page
+      .getByRole('button', { name: `Lihat studi desain ${name}`, exact: true })
+      .click();
+    await expect(page.getByRole('dialog', { name, exact: true })).toBeVisible();
+    await axe(page);
+  });
+}
+
+test('touch devices use native scrolling and accessible modal menu navigation', async ({
   browser,
 }) => {
   const context = await browser.newContext({
-    viewport: { width: 390, height: 844 },
+    viewport: { width: 375, height: 812 },
     isMobile: true,
     hasTouch: true,
-    deviceScaleFactor: 1,
   });
   const page = await context.newPage();
-  const errors = await ready(page);
-  await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);
-  await noOverflow(page);
-  await checkAxe(page);
-  await page.screenshot({ path: '.playwright/mobile.png' });
-  await page.locator('#karya').scrollIntoViewIfNeeded();
-  await page.waitForTimeout(1500);
-  await page.screenshot({ path: '.playwright/mobile-showcase.png' });
+  await page.goto('/');
+  await expect(page.locator('html')).not.toHaveClass(/lenis/);
+  await page.evaluate(() => window.scrollTo(0, 350));
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(0);
   await page.evaluate(() => window.scrollTo(0, 0));
-  await page.getByRole('button', { name: 'Menu +' }).click();
-  await expect(
-    page.getByRole('dialog', { name: 'FLEXBOX / NAVIGASI' }),
-  ).toBeVisible();
-  expect(
-    await page.evaluate(
-      () => getComputedStyle(document.documentElement).overflow,
-    ),
-  ).toBe('hidden');
-  await page.getByRole('link', { name: 'Eksplorasi', exact: true }).click();
+  const trigger = page.getByRole('button', { name: /^Menu/ });
+  await trigger.tap();
+  const menu = page.getByRole('dialog', { name: /Flexbox \/ Navigasi/i });
+  await expect(menu).toBeVisible();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.getByRole('button', { name: 'Tutup menu' })).toBeFocused();
+  await expect(page.locator('html')).toHaveCSS('overflow', 'hidden');
+  await axe(page);
+  await page.keyboard.press('Escape');
+  await expect(menu).not.toBeVisible();
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  await trigger.tap();
+  await menu.getByRole('link', { name: /Karya/ }).tap();
   await expect(page).toHaveURL('/karya');
-  await expect(page.getByRole('button', { name: /^Lihat konsep/ })).toHaveCount(
-    3,
-  );
-  await expect(page.getByRole('dialog')).not.toBeVisible();
-  await page
-    .getByRole('button', { name: 'Lihat konsep Ruang untuk cerita.' })
-    .click();
   await expect(
-    page.getByRole('dialog', { name: 'Ruang untuk cerita.' }),
-  ).toBeVisible();
-  await checkAxe(page);
-  await page.getByRole('button', { name: 'Tutup detail konsep' }).click();
-  await expect
-    .poll(() =>
-      page.evaluate(() => getComputedStyle(document.documentElement).overflow),
-    )
-    .not.toBe('hidden');
-  expect(errors).toEqual([]);
-  await context.close();
-});
-
-test('reduced-motion and live viewport changes clean up pinning', async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 1280, height: 800 });
-  await ready(page, '/karya');
-  await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect(page.locator('.app')).toHaveClass(/motion-off/);
-  await expect(page.locator('.pin-spacer')).toHaveCount(0);
-  await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);
-  await checkAxe(page);
-  await expect(page.locator('.marquee-track')).toHaveCount(0);
-  await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);
-  await page.setViewportSize({ width: 1280, height: 600 });
-  await expect(page.locator('.pin-spacer')).toHaveCount(0);
-  await noOverflow(page);
-});
-
-test('narrow desktop menu navigates to services and releases scroll lock', async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 900, height: 800 });
-  await ready(page);
-  await page.getByRole('button', { name: 'Menu +' }).click();
-  await page
-    .getByRole('dialog')
-    .getByRole('link', { name: 'Layanan', exact: true })
-    .click();
-  await expect(page).toHaveURL('/layanan');
-  await expect(page.locator('#layanan')).toBeVisible();
+    page.getByRole('button', { name: /^Lihat studi desain/ }),
+  ).toHaveCount(3);
   await expect(page.getByRole('dialog')).not.toBeVisible();
-  await expect
-    .poll(() =>
-      page.evaluate(() => getComputedStyle(document.documentElement).overflow),
-    )
-    .not.toBe('hidden');
-  await noOverflow(page);
+  await expect(page.locator('html')).not.toHaveCSS('overflow', 'hidden');
+  await context.close();
 });

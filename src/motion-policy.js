@@ -1,18 +1,12 @@
-export function canAnimate({ reducedMotion, paused }) {
+export function canAnimate({ reducedMotion, paused = false }) {
   return !reducedMotion && !paused;
 }
-
-export function useHorizontalShowcase({
-  animated,
-  width,
-  finePointer,
-  height,
-}) {
-  return animated && finePointer && width >= 1024 && height >= 650;
-}
-
-export function showcaseScrollPosition(start, end, index, count) {
-  const progress =
-    count > 1 ? Math.min(1, Math.max(0, index / (count - 1))) : 0;
-  return start + (end - start) * progress;
-}
+export const motion = {
+  title: 0.7,
+  support: 0.45,
+  visual: 0.8,
+  reveal: 0.5,
+  dialog: 0.28,
+  close: 0.18,
+  ease: 'power3.out',
+};

@@ -1,89 +1,470 @@
-.page-sections .ps-page-intro {
-  padding: clamp(72px, 10vw, 160px) var(--gutter) clamp(48px, 6vw, 96px);
-  border-bottom: 1px solid var(--line);
+/* Supporting pages: shared layout primitives come from the site stylesheet. */
+.support-page {
+  --support-line: var(--line, #cbc9bf);
+  --support-muted: var(--graphite, #55564f);
+  overflow-wrap: break-word;
 }
 
-.page-sections .ps-page-intro h1 {
-  max-width: 14ch;
-  font-family: var(--font-display);
+.support-page h1,
+.support-page h2,
+.support-page h3,
+.support-page p {
+  margin-top: 0;
+}
+
+.support-page h1,
+.support-page h2,
+.support-page h3 {
+  font-family: var(--font-display, 'Bricolage Grotesque Variable', sans-serif);
   font-weight: 500;
-  font-size: clamp(54px, 8vw, 128px);
+}
+
+.support-intro h1,
+.not-found h1 {
+  max-width: 16ch;
+  margin-bottom: 28px;
+  font-size: clamp(42px, 5.6vw, 80px);
   line-height: 1.02;
-  letter-spacing: -0.065em;
+  letter-spacing: -0.035em;
   text-wrap: balance;
+}
+
+.support-intro > p:last-of-type {
+  max-width: 61ch;
+  color: var(--support-muted);
+  font-size: clamp(17px, 1.6vw, 21px);
+  line-height: 1.6;
+}
+
+.support-jump-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px 32px;
+  margin-top: 36px;
+}
+
+.support-page .text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.support-index {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--support-muted);
+}
+
+.service-editorial-row {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 0.95fr) minmax(0, 1fr);
+  gap: clamp(20px, 4vw, 64px);
+  padding: clamp(32px, 5vw, 68px) 0;
+  border-top: 1px solid var(--support-line);
+}
+
+.service-editorial-row:last-child {
+  border-bottom: 1px solid var(--support-line);
+}
+
+.service-editorial-heading h2,
+.support-section-heading h2,
+.about-statement h2,
+.about-collaboration h2,
+.contact-context h2,
+.support-bottom-cta h2 {
+  margin-bottom: 24px;
+  font-size: clamp(30px, 3.5vw, 50px);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.service-editorial-heading p,
+.service-editorial-detail p,
+.support-section-heading > p:not(.eyebrow),
+.support-stages p,
+.about-principles p,
+.about-statement p:not(.eyebrow),
+.about-collaboration p:not(.eyebrow),
+.contact-context > p:not(.eyebrow),
+.support-bottom-cta p:not(.eyebrow) {
+  color: var(--support-muted);
+  line-height: 1.7;
+}
+
+.service-editorial-detail h3 {
+  margin: 28px 0 14px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.service-editorial-detail ul,
+.contact-context ul {
+  padding-left: 20px;
+  margin: 0 0 24px;
+  line-height: 1.7;
+}
+
+.service-editorial-detail li,
+.contact-context li {
+  padding-left: 5px;
+  margin-bottom: 8px;
+}
+
+.support-page .support-note {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--support-muted);
+}
+
+.service-editorial-detail .text-link {
+  margin-top: 16px;
+}
+
+.support-band {
+  background: var(--support-surface, #eae9e1);
+  border-block: 1px solid var(--support-line);
+}
+
+.support-section-heading {
+  max-width: 620px;
+  margin-bottom: 48px;
+}
+
+.support-stages {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.support-stages li,
+.about-principles article {
+  padding-top: 22px;
+  border-top: 1px solid var(--support-line);
+}
+
+.support-stages h3,
+.about-principles h3 {
+  margin: 32px 0 16px;
+  font-size: clamp(22px, 2vw, 28px);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.support-faq {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(32px, 8vw, 120px);
+}
+
+.support-faq-list details {
+  border-top: 1px solid var(--support-line);
+}
+
+.support-faq-list details:last-child {
+  border-bottom: 1px solid var(--support-line);
+}
+
+.support-faq-list summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 0;
+  font-size: 18px;
+  line-height: 1.4;
+  cursor: pointer;
+  list-style: none;
+}
+
+.support-faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-indicator {
+  flex: 0 0 20px;
+  height: 20px;
+  position: relative;
+}
+
+.faq-indicator::before,
+.faq-indicator::after {
+  content: '';
+  position: absolute;
+  background: currentColor;
+  width: 14px;
+  height: 1px;
+  left: 3px;
+  top: 10px;
+}
+
+.faq-indicator::after {
+  transform: rotate(90deg);
+}
+
+.support-faq-list details[open] .faq-indicator::after {
+  display: none;
+}
+
+.support-faq-list details > p {
+  max-width: 60ch;
+  padding: 0 32px 24px 0;
+  margin-bottom: 0;
+  color: var(--support-muted);
+  line-height: 1.75;
+}
+
+.support-bottom-cta {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 40px;
+  border-top: 1px solid var(--support-line);
+  padding-block: clamp(48px, 6vw, 88px);
+}
+
+.support-bottom-cta > div {
+  max-width: 650px;
+}
+
+.support-bottom-cta .button {
+  flex-shrink: 0;
+}
+
+.about-statement,
+.about-collaboration {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(32px, 8vw, 120px);
+}
+
+.about-statement {
+  border-top: 1px solid var(--support-line);
+}
+
+.about-statement > div,
+.about-collaboration > div {
+  max-width: 650px;
+}
+
+.about-principles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px;
+}
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+  gap: clamp(40px, 10vw, 160px);
+  border-top: 1px solid var(--support-line);
+}
+
+.contact-context ul {
+  color: var(--support-muted);
+}
+
+.contact-disclosure {
+  border-top: 1px solid var(--support-line);
+  padding-top: 24px;
+  margin-top: 40px;
+}
+
+.contact-disclosure h3 {
+  font-size: 18px;
+}
+
+.contact-disclosure p {
+  color: var(--support-muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.contact-form {
+  display: grid;
+  gap: 24px;
+}
+
+.contact-form > p {
+  margin: 0;
+}
+
+.contact-field {
+  display: grid;
+  gap: 10px;
+}
+
+.contact-field label {
+  font-weight: 600;
+}
+
+.contact-field input,
+.contact-field textarea {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px;
+  border: 1px solid var(--support-line);
+  border-radius: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  line-height: 1.5;
+}
+
+.contact-field textarea {
+  resize: vertical;
+  min-height: 160px;
+}
+
+.contact-field input::placeholder,
+.contact-field textarea::placeholder {
+  color: var(--support-muted);
+  opacity: 1;
+}
+
+.contact-field > p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--support-muted);
+  margin: 0;
+}
+
+.contact-form .button {
+  justify-self: start;
+  cursor: pointer;
+  font: inherit;
+}
+
+.contact-preview:not(:empty) {
+  margin-top: 40px;
+  padding: clamp(20px, 3vw, 36px);
+  border: 1px solid var(--support-line);
+  background: var(--support-surface, #eae9e1);
+}
+
+.contact-preview h2 {
+  font-size: 28px;
+  letter-spacing: -0.025em;
+}
+
+.contact-preview > p {
+  line-height: 1.65;
+}
+
+.contact-preview dl {
+  margin: 28px 0;
+}
+
+.contact-preview dl > div + div {
+  margin-top: 20px;
+}
+
+.contact-preview dt {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+
+.contact-preview dd {
+  margin: 0;
+  white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
 
-.page-sections .ps-page-intro > p:last-child {
-  max-width: 48ch;
-  margin-top: 32px;
-  color: var(--graphite);
+.support-page
+  :is(a, button, input, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 5px;
 }
 
-.page-sections .ps-preview-services {
-  border-top: 1px solid var(--line);
+.support-page [id] {
+  scroll-margin-top: 112px;
 }
 
-.page-sections .ps-preview-service {
-  display: grid;
-  grid-template-columns: 40px minmax(0, 1fr) minmax(0, 1fr) 24px;
-  gap: 24px;
-  align-items: center;
-  padding: 28px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.page-sections .ps-preview-service p {
-  color: var(--graphite);
-  font-size: 13px;
-}
-
-.page-sections .ps-preview-service > span:last-child {
-  color: var(--blue-text);
-  font-size: 24px;
-}
-
-.page-sections .ps-home-next {
+.not-found {
+  min-height: 65vh;
   display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 40px;
-  padding-top: clamp(48px, 6vw, 96px);
+  flex-direction: column;
+  justify-content: center;
 }
 
-.page-sections .ps-home-next > div {
-  max-width: 45ch;
+.not-found > p:not(.eyebrow) {
+  max-width: 50ch;
+  color: var(--support-muted);
+  line-height: 1.7;
 }
 
-.page-sections .ps-home-next nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-}
-
-.page-sections .ps-home-next .text-link,
-.page-sections .ps-home-preview .ps-heading > .text-link {
-  gap: 24px;
-  justify-self: start;
-}
-
-@media (max-width: 760px) {
-  .page-sections .ps-preview-service {
-    grid-template-columns: 28px minmax(0, 1fr) 24px;
-    gap: 16px;
+@media (max-width: 1000px) {
+  .support-stages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px 28px;
   }
 
-  .page-sections .ps-preview-service p {
+  .support-bottom-cta {
+    align-items: start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 700px) {
+  .service-editorial-row {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 20px 16px;
+  }
+
+  .service-editorial-detail {
     grid-column: 2;
   }
 
-  .page-sections .ps-preview-service > span:last-child {
-    grid-column: 3;
-    grid-row: 1;
+  .support-faq,
+  .about-statement,
+  .about-collaboration,
+  .contact-layout,
+  .about-principles {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
   }
 
-  .page-sections .ps-home-next {
-    flex-direction: column;
+  .support-faq .support-section-heading {
+    margin-bottom: 0;
+  }
+
+  .about-principles h3 {
+    margin-top: 24px;
+  }
+
+  .support-intro h1,
+  .not-found h1 {
+    font-size: clamp(38px, 10vw, 64px);
+  }
+}
+
+@media (max-width: 420px) {
+  .support-stages {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .service-editorial-heading h2 {
+    font-size: 28px;
+  }
+
+  .support-jump-links {
     align-items: start;
+    flex-direction: column;
+  }
+
+  .contact-form .button,
+  .support-bottom-cta .button {
+    max-width: 100%;
+    white-space: normal;
+    text-align: left;
   }
 }

@@ -1,0 +1,41 @@
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  .project-open:hover .project-image > .project-preview,
+  .button:hover .arrow,
+  .text-link:hover .arrow,
+  .project-open:hover .project-cutout .arrow {
+    transform: none;
+  }
+}
+@media (forced-colors: active) {
+  .button,
+  .project-image,
+  .footer-panel,
+  .hero-preview {
+    border: 1px solid CanvasText;
+  }
+  .project-cutout .arrow {
+    border: 1px solid ButtonText;
+  }
+}
+@supports (interpolate-size: allow-keywords) {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+  details::details-content {
+    height: 0;
+    overflow: clip;
+    transition:
+      height 0.22s,
+      content-visibility 0.22s allow-discrete;
+  }
+  details[open]::details-content {
+    height: auto;
+  }
+}
