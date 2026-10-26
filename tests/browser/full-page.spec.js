@@ -112,6 +112,7 @@ test('mobile routes fit 320px and dialog transitions cleanly reopen', async ({
     await page.goto(route);
     await expect(page).toHaveURL(route);
     await page.evaluate(() => document.fonts.ready);
+    await page.waitForTimeout(1500);
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth),
     ).toBe(320);

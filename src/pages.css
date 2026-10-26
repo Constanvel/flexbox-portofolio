@@ -11,6 +11,7 @@
   line-height: 1.02;
   letter-spacing: -0.065em;
   text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 
 .page-sections .ps-page-intro > p:last-child {

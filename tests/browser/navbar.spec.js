@@ -19,7 +19,7 @@ test('navbar changes from open header to compact directional navigation', async 
   await expect(header).not.toHaveClass(/is-hidden/);
   await page.evaluate(() => window.scrollTo(0, 1100));
   await expect(header).toHaveClass(/is-hidden/);
-  await page.getByRole('link', { name: 'Karya', exact: true }).focus();
+  await header.getByRole('link', { name: 'Karya', exact: true }).focus();
   expect((await header.boundingBox()).y).toBeGreaterThanOrEqual(0);
   await page.evaluate(() => window.scrollTo(0, 0));
   await expect(header).not.toHaveClass(/is-scrolled/);

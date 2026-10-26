@@ -85,6 +85,7 @@ test('desktop: project navigation, keyboard, dialog and reduced motion', async (
   await page.getByRole('link', { name: 'Lihat layanan', exact: true }).click();
   await expect(page).toHaveURL('/layanan');
   await expect(page.locator('#layanan')).toBeVisible();
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await checkAxe(page);
   await page
     .getByRole('link', { name: 'Kembali ke atas', exact: true })
