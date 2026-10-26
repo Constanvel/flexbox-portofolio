@@ -14,11 +14,9 @@ import '@fontsource-variable/bricolage-grotesque';
 import '@fontsource-variable/hanken-grotesk';
 import './styles.css';
 import PageSections from './PageSections';
-import {
-  canAnimate,
-  useHorizontalShowcase,
-  showcaseScrollPosition,
-} from './motion-policy';
+import './editorial.css';
+import './navbar.css';
+import { canAnimate, showcaseScrollPosition } from './motion-policy';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -208,23 +206,65 @@ function App() {
   const menuDialog = useRef(null);
   const projectDialog = useRef(null);
   const lastProjectTrigger = useRef(null);
-  const [paused, setPaused] = useState(false);
+  const [headerHidden, setHeaderHidden] = useState(false);
   const [selected, setSelected] = useState(null);
   const [active, setActive] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('main');
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const sections = [
+      'main',
+      'karya',
+      'layanan',
+      'proses',
+      'tim',
+      'faq',
+      'kontak',
+    ];
+    let frame;
+    let directionAnchor = window.scrollY;
+    const update = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const y = Math.max(0, window.scrollY);
+        setScrolled(y > 120);
+        if (y < 400) {
+          setHeaderHidden(false);
+          directionAnchor = y;
+        } else if (Math.abs(y - directionAnchor) > 10) {
+          setHeaderHidden(y > directionAnchor);
+          directionAnchor = y;
+        }
+        const marker = window.innerHeight * 0.35;
+        const current = sections.reduce((result, id) => {
+          const section = document.getElementById(id);
+          return section && section.getBoundingClientRect().top <= marker
+            ? id
+            : result;
+        }, 'main');
+        setActiveSection(current);
+      });
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
+  }, []);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogClosing, setDialogClosing] = useState(false);
   const reducedMotion = useMedia('(prefers-reduced-motion: reduce)');
   const finePointer = useMedia('(hover: hover) and (pointer: fine)');
   const forcedColors = useMedia('(forced-colors: active)');
-  const wideScreen = useMedia('(min-width: 1024px) and (min-height: 650px)');
-  const animated = canAnimate({ reducedMotion, paused });
-  const horizontalEnabled = useHorizontalShowcase({
-    animated,
-    finePointer,
-    width: wideScreen ? 1024 : 0,
-    height: wideScreen ? 650 : 0,
-  });
+  const enhancedPointer = false; // Keep the native cursor with smooth scrolling.
+  const animated = canAnimate({ reducedMotion, paused: false });
+  // Keep the work in the normal document flow on every screen.
+  const horizontalEnabled = false;
   const overlayOpen = menuOpen || dialogOpen;
 
   useEffect(() => {
@@ -422,7 +462,14 @@ function App() {
   }, [horizontalEnabled]);
 
   useEffect(() => {
-    if (!animated || !finePointer || forcedColors || overlayOpen) return;
+    if (
+      !enhancedPointer ||
+      !animated ||
+      !finePointer ||
+      forcedColors ||
+      overlayOpen
+    )
+      return;
     const el = cursor.current;
     const moveX = gsap.quickTo(el, 'x', { duration: 0.16, ease: 'power2.out' });
     const moveY = gsap.quickTo(el, 'y', { duration: 0.16, ease: 'power2.out' });
@@ -467,7 +514,13 @@ function App() {
     const y =
       id === 'karya' && horizontal.current
         ? horizontal.current.start
-        : element.getBoundingClientRect().top + window.scrollY;
+        : Math.max(
+            0,
+            element.getBoundingClientRect().top +
+              window.scrollY -
+              (root.current.querySelector('.header')?.offsetHeight || 80) -
+              32,
+          );
     const focusTarget = () => element.focus({ preventScroll: true });
     if (lenis.current && animated)
       lenis.current.scrollTo(y, { onComplete: focusTarget });
@@ -516,14 +569,11 @@ function App() {
   }
 
   return (
-    <div
-      ref={root}
-      className={`app ${animated ? 'motion-on' : 'motion-off'} ${animated && finePointer && !forcedColors && !overlayOpen ? 'custom-cursor-on' : ''}`}
-    >
+    <div ref={root} className={`app ${animated ? 'motion-on' : 'motion-off'}`}>
       <a href="#main" className="skip-link" onClick={(e) => goTo('main', e)}>
         Lewati navigasi
       </a>
-      <header className="header">
+      <header className={`header ${scrolled ? 'is-scrolled' : ''} ${headerHidden && !menuOpen ? 'is-hidden' : ''}`}>
         <a
           href="#main"
           className="brand"
@@ -539,33 +589,32 @@ function App() {
           </span>
         </a>
         <nav aria-label="Navigasi utama" className="desktop-nav">
-          <a href="#karya" onClick={(e) => goTo('karya', e)}>
-            Eksplorasi karya <Arrow down />
-          </a>
-          <a href="#layanan" onClick={(e) => goTo('layanan', e)}>
-            Layanan
-          </a>
-          <a href="#tim" onClick={(e) => goTo('tim', e)}>
-            Tim
-          </a>
-          <a href="#kontak" onClick={(e) => goTo('kontak', e)}>
-            Hubungi <Arrow />
-          </a>
+          {[
+            ['karya', 'Karya'],
+            ['layanan', 'Layanan'],
+            ['tim', 'Tentang'],
+          ].map(([id, label]) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              aria-current={activeSection === id ? 'location' : undefined}
+              onClick={(e) => goTo(id, e)}
+            >
+              {label}
+            </a>
+          ))}
         </nav>
         <div className="header-controls">
-          <button
-            className="motion-toggle"
-            type="button"
-            onClick={() => setPaused((v) => !v)}
-            disabled={reducedMotion}
+          <a
+            className="nav-contact"
+            href="#kontak"
+            onClick={(e) => goTo('kontak', e)}
           >
-            <span className="motion-dot" />
-            {reducedMotion
-              ? 'Gerak sistem: minim'
-              : paused
-                ? 'Aktifkan gerak'
-                : 'Matikan gerak'}
-          </button>
+            <span>Ceritakan proyekmu</span>
+            <span className="nav-contact-arrow">
+              <Arrow />
+            </span>
+          </a>
           <button
             className="menu-trigger"
             type="button"
@@ -577,7 +626,11 @@ function App() {
               setMenuOpen(true);
             }}
           >
-            Menu +
+            <span>Menu +</span>
+            <span className="menu-lines" aria-hidden="true">
+              <i />
+              <i />
+            </span>
           </button>
         </div>
       </header>
@@ -590,44 +643,47 @@ function App() {
             </p>
             <SplitTitle
               id="hero-title"
-              lines={['Ide Anda.', 'Ruang digital', 'yang berarti.']}
+              lines={['Website yang', 'memahami', 'usaha Anda.']}
             />
             <p className="hero-description hero-reveal">
-              Kami merangkai desain, teknologi, dan cerita usaha menjadi
-              pengalaman digital yang terasa dekat.
+              Kami membantu usaha lokal menjelaskan produknya, membangun
+              kepercayaan, dan memudahkan pelanggan menghubungi mereka.
             </p>
             <div className="hero-actions hero-reveal">
               <a
-                className="button button-primary shimmer"
+                className="button button-primary"
                 href="#karya"
                 onClick={(e) => goTo('karya', e)}
               >
-                Jelajahi eksplorasi <Arrow />
+                Lihat karya <Arrow down />
               </a>
               <a
                 className="text-link"
-                href="#proses"
-                onClick={(e) => goTo('proses', e)}
+                href="#kontak"
+                onClick={(e) => goTo('kontak', e)}
               >
-                Dibangun bersama <Arrow />
+                Ceritakan usahamu <Arrow />
               </a>
             </div>
           </div>
-          <div className="hero-object hero-reveal">
-            <div className="object-topline">
-              <span>FLEXBOX / DESAIN & PENGEMBANGAN</span>
-              <span>001</span>
-            </div>
-            <Cube />
-            <div className="object-bottomline">
-              <span>
-                DIFFERENT PARTS.
-                <br />
-                ONE DIRECTION.
-              </span>
-              <span className="cross">+</span>
-            </div>
-          </div>
+          <aside
+            className="hero-aside hero-reveal"
+            aria-label="Pendekatan Flexbox"
+          >
+            <span className="hero-aside-mark" aria-hidden="true">
+              ↘
+            </span>
+            <p>
+              Mulai dari cerita.
+              <br />
+              Bukan dari template.
+            </p>
+            <span>
+              Desain & pengembangan
+              <br />
+              untuk usaha yang terus bergerak.
+            </span>
+          </aside>
           <div className="hero-bottom hero-reveal">
             <span>Desain dengan arah. Teknologi dengan tujuan.</span>
             <a
@@ -702,6 +758,7 @@ function App() {
                         <p>{project.type} / Eksplorasi</p>
                         <h3>{project.name}</h3>
                       </div>
+                      <p className="project-purpose">{project.text}</p>
                       <span className="project-meta-arrow" aria-hidden="true">
                         ↗
                       </span>

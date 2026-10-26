@@ -113,8 +113,10 @@ export default function PageSections({ goTo }) {
                   / 0{index + 1}
                 </span>
                 <h3>{service.title}</h3>
-                <p>{service.description}</p>
-                <p className="ps-service-detail">{service.detail}</p>
+                <div className="ps-service-copy">
+                  <p>{service.description}</p>
+                  <p className="ps-service-detail">{service.detail}</p>
+                </div>
                 <a
                   className="text-link ps-service-link"
                   href="#kontak"
@@ -138,7 +140,7 @@ export default function PageSections({ goTo }) {
         <header className="ps-heading section-reveal">
           <div>
             <SectionLabel>03 / Cara kerja</SectionLabel>
-            <h2 id="process-title">Jelas di setiap langkah.</h2>
+            <h2 id="process-title">Satu meja. Arah yang sama.</h2>
           </div>
           <p className="ps-intro">
             Ada ruang untuk bertanya, meninjau, dan menyepakati. Dari percakapan
@@ -164,16 +166,18 @@ export default function PageSections({ goTo }) {
         tabIndex={-1}
         aria-labelledby="team-title"
       >
-        <figure className="ps-team-photo section-reveal">
-          <div className="ps-photo-placeholder">
-            <span className="ps-index">Dokumentasi tim</span>
-            <p>Ruang untuk foto tim asli.</p>
-            <span>Foto belum tersedia.</span>
+        <div className="ps-team-brand section-reveal">
+          <span className="ps-index">Flexbox / Studio digital</span>
+          <p className="ps-team-statement">
+            Ide Anda.
+            <br />
+            Ruang kita.
+          </p>
+          <div className="ps-team-signature">
+            <span>Percakapan dulu. Website kemudian.</span>
+            <span aria-hidden="true">f.</span>
           </div>
-          <figcaption>
-            Placeholder foto tim. Bukan foto orang hasil generasi AI.
-          </figcaption>
-        </figure>
+        </div>
         <div className="ps-team-copy section-reveal">
           <SectionLabel>04 / Di balik Flexbox</SectionLabel>
           <h2 id="team-title">Tim kecil. Ruang diskusi terbuka.</h2>

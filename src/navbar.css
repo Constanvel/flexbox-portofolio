@@ -1,0 +1,210 @@
+/* Compact floating navigation, in the Flexbox palette. */
+.header {
+  top: 18px;
+  width: calc(100% - 48px);
+  max-width: 1500px;
+  min-height: 80px;
+  margin-top: 22px;
+  padding: 12px 14px 12px 24px;
+  border-radius: 999px;
+  border-color: color-mix(in srgb, var(--ink) 9%, transparent);
+  box-shadow: 0 4px 24px color-mix(in srgb, var(--ink) 3%, transparent);
+  gap: 24px;
+  border-color: transparent;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  transition:
+    max-width .45s ease,
+    transform .35s ease,
+    box-shadow .35s ease,
+    background-color .35s ease,
+    border-color .35s ease;
+}
+.header.is-hidden {
+  transform: translateY(calc(-100% - 40px));
+  pointer-events: none;
+}
+.header:focus-within {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.header.is-scrolled {
+  max-width: 1040px;
+  border-color: var(--line);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background-color: color-mix(in srgb, var(--paper) 94%, transparent);
+  box-shadow: 0 12px 40px color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.header .brand {
+  font-size: 28px;
+  gap: 7px;
+  flex-shrink: 0;
+}
+.header .brand-cube {
+  width: 38px;
+  height: 38px;
+}
+.header .brand-dot {
+  color: var(--blue);
+}
+.header .desktop-nav {
+  margin: 0 auto;
+  gap: 4px;
+}
+.header .desktop-nav a {
+  position: relative;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+.header .desktop-nav a:hover {
+  text-decoration: none;
+  background: color-mix(in srgb, var(--pale) 45%, transparent);
+}
+.header .desktop-nav a[aria-current='location'] {
+  background: var(--pale);
+  color: var(--ink);
+}
+.header-controls {
+  gap: 12px;
+}
+.header .motion-toggle {
+  width: 40px;
+  min-height: 40px;
+  padding: 0;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+.header .motion-toggle:hover {
+  background: var(--pale);
+}
+.header .motion-toggle:disabled {
+  opacity: 0.45;
+}
+.motion-icon {
+  width: 20px;
+  height: 20px;
+}
+.header .nav-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  min-height: 50px;
+  padding: 5px 6px 5px 20px;
+  background: var(--ink);
+  color: var(--white);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+.nav-contact-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--blue);
+  color: var(--ink);
+  border-radius: 50%;
+  font-size: 20px;
+}
+.header .nav-contact:hover {
+  background: var(--graphite);
+}
+.nav-contact:hover .arrow {
+  transform: rotate(45deg);
+}
+.menu-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.menu-lines i {
+  display: block;
+  width: 18px;
+  height: 1px;
+  background: currentColor;
+}
+@media (max-width: 1023px) {
+  .header {
+    min-height: 72px;
+    padding: 10px 12px 10px 20px;
+  }
+  .header-controls {
+    margin-left: auto;
+  }
+  .header .menu-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 0 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+  }
+}
+@media (max-width: 600px) {
+  .header {
+    top: 10px;
+    margin-top: 12px;
+    width: calc(100% - 24px);
+    min-height: 64px;
+    padding: 8px 10px 8px 14px;
+    gap: 8px;
+  }
+  .header .brand {
+    font-size: 24px;
+    gap: 4px;
+  }
+  .header .brand-cube {
+    width: 30px;
+    height: 30px;
+  }
+  .header-controls {
+    gap: 8px;
+  }
+  .header .nav-contact {
+    display: none;
+  }
+  .header .motion-toggle {
+    width: 36px;
+    min-height: 36px;
+  }
+  .header .menu-trigger {
+    padding: 0 12px;
+    gap: 10px;
+    font-size: 12px;
+    min-height: 40px;
+  }
+  .menu-lines i {
+    width: 14px;
+  }
+}
+@media (forced-colors: active) {
+  .header,
+  .header .nav-contact,
+  .nav-contact-arrow {
+    border: 1px solid ButtonText;
+  }
+  .header .desktop-nav a[aria-current] {
+    outline: 1px solid Highlight;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .header * {
+    transition: none;
+  }
+}

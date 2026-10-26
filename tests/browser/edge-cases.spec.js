@@ -1,27 +1,20 @@
 import { test, expect } from '@playwright/test';
 
-test('wheel drives showcase; disabling motion mid-pin clears transforms', async ({
+test('wheel scrolls vertically; motion toggle preserves native showcase', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await page.evaluate(() => document.fonts.ready);
-  await page
-    .getByRole('link', { name: 'Eksplorasi karya', exact: true })
-    .click();
+  await page.getByRole('link', { name: 'Karya', exact: true }).click();
   await expect(page.locator('#karya')).toBeFocused();
+  const initialScroll = await page.evaluate(() => scrollY);
   await page.mouse.wheel(0, 900);
   await expect
-    .poll(() =>
-      page
-        .locator('.project-track')
-        .evaluate((el) => new DOMMatrix(getComputedStyle(el).transform).m41),
-    )
-    .toBeLessThan(-500);
-  // The control is above the pinned viewport; exercise its action without scrolling away.
-  await page
-    .getByRole('button', { name: 'Matikan gerak' })
-    .evaluate((el) => el.click());
+    .poll(() => page.evaluate(() => scrollY))
+    .toBeGreaterThan(initialScroll);
+  await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(page.locator('.pin-spacer')).toHaveCount(0);
   expect(
     await page

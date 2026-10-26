@@ -45,7 +45,7 @@ test('desktop: horizontal, keyboard, dialog, bypass, motion toggle', async ({
 }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
   const errors = await ready(page);
-  await expect(page.locator('#karya')).toHaveClass(/is-horizontal/);
+  await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);
   await noOverflow(page);
   await checkAxe(page);
   await page.screenshot({ path: '.playwright/desktop.png', fullPage: false });
@@ -82,13 +82,14 @@ test('desktop: horizontal, keyboard, dialog, bypass, motion toggle', async ({
     .getByRole('link', { name: 'Kembali ke atas', exact: true })
     .click();
   await expect(page.locator('#main')).toBeFocused();
-  await page.getByRole('button', { name: 'Matikan gerak' }).click();
+  await expect(page.locator('.motion-toggle')).toHaveCount(0);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);
   await expect(page.locator('.pin-spacer')).toHaveCount(0);
   await expect(page.locator('html')).not.toHaveClass(/lenis/);
   await noOverflow(page);
-  await page.getByRole('button', { name: 'Aktifkan gerak' }).click();
-  await expect(page.locator('#karya')).toHaveClass(/is-horizontal/);
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);
   expect(errors).toEqual([]);
 });
 
@@ -145,17 +146,15 @@ test('reduced-motion and live viewport changes clean up pinning', async ({
 }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await ready(page);
-  await expect(page.locator('#karya')).toHaveClass(/is-horizontal/);
+  await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect(
-    page.getByRole('button', { name: 'Gerak sistem: minim' }),
-  ).toBeDisabled();
+  await expect(page.locator('.app')).toHaveClass(/motion-off/);
   await expect(page.locator('.pin-spacer')).toHaveCount(0);
   await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);
   await checkAxe(page);
   await expect(page.locator('.marquee-track')).toHaveCount(0);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await expect(page.locator('#karya')).toHaveClass(/is-horizontal/);
+  await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);
   await page.setViewportSize({ width: 1280, height: 600 });
   await expect(page.locator('.pin-spacer')).toHaveCount(0);
   await noOverflow(page);

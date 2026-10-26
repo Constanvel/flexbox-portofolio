@@ -64,60 +64,58 @@
 }
 
 .page-sections .ps-services {
-  padding-top: 32px;
-  padding-bottom: 0;
+  padding-top: clamp(72px, 10vw, 160px);
 }
 
 .page-sections .ps-services-panel {
-  padding: clamp(28px, 4.2vw, 64px);
-  background: var(--pale, #d5dff0);
+  min-width: 0;
+}
+
+.page-sections .ps-services .ps-heading {
+  margin-bottom: clamp(56px, 7vw, 112px);
 }
 
 .page-sections .ps-service-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-top: 1px solid #05050540;
+  border-top: 1px solid var(--line, #d8d8d5);
 }
 
 .page-sections .ps-service-card {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 0.95fr) minmax(0, 1fr);
+  gap: 24px 32px;
+  align-items: start;
   min-width: 0;
-  padding: 32px 28px 0;
+  padding: clamp(32px, 4vw, 60px) 0;
+  border-bottom: 1px solid var(--line, #d8d8d5);
 }
 
-.page-sections .ps-service-card:first-child {
-  padding-left: 0;
-}
-
-.page-sections .ps-service-card:last-child {
-  padding-right: 0;
-}
-
-.page-sections .ps-service-card + .ps-service-card {
-  border-left: 1px solid #05050540;
+.page-sections .ps-service-card > .ps-index {
+  padding-top: 10px;
 }
 
 .page-sections .ps-service-card h3 {
-  margin: 30px 0 18px;
+  margin: 0;
+  font-size: clamp(30px, 3.5vw, 54px);
+  line-height: 1.08;
+  letter-spacing: -0.05em;
 }
 
-.page-sections .ps-service-card > p {
+.page-sections .ps-service-copy {
+  max-width: 52ch;
   color: var(--graphite, #454a54);
 }
 
 .page-sections .ps-service-card .ps-service-detail {
-  margin: 28px 0;
+  margin: 22px 0 0;
   font-size: 12px;
   line-height: 1.8;
 }
 
 .page-sections .ps-service-link {
+  grid-column: 3;
+  justify-self: start;
   justify-content: space-between;
-  margin-top: auto;
-  border-top: 1px solid #05050540;
-  padding-top: 12px;
-  gap: 14px;
+  gap: 24px;
   font-size: 12px;
 }
 
@@ -164,43 +162,42 @@
   padding-top: 32px;
 }
 
-.page-sections .ps-team-photo {
-  margin: 0;
-  min-width: 0;
-}
-
-.page-sections .ps-photo-placeholder {
+.page-sections .ps-team-brand {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 14px;
-  min-height: 360px;
-  aspect-ratio: 1.08;
-  width: 100%;
+  justify-content: space-between;
+  gap: 56px;
+  min-height: 480px;
+  aspect-ratio: 1;
   min-width: 0;
-  padding: clamp(24px, 4vw, 56px);
-  background: #edede8;
-  border: 1px solid var(--line, #d8d8d5);
+  padding: clamp(28px, 4vw, 56px);
+  background: var(--pale, #d5dff0);
 }
 
-.page-sections .ps-photo-placeholder p {
-  max-width: 12ch;
+.page-sections .ps-team-statement {
   font-family: var(--font-display, 'Space Grotesk', Arial, sans-serif);
-  font-size: clamp(28px, 3vw, 46px);
-  line-height: 1.15;
-  letter-spacing: -0.04em;
+  font-size: clamp(48px, 5.5vw, 88px);
+  line-height: 0.98;
+  letter-spacing: -0.065em;
 }
 
-.page-sections .ps-photo-placeholder > span:last-child,
-.page-sections .ps-team-photo figcaption {
-  color: var(--graphite, #454a54);
+.page-sections .ps-team-signature {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px;
+  border-top: 1px solid var(--blue-text, #2c659c);
+  padding-top: 20px;
+  color: var(--blue-text, #2c659c);
   font-size: 12px;
   line-height: 1.6;
 }
 
-.page-sections .ps-team-photo figcaption {
-  margin-top: 12px;
+.page-sections .ps-team-signature > span:last-child {
+  font-family: var(--font-display, 'Space Grotesk', Arial, sans-serif);
+  font-size: 64px;
+  line-height: 0.8;
+  letter-spacing: -0.08em;
 }
 
 .page-sections .ps-team-copy > p:not(.ps-label) {
@@ -288,8 +285,10 @@
 }
 
 .page-sections .ps-contact h2 {
-  max-width: 14ch;
-  font-size: clamp(40px, 5vw, 78px);
+  max-width: 11ch;
+  font-size: clamp(48px, 6.4vw, 104px);
+  line-height: 1.02;
+  letter-spacing: -0.065em;
 }
 
 .page-sections .ps-contact h2 span {
@@ -412,18 +411,20 @@
 }
 
 .page-sections .ps-footer-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 40px 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 32px 48px;
+  padding: clamp(48px, 6vw, 96px) 0;
   border-top: 1px solid #ffffff40;
 }
 
 .page-sections .ps-footer-brand {
-  font-size: clamp(36px, 4vw, 64px);
-  line-height: 1.1;
-  letter-spacing: -0.06em;
+  grid-column: 1 / -1;
+  justify-self: start;
+  font-size: clamp(80px, 17vw, 272px);
+  line-height: 0.95;
+  letter-spacing: -0.075em;
 }
 
 .page-sections .ps-footer-brand span {
@@ -495,12 +496,8 @@
   }
 
   .page-sections .ps-service-card {
-    padding-right: 20px;
-    padding-left: 20px;
-  }
-
-  .page-sections .ps-service-card h3 {
-    font-size: 26px;
+    grid-template-columns: 32px minmax(0, 0.9fr) minmax(0, 1fr);
+    column-gap: 24px;
   }
 
   .page-sections .ps-team,
@@ -509,8 +506,8 @@
     gap: 40px;
   }
 
-  .page-sections .ps-photo-placeholder {
-    min-height: 320px;
+  .page-sections .ps-team-brand {
+    min-height: 400px;
   }
 }
 
@@ -532,27 +529,23 @@
     max-width: 52ch;
   }
 
-  .page-sections .ps-service-card,
-  .page-sections .ps-service-card:first-child,
-  .page-sections .ps-service-card:last-child {
-    padding: 28px 0;
+  .page-sections .ps-service-card {
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 20px;
+    padding: 32px 0;
   }
 
-  .page-sections .ps-service-card:last-child {
-    padding-bottom: 0;
+  .page-sections .ps-service-copy,
+  .page-sections .ps-service-link {
+    grid-column: 2;
   }
 
-  .page-sections .ps-service-card + .ps-service-card {
-    border-left: 0;
-    border-top: 1px solid #05050540;
-  }
-
-  .page-sections .ps-service-card h3 {
-    margin-top: 20px;
+  .page-sections .ps-service-card > .ps-index {
+    padding-top: 6px;
   }
 
   .page-sections .ps-service-card .ps-service-detail {
-    margin: 20px 0;
+    margin-top: 16px;
   }
 
   .page-sections .ps-process-row {
@@ -569,9 +562,19 @@
     max-width: 16ch;
   }
 
-  .page-sections .ps-photo-placeholder {
-    aspect-ratio: 1.3;
-    min-height: 280px;
+  .page-sections .ps-team-brand {
+    aspect-ratio: auto;
+    min-height: 380px;
+    gap: 64px;
+  }
+
+  .page-sections .ps-team-statement {
+    font-size: clamp(52px, 12vw, 88px);
+  }
+
+  .page-sections .ps-contact h2 {
+    max-width: 14ch;
+    font-size: clamp(44px, 9vw, 68px);
   }
 
   .page-sections .ps-faq-item summary {
@@ -600,10 +603,6 @@
 }
 
 @media (max-width: 380px) {
-  .page-sections .ps-services-panel {
-    padding: 24px 20px;
-  }
-
   .page-sections .ps-services h2 {
     font-size: 32px;
   }
@@ -619,7 +618,7 @@
 
 @media (forced-colors: active) {
   .page-sections .ps-preview-button,
-  .page-sections .ps-photo-placeholder {
+  .page-sections .ps-team-brand {
     border: 1px solid CanvasText;
   }
 
