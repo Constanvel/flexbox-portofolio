@@ -20,7 +20,7 @@ test('complete routes, local fonts, FAQ and honest local contact preview', async
   );
   await expect(page.locator('.ps-home-preview')).toHaveCount(1);
   await expect(page.locator('.ps-preview-service')).toHaveCount(3);
-  await expect(page.locator('.ps-footer')).toHaveCount(1);
+  await expect(page.locator('.sculpted-footer')).toHaveCount(1);
   for (const id of ['layanan', 'proses', 'tim', 'faq', 'kontak']) {
     await expect(page.locator(`#${id}`)).toHaveCount(0);
   }

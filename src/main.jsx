@@ -16,6 +16,7 @@ import './styles.css';
 import PageSections from './PageSections';
 import './editorial.css';
 import './navbar.css';
+import './sculpted.css';
 import { canAnimate, showcaseScrollPosition } from './motion-policy';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -702,7 +703,10 @@ function App() {
                   href="/karya"
                   onClick={(e) => goTo('karya', e)}
                 >
-                  Lihat karya <Arrow down />
+                  <span>Lihat karya</span>
+                  <span className="button-orb">
+                    <Arrow />
+                  </span>
                 </a>
                 <a
                   className="text-link"
@@ -713,24 +717,61 @@ function App() {
                 </a>
               </div>
             </div>
-            <aside
-              className="hero-aside hero-reveal"
-              aria-label="Pendekatan Flexbox"
+            <div
+              className="hero-landscape"
+              aria-label="Eksplorasi visual modular Flexbox"
             >
-              <span className="hero-aside-mark" aria-hidden="true">
-                ↘
-              </span>
-              <p>
-                Mulai dari cerita.
-                <br />
-                Bukan dari template.
-              </p>
-              <span>
-                Desain & pengembangan
-                <br />
-                untuk usaha yang terus bergerak.
-              </span>
-            </aside>
+              <div className="landscape-caption">
+                <span>FLEXBOX / RUANG EKSPLORASI</span>
+                <span>01 — 03</span>
+              </div>
+              <div className="landscape-grid" aria-hidden="true" />
+              <div className="landscape-monogram" aria-hidden="true">
+                f<span>.</span>
+              </div>
+              <div
+                className="landscape-window window-profile"
+                aria-hidden="true"
+              >
+                <div className="window-toolbar">
+                  <span>ruang / cerita</span>
+                  <span>● ● ●</span>
+                </div>
+                <span className="window-kicker">USAHA LOKAL, RUANG BARU.</span>
+                <strong>
+                  Cerita baik.
+                  <br />
+                  Tempat yang tepat.
+                </strong>
+                <div className="window-blocks">
+                  <span />
+                  <span />
+                  <span />
+                </div>
+                <span className="window-link">Kenali lebih dekat ↗</span>
+              </div>
+              <div
+                className="landscape-window window-system"
+                aria-hidden="true"
+              >
+                <div className="window-toolbar">
+                  <span>flex / system</span>
+                  <span>↗</span>
+                </div>
+                <div className="landscape-modules">
+                  <span>f.</span>
+                  <span>↗</span>
+                  <span>+</span>
+                  <span>○</span>
+                </div>
+              </div>
+              <div className="landscape-note">
+                <span className="square" /> Potongan berbeda. Satu arah.
+              </div>
+              <a className="landscape-discover" href="/karya">
+                Jelajahi konsep <Arrow />
+              </a>
+            </div>
             <div className="hero-bottom hero-reveal">
               <span>Desain dengan arah. Teknologi dengan tujuan.</span>
               <a
@@ -789,8 +830,6 @@ function App() {
                       className={`project-card ${project.className}`}
                       key={project.id}
                       data-project-index={index}
-                      onPointerMove={tilt}
-                      onPointerLeave={resetTilt}
                     >
                       <button
                         type="button"
@@ -803,6 +842,10 @@ function App() {
                       >
                         <div className="project-visual">
                           <ProjectArt project={project} />
+                          <span className="project-category">
+                            {project.type}
+                            <span>Proyek konsep</span>
+                          </span>
                           <span
                             className="project-open-icon"
                             aria-hidden="true"

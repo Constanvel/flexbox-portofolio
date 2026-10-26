@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './sections.css';
 import './pages.css';
+import './sculpted-footer.css';
 
 const services = [
   {
@@ -398,36 +399,61 @@ export default function PageSections({ page = 'home', goTo }) {
         </section>
       )}
 
-      <footer className="ps-footer">
-        <div className="ps-footer-top">
-          <a className="ps-footer-brand" href="/" aria-label="Flexbox, beranda">
-            Flexbox<span aria-hidden="true">.</span>
-          </a>
-          <p>Website yang berangkat dari cerita usaha Anda.</p>
-          <a
-            className="text-link"
-            href="#main"
-            onClick={(event) => goTo?.('main', event)}
+      <footer className="sculpted-footer" aria-labelledby="footer-title">
+        <div className="sculpted-footer__cutout">
+          <button
+            className="sculpted-footer__top"
+            type="button"
+            onClick={() =>
+              window.scrollTo({
+                top: 0,
+                behavior: window.matchMedia('(prefers-reduced-motion: reduce)')
+                  .matches
+                  ? 'instant'
+                  : 'smooth',
+              })
+            }
           >
             Kembali ke atas <span aria-hidden="true">↑</span>
-          </a>
+          </button>
         </div>
-        <div className="ps-footer-bottom">
-          <span>Desain yang jelas. Percakapan yang terbuka.</span>
-          <nav aria-label="Navigasi footer">
-            {[
-              ['/karya', 'Karya'],
-              ['/layanan', 'Layanan'],
-              ['/layanan#proses', 'Proses'],
-              ['/tentang', 'Tentang'],
-              ['/layanan#faq', 'FAQ'],
-              ['/kontak', 'Kontak'],
-            ].map(([href, label]) => (
-              <a key={href} href={href}>
-                {label}
-              </a>
-            ))}
-          </nav>
+        <div className="sculpted-footer__content">
+          <p className="sculpted-footer__eyebrow">
+            Percakapan dulu. Website kemudian.
+          </p>
+          <div className="sculpted-footer__invitation">
+            <h2 id="footer-title">
+              Ada ide?
+              <br />
+              Beri ruang untuk tumbuh.
+            </h2>
+            <a className="sculpted-footer__cta" href="/kontak">
+              Mulai percakapan
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+          <div className="sculpted-footer__details">
+            <p>Website yang berangkat dari cerita usaha Anda.</p>
+            <nav aria-label="Navigasi footer">
+              {[
+                ['/', 'Beranda'],
+                ['/karya', 'Karya'],
+                ['/layanan', 'Layanan'],
+                ['/tentang', 'Tentang'],
+                ['/kontak', 'Kontak'],
+              ].map(([href, label]) => (
+                <a key={href} href={href}>
+                  {label}
+                </a>
+              ))}
+            </nav>
+          </div>
+          <p className="sculpted-footer__wordmark">
+            Flexbox<span aria-hidden="true">.</span>
+          </p>
+          <p className="sculpted-footer__signature">
+            Desain yang jelas. Percakapan yang terbuka.
+          </p>
         </div>
       </footer>
     </div>

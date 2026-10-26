@@ -88,9 +88,10 @@ test('desktop: project navigation, keyboard, dialog and reduced motion', async (
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await checkAxe(page);
   await page
-    .getByRole('link', { name: 'Kembali ke atas', exact: true })
+    .getByRole('button', { name: 'Kembali ke atas', exact: true })
     .click();
-  await expect(page).toHaveURL('/');
+  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+  await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(page.locator('#karya')).not.toHaveClass(/is-horizontal/);

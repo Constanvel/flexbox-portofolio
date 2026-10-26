@@ -1,0 +1,204 @@
+.sculpted-footer {
+  position: relative;
+  margin: clamp(32px, 5vw, 80px) clamp(12px, 2vw, 32px) clamp(12px, 2vw, 32px);
+  border-radius: 32px;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.sculpted-footer .sculpted-footer__cutout {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 0 16px 20px;
+  border-bottom-left-radius: 28px;
+  background: var(--paper);
+}
+
+.sculpted-footer .sculpted-footer__cutout::before,
+.sculpted-footer .sculpted-footer__cutout::after {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  content: '';
+  pointer-events: none;
+  background: radial-gradient(
+    circle at bottom left,
+    transparent 28px,
+    var(--paper) 28.5px
+  );
+}
+
+.sculpted-footer .sculpted-footer__cutout::before {
+  top: 0;
+  left: -28px;
+}
+
+.sculpted-footer .sculpted-footer__cutout::after {
+  right: 0;
+  bottom: -28px;
+}
+
+.sculpted-footer .sculpted-footer__top {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 48px;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.sculpted-footer .sculpted-footer__content {
+  padding: 104px clamp(24px, 4.5vw, 80px) 28px;
+}
+
+.sculpted-footer .sculpted-footer__eyebrow {
+  margin-bottom: 28px;
+  color: var(--pale);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.sculpted-footer .sculpted-footer__invitation {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.sculpted-footer h2 {
+  max-width: 850px;
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5.8vw, 88px);
+  font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.sculpted-footer .sculpted-footer__cta {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 64px;
+  padding: 8px 8px 8px 24px;
+  border-radius: 999px;
+  background: var(--blue);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.sculpted-footer .sculpted-footer__cta span {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 25px;
+}
+
+.sculpted-footer .sculpted-footer__details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  margin-top: clamp(56px, 7vw, 112px);
+  padding-top: 28px;
+  border-top: 1px solid var(--graphite);
+}
+
+.sculpted-footer .sculpted-footer__details p {
+  max-width: 260px;
+  color: var(--pale);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.sculpted-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+
+.sculpted-footer nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-underline-offset: 6px;
+}
+
+.sculpted-footer .sculpted-footer__wordmark {
+  margin: 40px 0 16px;
+  font-family: var(--font-display);
+  font-size: clamp(64px, 18.5vw, 320px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.065em;
+}
+
+.sculpted-footer .sculpted-footer__wordmark span {
+  color: var(--blue);
+}
+
+.sculpted-footer .sculpted-footer__signature {
+  color: var(--pale);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.sculpted-footer a:hover,
+.sculpted-footer button:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.sculpted-footer :focus-visible {
+  outline: 3px solid var(--paper);
+  outline-offset: 5px;
+}
+
+.sculpted-footer .sculpted-footer__top:focus-visible {
+  outline-color: var(--blue-text);
+}
+
+@media (max-width: 900px) {
+  .sculpted-footer .sculpted-footer__invitation,
+  .sculpted-footer .sculpted-footer__details {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .sculpted-footer {
+    border-radius: 28px;
+  }
+
+  .sculpted-footer .sculpted-footer__content {
+    padding: 100px 24px 24px;
+  }
+
+  .sculpted-footer .sculpted-footer__cta {
+    width: 100%;
+    gap: 12px;
+    padding-left: 20px;
+    font-size: 14px;
+  }
+
+  .sculpted-footer nav {
+    gap: 4px 20px;
+  }
+
+  .sculpted-footer .sculpted-footer__wordmark {
+    font-size: 20vw;
+  }
+}
