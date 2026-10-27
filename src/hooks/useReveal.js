@@ -7,35 +7,42 @@ export default function useReveal(root, reduced) {
   useLayoutEffect(() => {
     if (reduced) return;
     const context = gsap.context(() => {
-      gsap.from('[data-line]', {
+      const select = gsap.utils.selector(root);
+      const reveal = (selector, options) => {
+        const targets = select(selector);
+        if (targets.length) gsap.from(targets, options);
+      };
+      reveal('[data-line]', {
         y: 24,
         opacity: 0,
         duration: motion.title,
         stagger: 0.08,
         ease: motion.ease,
       });
-      gsap.from('[data-hero-support]', {
+      reveal('[data-hero-support]', {
         y: 12,
         opacity: 0,
         duration: motion.support,
         delay: 0.18,
         ease: motion.ease,
       });
-      gsap.from('[data-hero-visual]', {
+      reveal('[data-hero-visual]', {
         y: 20,
         duration: motion.visual,
         ease: motion.ease,
       });
-      gsap.fromTo(
-        '.hero-preview',
-        { clipPath: 'inset(0 0 100% 0 round 28px)' },
-        {
-          clipPath: 'inset(0 0 0% 0 round 28px)',
-          duration: motion.visual,
-          ease: motion.ease,
-          clearProps: 'clipPath',
-        },
-      );
+      const heroPreviews = select('.hero-preview');
+      if (heroPreviews.length)
+        gsap.fromTo(
+          heroPreviews,
+          { clipPath: 'inset(0 0 100% 0 round 28px)' },
+          {
+            clipPath: 'inset(0 0 0% 0 round 28px)',
+            duration: motion.visual,
+            ease: motion.ease,
+            clearProps: 'clipPath',
+          },
+        );
       gsap.utils.toArray('[data-reveal]').forEach((element) => {
         gsap.from(element, {
           y: 18,

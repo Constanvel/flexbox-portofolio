@@ -1,6 +1,25 @@
 import { test, expect } from '@playwright/test';
 
 const routes = ['/', '/karya', '/layanan', '/tentang', '/kontak'];
+
+test('reveal animations skip missing targets without GSAP warnings', async ({
+  page,
+}) => {
+  const warnings = [];
+  page.on('console', (message) => {
+    if (
+      message.type() === 'warning' &&
+      message.text().includes('GSAP target')
+    ) {
+      warnings.push(message.text());
+    }
+  });
+  for (const route of [...routes, '/tidak-ditemukan']) {
+    await page.goto(route);
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  }
+  expect(warnings).toEqual([]);
+});
 for (const width of [320, 375, 768, 1024, 1440]) {
   test(`all routes fit a ${width}px viewport without horizontal overflow`, async ({
     page,
