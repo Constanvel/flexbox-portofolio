@@ -11,15 +11,8 @@ export const navigation = [
 export function Brand() {
   return (
     <a className="brand" href="/" aria-label="Flexbox — Beranda">
-      <svg viewBox="0 0 48 48" width="35" height="35" aria-hidden="true">
-        <path d="M5 14 24 3l19 11-19 11Z" fill="#d5dff0" />
-        <path d="m5 14 19 11v21L5 35Z" fill="#454a54" />
-        <path d="m24 25 19-11v21L24 46Z" fill="#3f83c5" />
-        <path d="m14 9 19 11-9 5L5 14Z" fill="#050505" />
-      </svg>
-      <span>
-        Flexbox<span className="brand-dot">.</span>
-      </span>
+      <span className="brand-mark" aria-hidden="true" />
+      Flexbox
     </a>
   );
 }
@@ -46,7 +39,7 @@ export default function Navbar({ pathname, open, setOpen }) {
               </a>
             ))}
           </nav>
-          <Button href="/kontak">Diskusikan proyek</Button>
+          <Button href="/kontak">Mulai proyek</Button>
           <button
             ref={trigger}
             className="menu-trigger"
@@ -95,13 +88,13 @@ export default function Navbar({ pathname, open, setOpen }) {
               href={href}
               aria-current={pathname === href ? 'page' : undefined}
             >
-              <span className="eyebrow">0{i + 1}</span>
+              <span className="menu-index">0{i + 1}</span>
               {label}
               <span aria-hidden="true">↗</span>
             </a>
           ))}
         </nav>
-        <p>Desain & pengembangan website.</p>
+        <p className="menu-note">Desain & pengembangan website.</p>
       </dialog>
     </>
   );

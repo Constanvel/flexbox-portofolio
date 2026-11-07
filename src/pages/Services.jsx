@@ -5,7 +5,7 @@ export default function Services() {
   return (
     <div className="support-page services-page">
       <header className="container page-intro support-intro" data-reveal>
-        <p className="eyebrow">Layanan / Flexbox</p>
+        <p className="eyebrow">Layanan</p>
         <h1>{titles.services}</h1>
         <p>
           Mulai dari informasi yang perlu diketahui pelanggan Anda. Pilih
@@ -89,7 +89,7 @@ export default function Services() {
         aria-labelledby="faq-title"
       >
         <div className="support-section-heading" data-reveal>
-          <p className="eyebrow">Sebelum memulai</p>
+          <p className="eyebrow">FAQ</p>
           <h2 id="faq-title">Hal yang mungkin ingin Anda tanyakan.</h2>
           <a className="text-link" href="/kontak">
             Punya pertanyaan lain? <span aria-hidden="true">↗</span>

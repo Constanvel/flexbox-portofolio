@@ -20,13 +20,21 @@ Catatan pengembangan, bukan nasihat hukum. Versi pasti terdapat dalam `package-l
 
 ## Font lokal
 
-Bricolage Grotesque dan Hanken Grotesk didistribusikan melalui paket `@fontsource-variable/bricolage-grotesque` dan `@fontsource-variable/hanken-grotesk` (versi dalam lockfile), dengan SIL Open Font License 1.1. WOFF2 dibundel lokal oleh Vite; tidak memakai Google Fonts saat runtime.
+Figtree (variable, 300–900) karya Erik Kennedy, SIL Open Font License 1.1. File TTF disalin ke `public/fonts/` dan dimuat lokal; tidak memakai Google Fonts saat runtime. Teks lisensi: `public/licenses/Figtree-OFL.txt`.
 
-- https://github.com/google/fonts/tree/main/ofl/bricolagegrotesque
-- https://github.com/google/fonts/tree/main/ofl/hankengrotesk
+- https://github.com/erikdkennedy/figtree
 
-Salinan teks lisensi dari paket yang terpasang disertakan di `public/licenses/`, ikut tersalin ke build produksi.
+## Foto
+
+Foto di beranda berasal dari WordPress Photo Directory dengan lisensi CC0. Foto hanya menggambarkan suasana kerja dan bukan dokumentasi tim atau klien Flexbox.
+
+| File                                 | Sumber                                         |
+| ------------------------------------ | ---------------------------------------------- |
+| `public/images/studio-workspace.jpg` | https://wordpress.org/photos/photo/807640e093/ |
+| `public/images/process-meeting.jpg`  | https://wordpress.org/photos/photo/83563ef334/ |
+| `public/images/process-sketch.jpg`   | https://wordpress.org/photos/photo/75969730cd/ |
+| `public/images/process-phone.jpg`    | https://wordpress.org/photos/photo/27464819a1/ |
 
 ## Visual dan referensi
 
-Ilustrasi kartu dan kubus dibuat di source demo ini menggunakan CSS/SVG. Palet dasar mengikuti CSS situs referensi screenshot pengguna. MadeByShape/Humaan menjadi inspirasi arah interaksi, bukan sumber kode, foto, identitas, atau proyek yang disalin.
+Ilustrasi pratinjau studi konsep dibuat di source demo ini menggunakan CSS/SVG. Palet terang hangat dengan satu aksen kuning; tanpa gradien.

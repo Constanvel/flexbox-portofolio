@@ -99,8 +99,22 @@ export const questions = [
 ];
 
 export const titles = {
-  services: 'Website sesuai kebutuhan usaha Anda',
-  about: 'Pendekatan Flexbox',
-  contact: 'Mari bahas website Anda',
+  services: 'Layanan yang jelas, hasil yang terukur.',
+  about: 'Tim kecil, kerja yang rapi.',
+  contact: 'Mari bangun website Anda.',
   notFound: 'Halaman ini tidak ditemukan',
 };
+
+// Peran di tim. Nama anggota sengaja tidak ditampilkan sampai datanya final.
+export const roles = [
+  {
+    role: 'Pengembangan',
+    focus: 'Arsitektur, performa, dan kode yang mudah dirawat.',
+  },
+  {
+    role: 'Desain antarmuka',
+    focus: 'Susunan informasi, riset kebutuhan, dan tampilan.',
+  },
+  { role: 'Frontend', focus: 'Halaman responsif dan interaksi yang ringan.' },
+  { role: 'Backend', focus: 'Formulir, data, dan integrasi bila dibutuhkan.' },
+];

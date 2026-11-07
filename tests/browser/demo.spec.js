@@ -22,8 +22,15 @@ test('project studies support keyboard activation, modal focus, locking, Escape 
   await page.goto('/');
   await expect(
     page.getByRole('button', { name: /^Lihat studi desain/ }),
-  ).toHaveCount(2);
-  await page.getByRole('link', { name: 'Semua studi desain' }).click();
+  ).toHaveCount(3);
+  const allStudies = page.getByRole('link', { name: 'Semua studi desain' });
+  // The link is below the fold; let its scroll reveal finish before clicking.
+  await allStudies.scrollIntoViewIfNeeded();
+  await expect(allStudies.locator('xpath=ancestor::header')).toHaveCSS(
+    'opacity',
+    '1',
+  );
+  await allStudies.click();
   await expect(page).toHaveURL('/karya');
   const cards = page.getByRole('button', { name: /^Lihat studi desain/ });
   await expect(cards).toHaveCount(3);

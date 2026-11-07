@@ -20,7 +20,7 @@ export default function Contact() {
   return (
     <div className="support-page contact-page">
       <header className="container page-intro support-intro" data-reveal>
-        <p className="eyebrow">Kontak / Flexbox</p>
+        <p className="eyebrow">Kontak</p>
         <h1>{titles.contact}</h1>
         <p>
           Ceritakan usaha, kebutuhan website, dan perkiraan waktu pengerjaan.
