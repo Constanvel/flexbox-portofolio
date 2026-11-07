@@ -1,263 +1,194 @@
 import projects from '../data/projects';
-import {
-  services,
-  stages,
-  team,
-  plans,
-  testimonials,
-  stack,
-} from '../data/content';
-import Button from '../components/Button';
+import { services, stages, questions } from '../data/content';
 import LineTitle from '../components/LineTitle';
-import ProjectPreview from '../components/previews/ProjectPreview';
+import Button from '../components/Button';
 import ProjectCard from '../components/ProjectCard';
 
-const initials = (name) =>
-  name
-    .split(' ')
-    .map((word) => word[0])
-    .join('')
-    .slice(0, 2);
-
-export function TeamGrid() {
-  return (
-    <div className="team-grid">
-      {team.map((member) => (
-        <article className="team-card" key={member.name} data-reveal>
-          <span className="team-avatar" aria-hidden="true">
-            {initials(member.name)}
-          </span>
-          <h3>{member.name}</h3>
-          <p className="team-role">{member.role}</p>
-          <p>{member.focus}</p>
-        </article>
-      ))}
-    </div>
-  );
-}
+const photos = [
+  [
+    '/images/process-meeting.jpg',
+    'Beberapa orang bekerja bersama di depan laptop',
+    'is-meeting',
+  ],
+  [
+    '/images/process-sketch.jpg',
+    'Dinding penuh catatan tulisan tangan di atas meja kerja',
+    'is-sketch',
+  ],
+  [
+    '/images/process-phone.jpg',
+    'Tangan mengetik di laptop dengan ponsel di sampingnya',
+    'is-phone',
+  ],
+];
 
 export default function Home({ onOpen }) {
   return (
     <>
-      <section className="hero container">
-        <div className="hero-copy">
-          <p className="status-pill">
-            <span className="status-dot" aria-hidden="true" />
-            Menerima proyek baru
+      <section className="hero" aria-labelledby="hero-title">
+        <div className="container hero-inner">
+          <p className="label" data-hero-support>
+            Flexbox · Studio website untuk UMKM
           </p>
           <LineTitle
-            lines={['Website modern', 'untuk usaha', 'yang tumbuh.']}
+            id="hero-title"
+            lines={['Website yang jelas', 'untuk usaha Anda.']}
           />
-          <div data-hero-support>
-            <p className="hero-description">
-              Flexbox adalah tim pengembang yang merancang dan membangun website
-              cepat, rapi, dan nyaman di ponsel—untuk UMKM dan usaha lokal yang
-              ingin lebih mudah ditemukan pelanggan.
+          <div className="hero-foot" data-hero-support>
+            <p>
+              Kami menyusun informasi usaha Anda menjadi website yang mudah
+              dibaca, cepat dibuka di ponsel, dan memudahkan pelanggan
+              menghubungi Anda.
             </p>
             <div className="hero-actions">
-              <Button href="/kontak">Mulai proyek</Button>
-              <Button href="/karya" secondary>
-                Lihat karya
-              </Button>
-            </div>
-            <dl className="hero-stats">
-              <div>
-                <dt>Tim</dt>
-                <dd>{team.length} developer</dd>
-              </div>
-              <div>
-                <dt>Pendekatan</dt>
-                <dd>Mobile-first</dd>
-              </div>
-              <div>
-                <dt>Komunikasi</dt>
-                <dd>Langsung 1:1</dd>
-              </div>
-            </dl>
-          </div>
-        </div>
-        <div className="hero-visual" data-hero-visual>
-          <div className="browser">
-            <div className="browser-bar" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-              <code>usaha-anda.id</code>
-            </div>
-            <div className="hero-preview">
-              <ProjectPreview project={projects[0]} />
+              <Button href="/kontak">Hubungi kami</Button>
+              <a className="button-outline" href="/karya">
+                Lihat eksplorasi
+              </a>
             </div>
           </div>
-          <p className="hero-chip hero-chip-a">
-            <span aria-hidden="true">⚡</span> Cepat dimuat
-          </p>
-          <p className="hero-chip hero-chip-b">
-            <span aria-hidden="true">📱</span> Responsif
-          </p>
         </div>
       </section>
 
-      <section className="container stack" aria-labelledby="stack-title">
-        <p className="eyebrow" id="stack-title">
-          Teknologi yang kami pakai
-        </p>
-        <ul>
-          {stack.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
+      <section
+        className="section container studio"
+        aria-labelledby="studio-title"
+      >
+        <figure className="studio-media media-card" data-reveal="media">
+          <img
+            src="/images/studio-workspace.jpg"
+            alt="Meja dan kursi di dekat jendela lengkung sebuah kafe kecil"
+            width="1536"
+            height="2048"
+            loading="lazy"
+          />
+        </figure>
+        <div className="studio-copy" data-reveal>
+          <p className="label">Tentang studio</p>
+          <h2 id="studio-title">
+            Untuk kedai, toko, dan jasa yang ingin mudah ditemukan.
+          </h2>
+          <p>
+            Pelanggan Anda membuka website untuk mencari jawaban: apa yang Anda
+            tawarkan, di mana Anda berada, dan bagaimana cara menghubungi Anda.
+            Kami memastikan jawaban itu ada di tempat yang tepat.
+          </p>
+          <Button href="/tentang" secondary>
+            Kenali cara kerja kami
+          </Button>
+        </div>
       </section>
 
-      <section className="section container" aria-labelledby="services-title">
+      <section
+        className="section container home-services"
+        aria-labelledby="services-title"
+      >
         <header className="section-heading" data-reveal>
           <div>
-            <p className="eyebrow">// Layanan</p>
-            <h2 id="services-title">Yang bisa kami bangun untuk Anda.</h2>
+            <p className="label">Layanan</p>
+            <h2 id="services-title">Tiga cara kami membantu.</h2>
           </div>
           <Button href="/layanan" secondary>
             Detail layanan
           </Button>
         </header>
-        <div className="bento">
+        <div className="service-cards">
           {services.map((service) => (
-            <a
-              className="bento-card"
-              href="/layanan"
-              key={service.title}
-              data-reveal
-            >
-              <span className="bento-index">{service.number}</span>
+            <article className="service-card" key={service.number} data-reveal>
+              <span className="service-number">{service.number}</span>
               <h3>{service.title}</h3>
               <p>{service.audience}</p>
-              <ul>
-                {service.deliverables.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </a>
-          ))}
-          <a className="bento-card bento-cta" href="/kontak" data-reveal>
-            <h3>Punya kebutuhan lain?</h3>
-            <p>Ceritakan idenya, kita cari bentuk website yang paling pas.</p>
-            <span className="text-link">
-              Konsultasi gratis <span className="arrow">↗</span>
-            </span>
-          </a>
-        </div>
-      </section>
-
-      <section className="section container" aria-labelledby="work-title">
-        <header className="section-heading" data-reveal>
-          <div>
-            <p className="eyebrow">// Karya</p>
-            <h2 id="work-title">Eksplorasi desain terbaru.</h2>
-          </div>
-          <Button href="/karya" secondary>
-            Semua studi desain
-          </Button>
-        </header>
-        <div className="project-grid">
-          {projects.slice(0, 2).map((project) => (
-            <ProjectCard key={project.id} project={project} onOpen={onOpen} />
-          ))}
-        </div>
-      </section>
-
-      <section className="section container" aria-labelledby="process-title">
-        <header className="section-heading" data-reveal>
-          <div>
-            <p className="eyebrow">// Proses</p>
-            <h2 id="process-title">Empat langkah, tanpa kejutan.</h2>
-          </div>
-          <Button secondary href="/layanan#proses">
-            Proses lengkap
-          </Button>
-        </header>
-        <ol className="steps">
-          {stages.map((stage) => (
-            <li key={stage.number} data-reveal>
-              <span className="bento-index">{stage.number}</span>
-              <h3>{stage.title}</h3>
-              <p>{stage.description}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="section container" aria-labelledby="team-title">
-        <header className="section-heading" data-reveal>
-          <div>
-            <p className="eyebrow">// Tim</p>
-            <h2 id="team-title">Orang di balik setiap baris kode.</h2>
-          </div>
-          <Button secondary href="/tentang">
-            Tentang kami
-          </Button>
-        </header>
-        <TeamGrid />
-      </section>
-
-      <section className="section container" aria-labelledby="pricing-title">
-        <header className="section-heading" data-reveal>
-          <div>
-            <p className="eyebrow">// Harga</p>
-            <h2 id="pricing-title">Paket yang transparan.</h2>
-          </div>
-          <p>
-            Harga awal sebagai gambaran. Penawaran akhir mengikuti jumlah
-            halaman, konten, dan fitur yang disepakati.
-          </p>
-        </header>
-        <div className="plans">
-          {plans.map((plan) => (
-            <article
-              className={`plan ${plan.featured ? 'is-featured' : ''}`}
-              key={plan.name}
-              data-reveal
-            >
-              {plan.featured && <span className="plan-badge">Populer</span>}
-              <h3>{plan.name}</h3>
-              <p>{plan.note}</p>
-              <p className="plan-price">
-                {plan.price !== 'Diskusi' && <small>Mulai </small>}
-                {plan.price}
-              </p>
-              <ul>
-                {plan.features.map((feature) => (
-                  <li key={feature}>{feature}</li>
-                ))}
-              </ul>
-              <a
-                className={`button ${plan.featured ? '' : 'button-ghost'}`}
-                href="/kontak"
-              >
-                Pilih {plan.name}
-              </a>
             </article>
           ))}
+          <div className="service-card-dark-wrap" data-reveal>
+            <a className="service-card service-card-dark" href="/kontak">
+              <span className="service-number">04</span>
+              <h3>Belum yakin yang mana?</h3>
+              <p>Ceritakan usaha Anda. Kami bantu memilih.</p>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section className="explorations" aria-labelledby="work-title">
+        <div className="container">
+          <header className="section-heading" data-reveal>
+            <div>
+              <p className="label">Eksplorasi</p>
+              <h2 id="work-title">Studi desain yang kami buat sendiri.</h2>
+              <p className="concept-note">
+                Ini eksplorasi, bukan proyek klien.
+              </p>
+            </div>
+            <Button href="/karya" secondary>
+              Semua studi desain
+            </Button>
+          </header>
+          <div className="project-fan">
+            {projects.map((project) => (
+              <ProjectCard key={project.id} project={project} onOpen={onOpen} />
+            ))}
+          </div>
         </div>
       </section>
 
       <section
-        className="section container"
-        aria-labelledby="testimonials-title"
+        className="section container process"
+        aria-labelledby="process-title"
       >
-        <header className="section-heading" data-reveal>
-          <div>
-            <p className="eyebrow">// Testimoni</p>
-            <h2 id="testimonials-title">Kata mereka.</h2>
-          </div>
-        </header>
-        <div className="quotes">
-          {testimonials.map((item) => (
-            <figure className="quote" key={item.business} data-reveal>
-              <blockquote>“{item.quote}”</blockquote>
-              <figcaption>
-                <strong>{item.name}</strong>
-                <span>{item.business}</span>
-              </figcaption>
+        <div className="process-cluster" data-reveal="media">
+          {photos.map(([src, alt, name]) => (
+            <figure className={`process-photo ${name}`} key={src}>
+              <img src={src} alt={alt} loading="lazy" />
             </figure>
           ))}
+        </div>
+        <div className="process-copy">
+          <header data-reveal>
+            <p className="label">Proses</p>
+            <h2 id="process-title">Jelas dari percakapan pertama.</h2>
+          </header>
+          <ol className="process-steps">
+            {stages.map((stage) => (
+              <li key={stage.number} data-reveal>
+                <span className="service-number">{stage.number}</span>
+                <div>
+                  <h3>{stage.title}</h3>
+                  <p>{stage.description}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section
+        className="section container home-faq"
+        aria-labelledby="home-faq-title"
+      >
+        <header data-reveal>
+          <p className="label">Pertanyaan umum</p>
+          <h2 id="home-faq-title">Yang sering ditanyakan.</h2>
+        </header>
+        <div className="faq-list" data-reveal>
+          {questions.map((item) => (
+            <details key={item.question}>
+              <summary>
+                {item.question}
+                <span className="faq-indicator" aria-hidden="true" />
+              </summary>
+              <p>{item.answer}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section className="container closing" aria-labelledby="closing-title">
+        <div className="closing-inner" data-reveal>
+          <h2 id="closing-title">
+            Ceritakan usaha Anda. Kami bantu susun websitenya.
+          </h2>
+          <Button href="/kontak">Hubungi kami</Button>
         </div>
       </section>
     </>

@@ -22,7 +22,7 @@ test('project studies support keyboard activation, modal focus, locking, Escape 
   await page.goto('/');
   await expect(
     page.getByRole('button', { name: /^Lihat studi desain/ }),
-  ).toHaveCount(2);
+  ).toHaveCount(3);
   const allStudies = page.getByRole('link', { name: 'Semua studi desain' });
   // The link is below the fold; let its scroll reveal finish before clicking.
   await allStudies.scrollIntoViewIfNeeded();

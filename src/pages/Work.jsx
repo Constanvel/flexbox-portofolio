@@ -5,7 +5,7 @@ export default function Work({ onOpen }) {
   return (
     <div className="container work-page">
       <header className="page-intro work-intro">
-        <p className="eyebrow">// Karya · 03 studi konsep</p>
+        <p className="eyebrow">Karya · 3 studi konsep</p>
         <LineTitle>Eksplorasi website.</LineTitle>
         <div className="work-description">
           <p>

@@ -16,16 +16,15 @@
   .button:is(:hover, :focus-visible) .button-arrow-track {
     transform: none;
   }
-  .project-open:is(:hover, :focus-visible) .project-cutout,
-  .bento-card:hover {
+  .project-open:is(:hover, :focus-visible) .project-cutout {
     transform: none;
   }
 }
 @media (forced-colors: active) {
   .button,
   .project-image,
-  .footer-panel,
-  .hero-preview {
+  .media-card,
+  .process-photo {
     border: 1px solid CanvasText;
   }
   .project-cutout .arrow {

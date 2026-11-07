@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 const routes = [
-  ['/', /Website modern\s*untuk usaha\s*yang tumbuh\./],
+  ['/', /Website yang jelas\s*untuk usaha Anda\./],
   ['/karya', 'Eksplorasi website.'],
   ['/layanan', 'Layanan yang jelas, hasil yang terukur.'],
   ['/tentang', 'Tim kecil, kerja yang rapi.'],
@@ -48,12 +48,12 @@ test('local fonts, all FAQ items and honest local contact preview', async ({
   await page.evaluate(() => document.fonts.ready);
   expect(
     await page.locator('h1').evaluate((el) => getComputedStyle(el).fontFamily),
-  ).toContain('Geist');
+  ).toContain('Figtree');
   expect(
     await page
       .locator('body')
       .evaluate((el) => getComputedStyle(el).fontFamily),
-  ).toContain('Geist');
+  ).toContain('Figtree');
   await page.goto('/layanan');
   await expect(page.locator('.service-editorial-row')).toHaveCount(3);
   await expect(page.locator('.support-stages > li')).toHaveCount(4);

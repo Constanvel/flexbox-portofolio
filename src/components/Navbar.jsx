@@ -11,20 +11,8 @@ export const navigation = [
 export function Brand() {
   return (
     <a className="brand" href="/" aria-label="Flexbox — Beranda">
-      <svg viewBox="0 0 48 48" width="35" height="35" aria-hidden="true">
-        <defs>
-          <linearGradient id="brand-g" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#2f8cff" />
-            <stop offset="1" stopColor="#22d3ee" />
-          </linearGradient>
-        </defs>
-        <path d="M5 14 24 3l19 11-19 11Z" fill="#e9eef5" />
-        <path d="m5 14 19 11v21L5 35Z" fill="#1b2433" />
-        <path d="m24 25 19-11v21L24 46Z" fill="url(#brand-g)" />
-      </svg>
-      <span>
-        Flexbox<span className="brand-dot">.</span>
-      </span>
+      <span className="brand-mark" aria-hidden="true" />
+      Flexbox
     </a>
   );
 }
@@ -100,13 +88,13 @@ export default function Navbar({ pathname, open, setOpen }) {
               href={href}
               aria-current={pathname === href ? 'page' : undefined}
             >
-              <span className="eyebrow">0{i + 1}</span>
+              <span className="menu-index">0{i + 1}</span>
               {label}
               <span aria-hidden="true">↗</span>
             </a>
           ))}
         </nav>
-        <p>Desain & pengembangan website.</p>
+        <p className="menu-note">Desain & pengembangan website.</p>
       </dialog>
     </>
   );

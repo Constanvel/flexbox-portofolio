@@ -105,81 +105,16 @@ export const titles = {
   notFound: 'Halaman ini tidak ditemukan',
 };
 
-// Data contoh: ganti dengan data tim asli.
-export const team = [
-  { name: 'Rainer', role: 'Lead Developer', focus: 'Arsitektur & performa' },
-  { name: 'Anggota 2', role: 'UI/UX Designer', focus: 'Riset & antarmuka' },
-  { name: 'Anggota 3', role: 'Frontend Developer', focus: 'React & animasi' },
-  { name: 'Anggota 4', role: 'Backend Developer', focus: 'API & database' },
-];
-
-// Harga contoh: ganti dengan harga asli.
-export const plans = [
+// Peran di tim. Nama anggota sengaja tidak ditampilkan sampai datanya final.
+export const roles = [
   {
-    name: 'Starter',
-    price: 'Rp1,5 jt',
-    note: 'Untuk usaha yang baru online.',
-    features: [
-      'Landing page 1 halaman',
-      'Desain responsif',
-      'Tombol WhatsApp & peta',
-      '2x revisi',
-    ],
+    role: 'Pengembangan',
+    focus: 'Arsitektur, performa, dan kode yang mudah dirawat.',
   },
   {
-    name: 'Bisnis',
-    price: 'Rp4 jt',
-    note: 'Paling sering dipilih UMKM.',
-    featured: true,
-    features: [
-      'Hingga 6 halaman',
-      'Katalog produk/layanan',
-      'SEO dasar & Google Maps',
-      'Bantuan 30 hari setelah tayang',
-    ],
+    role: 'Desain antarmuka',
+    focus: 'Susunan informasi, riset kebutuhan, dan tampilan.',
   },
-  {
-    name: 'Custom',
-    price: 'Diskusi',
-    note: 'Untuk kebutuhan fitur khusus.',
-    features: [
-      'Fitur sesuai kebutuhan',
-      'Panel admin / dashboard',
-      'Integrasi sistem lain',
-      'Pemeliharaan berkala',
-    ],
-  },
-];
-
-// Testimoni contoh: ganti dengan testimoni klien asli.
-export const testimonials = [
-  {
-    quote:
-      'Prosesnya jelas dari awal. Sekarang pelanggan bisa lihat menu dan langsung pesan lewat WhatsApp.',
-    name: 'Nama Klien',
-    business: 'Kedai kopi · Contoh',
-  },
-  {
-    quote:
-      'Katalog kami jadi rapi dan mudah diperbarui. Pertanyaan berulang dari pembeli berkurang.',
-    name: 'Nama Klien',
-    business: 'Toko furnitur · Contoh',
-  },
-  {
-    quote:
-      'Tampilannya modern dan cepat dibuka di HP. Tim responsif setiap kali ada revisi.',
-    name: 'Nama Klien',
-    business: 'Studio foto · Contoh',
-  },
-];
-
-export const stack = [
-  'React',
-  'Next.js',
-  'Vite',
-  'Tailwind CSS',
-  'Node.js',
-  'Laravel',
-  'WordPress',
-  'Figma',
+  { role: 'Frontend', focus: 'Halaman responsif dan interaksi yang ringan.' },
+  { role: 'Backend', focus: 'Formulir, data, dan integrasi bila dibutuhkan.' },
 ];
