@@ -22,10 +22,10 @@ const pathname = window.location.pathname.replace(/\/$/, '') || '/';
 if (pathname === '/' && legacy[window.location.hash.slice(1)])
   window.location.replace(legacy[window.location.hash.slice(1)]);
 const titles = {
-  '/': 'Website untuk usaha Anda',
+  '/': 'Website modern untuk usaha Anda',
   '/karya': 'Eksplorasi website',
   '/layanan': 'Layanan & cara kerja',
-  '/tentang': 'Pendekatan Flexbox',
+  '/tentang': 'Tim Flexbox',
   '/kontak': 'Mari bahas website Anda',
 };
 export default function App() {

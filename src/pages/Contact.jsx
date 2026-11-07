@@ -20,7 +20,7 @@ export default function Contact() {
   return (
     <div className="support-page contact-page">
       <header className="container page-intro support-intro" data-reveal>
-        <p className="eyebrow">Kontak / Flexbox</p>
+        <p className="eyebrow">// Kontak</p>
         <h1>{titles.contact}</h1>
         <p>
           Ceritakan usaha, kebutuhan website, dan perkiraan waktu pengerjaan.
@@ -32,7 +32,7 @@ export default function Contact() {
         aria-labelledby="contact-form-title"
       >
         <aside className="contact-context" data-reveal>
-          <p className="eyebrow">Siapkan percakapan</p>
+          <p className="eyebrow">// Siapkan percakapan</p>
           <h2 id="contact-form-title">Mulai dengan cerita singkat.</h2>
           <p>
             Agar kebutuhan Anda lebih mudah dipahami, Anda bisa menyertakan:

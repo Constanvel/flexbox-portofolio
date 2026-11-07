@@ -20,13 +20,12 @@ Catatan pengembangan, bukan nasihat hukum. Versi pasti terdapat dalam `package-l
 
 ## Font lokal
 
-Bricolage Grotesque dan Hanken Grotesk didistribusikan melalui paket `@fontsource-variable/bricolage-grotesque` dan `@fontsource-variable/hanken-grotesk` (versi dalam lockfile), dengan SIL Open Font License 1.1. WOFF2 dibundel lokal oleh Vite; tidak memakai Google Fonts saat runtime.
+Geist dan Geist Mono didistribusikan melalui paket `@fontsource-variable/geist` dan `@fontsource-variable/geist-mono` (versi dalam lockfile), dengan SIL Open Font License 1.1. WOFF2 dibundel lokal oleh Vite; tidak memakai Google Fonts saat runtime.
 
-- https://github.com/google/fonts/tree/main/ofl/bricolagegrotesque
-- https://github.com/google/fonts/tree/main/ofl/hankengrotesk
+- https://github.com/vercel/geist-font
 
 Salinan teks lisensi dari paket yang terpasang disertakan di `public/licenses/`, ikut tersalin ke build produksi.
 
 ## Visual dan referensi
 
-Ilustrasi kartu dan kubus dibuat di source demo ini menggunakan CSS/SVG. Palet dasar mengikuti CSS situs referensi screenshot pengguna. MadeByShape/Humaan menjadi inspirasi arah interaksi, bukan sumber kode, foto, identitas, atau proyek yang disalin.
+Ilustrasi kartu dan kubus dibuat di source demo ini menggunakan CSS/SVG. Palet gelap dengan aksen biru listrik/cyan. MadeByShape/Humaan menjadi inspirasi arah interaksi, bukan sumber kode, foto, identitas, atau proyek yang disalin.

@@ -58,7 +58,7 @@ Blue text adalah adaptasi aksesibilitas, bukan HEX yang diklaim berasal dari scr
 - `src/main.jsx`: tampilan React, karya konsep, dialog, navigasi, GSAP/Lenis.
 - `src/styles.css`: token, responsif, ilustrasi CSS, motion dan fallback.
 - `src/PageSections.jsx` dan `src/sections.css`: layanan, proses, tim, FAQ, formulir pratinjau, footer.
-- Font: Bricolage Grotesque Variable untuk judul dan Hanken Grotesk Variable untuk isi, dibundel lokal melalui Fontsource.
+- Font: Geist Variable untuk judul & isi, Geist Mono untuk label teknis, dibundel lokal melalui Fontsource.
 - `src/motion-policy.js`: aturan motion dan pemetaan tujuan keyboard.
 - `tests/motion-policy.test.js`: unit test Node.
 - `tests/browser/demo.spec.js`: uji Chromium desktop/mobile emulasi/reduced-motion dan axe.
@@ -75,7 +75,7 @@ Blue text adalah adaptasi aksesibilitas, bukan HEX yang diklaim berasal dari scr
 
 ## Batas dan privasi
 
-**Bricolage Grotesque** dan **Hanken Grotesk** dimuat dari file WOFF2 lokal yang dibundel Vite melalui Fontsource, dengan fallback Arial. Tidak ada permintaan Google Fonts, analytics, atau pengiriman formulir. Pratinjau pesan hanya berada dalam state React dan hilang saat reload; jangan masukkan data sensitif ke demo.
+**Geist** dan **Geist Mono** dimuat dari file WOFF2 lokal yang dibundel Vite melalui Fontsource, dengan fallback Arial. Tidak ada permintaan Google Fonts, analytics, atau pengiriman formulir. Pratinjau pesan hanya berada dalam state React dan hilang saat reload; jangan masukkan data sensitif ke demo.
 
 Ilustrasi memakai CSS/SVG; tidak ada foto atau aset proyek pihak lain. Sebelum publikasi, ganti konten konsep dengan karya berizin, lengkapi identitas/kontak nyata, audit legal dependency, dan lakukan pengujian lintas perangkat.
 

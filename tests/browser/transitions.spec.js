@@ -9,9 +9,9 @@ test('study preview switches sizes and card cutout responds to hover', async ({
     .getByRole('button', { name: /^Lihat studi desain/ })
     .first();
   await card.hover();
-  await expect(card.locator('.project-cutout')).toHaveCSS(
-    'padding-top',
-    '18px',
+  await expect(card.locator('.project-cutout')).not.toHaveCSS(
+    'transform',
+    'none',
   );
   await card.click();
   const dialog = page.getByRole('dialog', {

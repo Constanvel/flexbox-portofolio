@@ -16,9 +16,9 @@
   .button:is(:hover, :focus-visible) .button-arrow-track {
     transform: none;
   }
-  .project-open:is(:hover, :focus-visible) .project-cutout {
-    padding: 5px 0 0 5px;
-    border-top-left-radius: 16px;
+  .project-open:is(:hover, :focus-visible) .project-cutout,
+  .bento-card:hover {
+    transform: none;
   }
 }
 @media (forced-colors: active) {

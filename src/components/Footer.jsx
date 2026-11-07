@@ -9,9 +9,9 @@ export default function Footer({ scrollTo }) {
         </button>
         <div className="footer-main">
           <div>
-            <p className="eyebrow">Mulai dari kebutuhan Anda</p>
-            <h2>Sedang merencanakan website?</h2>
-            <Button href="/kontak">Diskusikan proyek</Button>
+            <p className="eyebrow">// Siap mulai?</p>
+            <h2>Bangun website yang bekerja untuk usaha Anda.</h2>
+            <Button href="/kontak">Konsultasi gratis</Button>
           </div>
           <nav aria-label="Navigasi footer">
             {navigation.map(([href, label]) => (
@@ -25,7 +25,7 @@ export default function Footer({ scrollTo }) {
           <a className="footer-wordmark" href="/">
             Flexbox.
           </a>
-          <p>Desain yang jelas. Pengembangan yang terarah.</p>
+          <p>Tim pengembang website untuk UMKM.</p>
           <span>© {new Date().getFullYear()} Flexbox</span>
         </div>
       </div>

@@ -1,57 +1,156 @@
 import projects from '../data/projects';
-import { services } from '../data/content';
+import {
+  services,
+  stages,
+  team,
+  plans,
+  testimonials,
+  stack,
+} from '../data/content';
 import Button from '../components/Button';
 import LineTitle from '../components/LineTitle';
 import ProjectPreview from '../components/previews/ProjectPreview';
 import ProjectCard from '../components/ProjectCard';
+
+const initials = (name) =>
+  name
+    .split(' ')
+    .map((word) => word[0])
+    .join('')
+    .slice(0, 2);
+
+export function TeamGrid() {
+  return (
+    <div className="team-grid">
+      {team.map((member) => (
+        <article className="team-card" key={member.name} data-reveal>
+          <span className="team-avatar" aria-hidden="true">
+            {initials(member.name)}
+          </span>
+          <h3>{member.name}</h3>
+          <p className="team-role">{member.role}</p>
+          <p>{member.focus}</p>
+        </article>
+      ))}
+    </div>
+  );
+}
+
 export default function Home({ onOpen }) {
   return (
     <>
       <section className="hero container">
         <div className="hero-copy">
-          <p className="eyebrow">Desain & pengembangan website</p>
+          <p className="status-pill">
+            <span className="status-dot" aria-hidden="true" />
+            Menerima proyek baru
+          </p>
           <LineTitle
-            lines={['Usaha Anda,', 'diperkenalkan', 'dengan jelas.']}
+            lines={['Website modern', 'untuk usaha', 'yang tumbuh.']}
           />
           <div data-hero-support>
             <p className="hero-description">
-              Flexbox merancang dan membangun website bisnis, katalog produk,
-              dan antarmuka digital—dari struktur konten hingga tampilan yang
-              nyaman digunakan di ponsel.
+              Flexbox adalah tim pengembang yang merancang dan membangun website
+              cepat, rapi, dan nyaman di ponsel—untuk UMKM dan usaha lokal yang
+              ingin lebih mudah ditemukan pelanggan.
             </p>
             <div className="hero-actions">
-              <Button href="/karya">Lihat eksplorasi</Button>
-              <Button href="/kontak" secondary>
-                Diskusikan proyek
+              <Button href="/kontak">Mulai proyek</Button>
+              <Button href="/karya" secondary>
+                Lihat karya
               </Button>
             </div>
+            <dl className="hero-stats">
+              <div>
+                <dt>Tim</dt>
+                <dd>{team.length} developer</dd>
+              </div>
+              <div>
+                <dt>Pendekatan</dt>
+                <dd>Mobile-first</dd>
+              </div>
+              <div>
+                <dt>Komunikasi</dt>
+                <dd>Langsung 1:1</dd>
+              </div>
+            </dl>
           </div>
         </div>
         <div className="hero-visual" data-hero-visual>
-          <div className="hero-preview">
-            <ProjectPreview project={projects[0]} />
+          <div className="browser">
+            <div className="browser-bar" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+              <code>usaha-anda.id</code>
+            </div>
+            <div className="hero-preview">
+              <ProjectPreview project={projects[0]} />
+            </div>
           </div>
-          <div className="hero-visual-caption">
-            <span className="eyebrow">01 / Studi konsep</span>
-            <span>Profil bisnis usaha lokal</span>
-          </div>
+          <p className="hero-chip hero-chip-a">
+            <span aria-hidden="true">⚡</span> Cepat dimuat
+          </p>
+          <p className="hero-chip hero-chip-b">
+            <span aria-hidden="true">📱</span> Responsif
+          </p>
         </div>
-        <div className="hero-foot">
-          <span>Struktur konten. Desain. Pengembangan.</span>
-          <a href="/layanan">
-            Kenali layanan kami <span aria-hidden="true">↗</span>
+      </section>
+
+      <section className="container stack" aria-labelledby="stack-title">
+        <p className="eyebrow" id="stack-title">
+          Teknologi yang kami pakai
+        </p>
+        <ul>
+          {stack.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="section container" aria-labelledby="services-title">
+        <header className="section-heading" data-reveal>
+          <div>
+            <p className="eyebrow">// Layanan</p>
+            <h2 id="services-title">Yang bisa kami bangun untuk Anda.</h2>
+          </div>
+          <Button href="/layanan" secondary>
+            Detail layanan
+          </Button>
+        </header>
+        <div className="bento">
+          {services.map((service) => (
+            <a
+              className="bento-card"
+              href="/layanan"
+              key={service.title}
+              data-reveal
+            >
+              <span className="bento-index">{service.number}</span>
+              <h3>{service.title}</h3>
+              <p>{service.audience}</p>
+              <ul>
+                {service.deliverables.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </a>
+          ))}
+          <a className="bento-card bento-cta" href="/kontak" data-reveal>
+            <h3>Punya kebutuhan lain?</h3>
+            <p>Ceritakan idenya, kita cari bentuk website yang paling pas.</p>
+            <span className="text-link">
+              Konsultasi gratis <span className="arrow">↗</span>
+            </span>
           </a>
         </div>
       </section>
-      <section className="section container">
+
+      <section className="section container" aria-labelledby="work-title">
         <header className="section-heading" data-reveal>
           <div>
-            <p className="eyebrow">Pilihan eksplorasi</p>
-            <h2>
-              Bentuk berbeda.
-              <br />
-              Kebutuhan yang spesifik.
-            </h2>
+            <p className="eyebrow">// Karya</p>
+            <h2 id="work-title">Eksplorasi desain terbaru.</h2>
           </div>
           <Button href="/karya" secondary>
             Semua studi desain
@@ -63,82 +162,102 @@ export default function Home({ onOpen }) {
           ))}
         </div>
       </section>
-      <section className="section container home-services">
+
+      <section className="section container" aria-labelledby="process-title">
         <header className="section-heading" data-reveal>
           <div>
-            <p className="eyebrow">Layanan Flexbox</p>
-            <h2>
-              Mulai dari yang
-              <br />
-              Anda butuhkan.
-            </h2>
-          </div>
-          <p>
-            Website baru atau pembaruan yang sudah ada. Lingkup pekerjaan
-            disusun berdasarkan tujuan dan kesiapan materi Anda.
-          </p>
-        </header>
-        <div>
-          {services.map((service, index) => (
-            <a
-              className="home-service"
-              href="/layanan"
-              key={service.title}
-              data-reveal
-            >
-              <span className="eyebrow">0{index + 1}</span>
-              <h3>{service.title}</h3>
-              <span>{service.audience}</span>
-              <span aria-hidden="true">↗</span>
-            </a>
-          ))}
-        </div>
-      </section>
-      <section className="section container">
-        <header className="section-heading" data-reveal>
-          <div>
-            <p className="eyebrow">Cara kerja</p>
-            <h2>Jelas di setiap tahap.</h2>
+            <p className="eyebrow">// Proses</p>
+            <h2 id="process-title">Empat langkah, tanpa kejutan.</h2>
           </div>
           <Button secondary href="/layanan#proses">
-            Lihat proses lengkap
+            Proses lengkap
           </Button>
         </header>
-        <ol className="home-process" data-reveal>
-          {[
-            [
-              'Pahami kebutuhan',
-              'Tentukan tujuan website, pengguna, dan informasi yang perlu disampaikan.',
-            ],
-            [
-              'Rancang struktur',
-              'Susun halaman dan arah visual sebelum masuk ke pengembangan.',
-            ],
-            [
-              'Bangun dan uji',
-              'Kembangkan desain, tinjau bersama, lalu periksa fungsi dan tampilan.',
-            ],
-          ].map(([title, copy], i) => (
-            <li key={title}>
-              <span className="eyebrow">0{i + 1}</span>
-              <h3>{title}</h3>
-              <p>{copy}</p>
+        <ol className="steps">
+          {stages.map((stage) => (
+            <li key={stage.number} data-reveal>
+              <span className="bento-index">{stage.number}</span>
+              <h3>{stage.title}</h3>
+              <p>{stage.description}</p>
             </li>
           ))}
         </ol>
       </section>
-      <section className="section container home-about" data-reveal>
-        <p className="eyebrow">Pendekatan Flexbox</p>
-        <div>
-          <h2>Keputusan desain dimulai dari kebutuhan, bukan efek.</h2>
-          <p>
-            Kami menyusun informasi, merancang antarmuka, dan membangun website
-            sebagai satu proses. Setiap pilihan perlu punya alasan yang dapat
-            dibahas bersama.
-          </p>
+
+      <section className="section container" aria-labelledby="team-title">
+        <header className="section-heading" data-reveal>
+          <div>
+            <p className="eyebrow">// Tim</p>
+            <h2 id="team-title">Orang di balik setiap baris kode.</h2>
+          </div>
           <Button secondary href="/tentang">
-            Kenali pendekatan kami
+            Tentang kami
           </Button>
+        </header>
+        <TeamGrid />
+      </section>
+
+      <section className="section container" aria-labelledby="pricing-title">
+        <header className="section-heading" data-reveal>
+          <div>
+            <p className="eyebrow">// Harga</p>
+            <h2 id="pricing-title">Paket yang transparan.</h2>
+          </div>
+          <p>
+            Harga awal sebagai gambaran. Penawaran akhir mengikuti jumlah
+            halaman, konten, dan fitur yang disepakati.
+          </p>
+        </header>
+        <div className="plans">
+          {plans.map((plan) => (
+            <article
+              className={`plan ${plan.featured ? 'is-featured' : ''}`}
+              key={plan.name}
+              data-reveal
+            >
+              {plan.featured && <span className="plan-badge">Populer</span>}
+              <h3>{plan.name}</h3>
+              <p>{plan.note}</p>
+              <p className="plan-price">
+                {plan.price !== 'Diskusi' && <small>Mulai </small>}
+                {plan.price}
+              </p>
+              <ul>
+                {plan.features.map((feature) => (
+                  <li key={feature}>{feature}</li>
+                ))}
+              </ul>
+              <a
+                className={`button ${plan.featured ? '' : 'button-ghost'}`}
+                href="/kontak"
+              >
+                Pilih {plan.name}
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section
+        className="section container"
+        aria-labelledby="testimonials-title"
+      >
+        <header className="section-heading" data-reveal>
+          <div>
+            <p className="eyebrow">// Testimoni</p>
+            <h2 id="testimonials-title">Kata mereka.</h2>
+          </div>
+        </header>
+        <div className="quotes">
+          {testimonials.map((item) => (
+            <figure className="quote" key={item.business} data-reveal>
+              <blockquote>“{item.quote}”</blockquote>
+              <figcaption>
+                <strong>{item.name}</strong>
+                <span>{item.business}</span>
+              </figcaption>
+            </figure>
+          ))}
         </div>
       </section>
     </>
