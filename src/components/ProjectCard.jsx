@@ -18,7 +18,10 @@ export default function ProjectCard({ project, onOpen, featured = false }) {
           </span>
         </span>
         <span className="project-meta">
-          <span className="eyebrow">Studi konsep · {project.type}</span>
+          <span className="eyebrow">
+            <span className="project-code">{project.code}</span> ·{' '}
+            {project.type}
+          </span>
           <span className="project-card-title">{project.name}</span>
           <span className="project-summary">{project.summary}</span>
           <span className="text-link">

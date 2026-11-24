@@ -52,12 +52,32 @@ export default function Home({ onOpen }) {
               </div>
               <div className="hero-preview">
                 <ProjectPreview project={projects[0]} />
+                {projects[0].annotations.map((note, i) => (
+                  <span
+                    className="fig-pin"
+                    key={note.text}
+                    style={{ left: `${note.x}%`, top: `${note.y}%` }}
+                    aria-hidden="true"
+                  >
+                    {i + 1}
+                  </span>
+                ))}
               </div>
             </div>
             <div className="device-phone">
               <ProjectPreview project={projects[0]} mobile />
             </div>
-            <figcaption>Studi konsep · {projects[0].name}</figcaption>
+            <figcaption>
+              <span className="fig-title">
+                <span className="project-code">Fig. 01</span> Studi konsep ·{' '}
+                {projects[0].name}
+              </span>
+              <ol className="fig-notes">
+                {projects[0].annotations.map((note) => (
+                  <li key={note.text}>{note.text}</li>
+                ))}
+              </ol>
+            </figcaption>
           </figure>
         </div>
       </section>
@@ -76,7 +96,9 @@ export default function Home({ onOpen }) {
           />
         </figure>
         <div className="studio-copy" data-reveal>
-          <p className="label">Tentang studio</p>
+          <p className="label" data-index="01">
+            Tentang studio
+          </p>
           <h2 id="studio-title">
             Untuk kedai, toko, dan jasa yang ingin mudah ditemukan.
           </h2>
@@ -97,7 +119,9 @@ export default function Home({ onOpen }) {
       >
         <header className="section-heading" data-reveal>
           <div>
-            <p className="label">Layanan</p>
+            <p className="label" data-index="02">
+              Layanan
+            </p>
             <h2 id="services-title">Tiga cara kami membantu.</h2>
           </div>
           <Button href="/layanan" secondary>
@@ -126,7 +150,9 @@ export default function Home({ onOpen }) {
         <div className="container">
           <header className="section-heading" data-reveal>
             <div>
-              <p className="label">Eksplorasi</p>
+              <p className="label" data-index="03">
+                Eksplorasi
+              </p>
               <h2 id="work-title">Studi desain yang kami buat sendiri.</h2>
               <p className="concept-note">
                 Ini eksplorasi, bukan proyek klien.
@@ -157,7 +183,9 @@ export default function Home({ onOpen }) {
         </div>
         <div className="process-copy">
           <header data-reveal>
-            <p className="label">Proses</p>
+            <p className="label" data-index="04">
+              Proses
+            </p>
             <h2 id="process-title">Jelas dari percakapan pertama.</h2>
           </header>
           <ol className="process-steps">
@@ -179,7 +207,9 @@ export default function Home({ onOpen }) {
         aria-labelledby="home-faq-title"
       >
         <header data-reveal>
-          <p className="label">Pertanyaan umum</p>
+          <p className="label" data-index="05">
+            Pertanyaan umum
+          </p>
           <h2 id="home-faq-title">Yang sering ditanyakan.</h2>
         </header>
         <div className="faq-list" data-reveal>

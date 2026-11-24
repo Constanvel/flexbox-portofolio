@@ -29,6 +29,7 @@
   --color-scrim: rgba(22, 24, 29, 0.6);
 
   --font-primary: 'Figtree', sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Consolas, monospace;
 
   --text-display: clamp(4rem, 1rem + 13vw, 13rem);
   --text-h1: clamp(2.75rem, 1.6rem + 4.2vw, 5.25rem);
@@ -150,6 +151,19 @@ button {
   width: 8px;
   height: 8px;
   background: currentColor;
+}
+/* Numbered section labels: [01] Layanan. */
+.label[data-index]::before {
+  content: '[' attr(data-index) ']';
+  width: auto;
+  height: auto;
+  background: none;
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+}
+.project-code {
+  font-family: var(--font-mono);
+  letter-spacing: 0;
 }
 .skip-link {
   position: fixed;
@@ -326,11 +340,13 @@ button {
 .header nav a[aria-current='page'] {
   color: var(--color-text);
 }
-.header nav a[aria-current='page']::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  background: var(--color-text);
+.nav-index {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+}
+.header nav a[aria-current='page'] .nav-index {
+  color: var(--color-accent-text);
 }
 @media (hover: hover) and (pointer: fine) {
   .header nav a:hover {
@@ -461,13 +477,84 @@ button {
 }
 
 /* ---------- Project cards ---------- */
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+/* Karya gallery: CSS flexbox, switchable between wrap / row / column. */
+.flex-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+.flex-toggle-prop {
+  margin-right: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  color: var(--color-text-muted);
+}
+.flex-toggle button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--color-control-border);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--text-small);
+  font-weight: 600;
+  cursor: pointer;
+}
+.flex-toggle code {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--color-accent-text);
+}
+.flex-toggle button[aria-pressed='true'] {
+  border-color: var(--color-text);
+  background: var(--color-text);
+  color: var(--color-surface);
+}
+.flex-toggle button[aria-pressed='true'] code {
+  color: var(--color-accent-hover);
+}
+.project-flex {
+  display: flex;
   gap: 24px;
 }
-.project-card.is-featured {
-  grid-column: 1 / -1;
+.project-flex .project-card {
+  min-width: 0;
+}
+.project-flex[data-layout='wrap'] {
+  flex-wrap: wrap;
+}
+.project-flex[data-layout='wrap'] .project-card {
+  flex: 1 1 calc(50% - 12px);
+}
+.project-flex[data-layout='wrap'] .is-featured {
+  flex-basis: 100%;
+}
+.project-flex[data-layout='row'] {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 4px 4px 24px;
+  margin-inline: -4px;
+}
+.project-flex[data-layout='row'] .project-card {
+  flex: 0 0 min(78%, 520px);
+  scroll-snap-align: start;
+}
+.project-flex[data-layout='column'] {
+  flex-direction: column;
+}
+.project-flex[data-layout='column'] .project-open {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.project-flex[data-layout='column'] .project-image {
+  flex: 0 0 42%;
 }
 .project-open {
   display: flex;
@@ -531,8 +618,12 @@ button {
   margin-top: 6px;
 }
 @media (max-width: 760px) {
-  .project-grid {
-    grid-template-columns: 1fr;
+  .project-flex[data-layout='wrap'] .project-card {
+    flex-basis: 100%;
+  }
+  .project-flex[data-layout='column'] .project-open {
+    flex-direction: column;
+    align-items: stretch;
   }
   .section-heading {
     flex-direction: column;

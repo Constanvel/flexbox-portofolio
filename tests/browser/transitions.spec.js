@@ -75,3 +75,21 @@ test('mobile menu animates without overriding reduced motion', async ({
   await expect(menu).toHaveCSS('transition-duration', '0s');
   await expect(menu).toHaveCSS('opacity', '1');
 });
+
+test('karya flex toggle re-flows the gallery and keeps one option pressed', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/karya');
+  const gallery = page.getByRole('region', { name: 'Studi desain' });
+  const toggle = page.getByRole('group', { name: 'Tata letak karya' });
+  await expect(gallery).toHaveAttribute('data-layout', 'wrap');
+  for (const value of ['row', 'column', 'wrap']) {
+    await toggle.getByRole('button', { name: new RegExp(value) }).click();
+    await expect(gallery).toHaveAttribute('data-layout', value);
+    await expect(toggle.getByRole('button', { pressed: true })).toHaveCount(1);
+  }
+  await expect(
+    page.getByRole('button', { name: /^Lihat studi desain/ }),
+  ).toHaveCount(3);
+});

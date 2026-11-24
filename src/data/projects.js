@@ -1,6 +1,7 @@
 export const projects = [
   {
     id: 'profil-bisnis',
+    code: 'FBX-01',
     name: 'Profil bisnis usaha lokal',
     type: 'Website bisnis',
     summary:
@@ -13,9 +14,16 @@ export const projects = [
       'Ajakan konsultasi ditempatkan dekat penjelasan manfaat, bukan memenuhi seluruh halaman.',
     ],
     kind: 'business',
+    // Titik anotasi di mockup hero; x/y dalam persen dari pratinjau desktop.
+    annotations: [
+      { x: 37, y: 6, text: 'Navigasi ringkas, tiga menu saja' },
+      { x: 43, y: 29, text: 'Judul langsung menjelaskan usaha' },
+      { x: 26, y: 57, text: 'Ajakan konsultasi dekat manfaat' },
+    ],
   },
   {
     id: 'katalog-produk',
+    code: 'FBX-02',
     name: 'Katalog produk',
     type: 'Katalog digital',
     summary:
@@ -31,6 +39,7 @@ export const projects = [
   },
   {
     id: 'panel-katalog',
+    code: 'FBX-03',
     name: 'Panel pengelolaan katalog',
     type: 'Dashboard administrasi',
     summary:

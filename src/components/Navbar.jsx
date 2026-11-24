@@ -29,12 +29,15 @@ export default function Navbar({ pathname, open, setOpen }) {
         <div className="nav-inner">
           <Brand />
           <nav aria-label="Navigasi utama">
-            {navigation.slice(1, 4).map(([href, label]) => (
+            {navigation.slice(1, 4).map(([href, label], i) => (
               <a
                 key={href}
                 href={href}
                 aria-current={pathname === href ? 'page' : undefined}
               >
+                <span className="nav-index" aria-hidden="true">
+                  0{i + 1}
+                </span>
                 {label}
               </a>
             ))}

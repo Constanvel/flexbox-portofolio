@@ -59,7 +59,10 @@ export default function ProjectDialog({ project, onClose, reduced, trigger }) {
       }}
     >
       <div className="study-top">
-        <span className="eyebrow">Studi konsep · Bukan proyek klien</span>
+        <span className="eyebrow">
+          <span className="project-code">{project.code}</span> · Studi konsep ·
+          Bukan proyek klien
+        </span>
         <button
           className="close-button"
           onClick={close}
@@ -85,7 +88,7 @@ export default function ProjectDialog({ project, onClose, reduced, trigger }) {
       <div className="study-preview">
         <div className="preview-toolbar">
           <p className="eyebrow" id="preview-label">
-            01 / Tampilan responsif
+            Fig. 01 — Tampilan responsif
           </p>
           <div
             className="preview-switch"
@@ -131,11 +134,11 @@ export default function ProjectDialog({ project, onClose, reduced, trigger }) {
       </div>
       <div className="study-details">
         <div>
-          <p className="eyebrow">02 / Tampilan mobile</p>
+          <p className="eyebrow">Fig. 02 — Tampilan mobile</p>
           <ProjectPreview project={project} mobile />
         </div>
         <section>
-          <p className="eyebrow">03 / Pertimbangan desain</p>
+          <p className="eyebrow">Fig. 03 — Pertimbangan desain</p>
           <h3>Keputusan di balik tampilannya.</h3>
           <ol>
             {project.decisions.map((reason) => (
