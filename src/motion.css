@@ -24,7 +24,8 @@
   .button,
   .project-image,
   .media-card,
-  .process-photo {
+  .device-laptop,
+  .device-phone {
     border: 1px solid CanvasText;
   }
   .project-cutout .arrow {

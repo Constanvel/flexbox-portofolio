@@ -3,22 +3,16 @@ import { services, stages, questions } from '../data/content';
 import LineTitle from '../components/LineTitle';
 import Button from '../components/Button';
 import ProjectCard from '../components/ProjectCard';
+import ProjectPreview from '../components/previews/ProjectPreview';
 
 const photos = [
   [
-    '/images/process-meeting.jpg',
-    'Beberapa orang bekerja bersama di depan laptop',
-    'is-meeting',
+    '/images/process-phone.jpg',
+    'Tangan mengetik di laptop dengan ponsel di sampingnya',
   ],
   [
     '/images/process-sketch.jpg',
     'Dinding penuh catatan tulisan tangan di atas meja kerja',
-    'is-sketch',
-  ],
-  [
-    '/images/process-phone.jpg',
-    'Tangan mengetik di laptop dengan ponsel di sampingnya',
-    'is-phone',
   ],
 ];
 
@@ -27,26 +21,44 @@ export default function Home({ onOpen }) {
     <>
       <section className="hero" aria-labelledby="hero-title">
         <div className="container hero-inner">
-          <p className="label" data-hero-support>
-            Flexbox · Studio website untuk UMKM
-          </p>
-          <LineTitle
-            id="hero-title"
-            lines={['Website yang jelas', 'untuk usaha Anda.']}
-          />
-          <div className="hero-foot" data-hero-support>
-            <p>
-              Kami menyusun informasi usaha Anda menjadi website yang mudah
-              dibaca, cepat dibuka di ponsel, dan memudahkan pelanggan
-              menghubungi Anda.
+          <div className="hero-copy">
+            <p className="label" data-hero-support>
+              Flexbox · Studio website untuk UMKM
             </p>
-            <div className="hero-actions">
-              <Button href="/kontak">Hubungi kami</Button>
-              <a className="button-outline" href="/karya">
-                Lihat eksplorasi
-              </a>
+            <LineTitle
+              id="hero-title"
+              lines={['Website yang jelas', 'untuk usaha Anda.']}
+            />
+            <div className="hero-foot" data-hero-support>
+              <p>
+                Kami menyusun informasi usaha Anda menjadi website yang mudah
+                dibaca, cepat dibuka di ponsel, dan memudahkan pelanggan
+                menghubungi Anda.
+              </p>
+              <div className="hero-actions">
+                <Button href="/kontak">Hubungi kami</Button>
+                <a className="button-outline" href="/karya">
+                  Lihat eksplorasi
+                </a>
+              </div>
             </div>
           </div>
+          <figure className="hero-visual" data-hero-visual>
+            <div className="device-laptop">
+              <div className="device-bar" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </div>
+              <div className="hero-preview">
+                <ProjectPreview project={projects[0]} />
+              </div>
+            </div>
+            <div className="device-phone">
+              <ProjectPreview project={projects[0]} mobile />
+            </div>
+            <figcaption>Studi konsep · {projects[0].name}</figcaption>
+          </figure>
         </div>
       </section>
 
@@ -56,10 +68,10 @@ export default function Home({ onOpen }) {
       >
         <figure className="studio-media media-card" data-reveal="media">
           <img
-            src="/images/studio-workspace.jpg"
-            alt="Meja dan kursi di dekat jendela lengkung sebuah kafe kecil"
-            width="1536"
-            height="2048"
+            src="/images/process-meeting.jpg"
+            alt="Beberapa orang bekerja bersama di depan laptop"
+            width="2048"
+            height="1536"
             loading="lazy"
           />
         </figure>
@@ -136,9 +148,9 @@ export default function Home({ onOpen }) {
         className="section container process"
         aria-labelledby="process-title"
       >
-        <div className="process-cluster" data-reveal="media">
-          {photos.map(([src, alt, name]) => (
-            <figure className={`process-photo ${name}`} key={src}>
+        <div className="process-media" data-reveal="media">
+          {photos.map(([src, alt]) => (
+            <figure className="media-card" key={src}>
               <img src={src} alt={alt} loading="lazy" />
             </figure>
           ))}
@@ -185,9 +197,14 @@ export default function Home({ onOpen }) {
 
       <section className="container closing" aria-labelledby="closing-title">
         <div className="closing-inner" data-reveal>
+          <p className="label">Mulai sekarang</p>
           <h2 id="closing-title">
             Ceritakan usaha Anda. Kami bantu susun websitenya.
           </h2>
+          <p>
+            Tidak perlu brief lengkap. Cerita singkat tentang usaha Anda sudah
+            cukup.
+          </p>
           <Button href="/kontak">Hubungi kami</Button>
         </div>
       </section>

@@ -118,3 +118,11 @@ export const roles = [
   { role: 'Frontend', focus: 'Halaman responsif dan interaksi yang ringan.' },
   { role: 'Backend', focus: 'Formulir, data, dan integrasi bila dibutuhkan.' },
 ];
+
+// Kontak bisnis. Isi nilainya; baris yang kosong tidak ditampilkan.
+// whatsapp: format internasional tanpa + atau spasi, mis. '6281234567890'.
+export const contact = {
+  whatsapp: '',
+  email: '',
+  instagram: '',
+};
