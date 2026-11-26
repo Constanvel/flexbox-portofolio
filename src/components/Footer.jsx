@@ -1,5 +1,6 @@
 import { navigation } from './Navbar';
 import { channels } from '../data/content';
+import ContactIcon from './ContactIcon';
 
 export default function Footer({ scrollTo }) {
   return (
@@ -29,6 +30,7 @@ export default function Footer({ scrollTo }) {
                 rel: 'noreferrer',
               })}
             >
+              <ContactIcon name={label} />
               {label}
             </a>
           ))}

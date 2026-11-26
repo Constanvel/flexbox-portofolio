@@ -1,4 +1,5 @@
 import { titles, channels, contact } from '../data/content';
+import ContactIcon from '../components/ContactIcon';
 import '../pages.css';
 
 export default function Contact() {
@@ -44,7 +45,10 @@ export default function Contact() {
             <ul>
               {channels.map(([label, href, text]) => (
                 <li key={label}>
-                  <span>{label}</span>
+                  <span>
+                    <ContactIcon name={label} />
+                    {label}
+                  </span>
                   <a
                     href={href}
                     {...(href.startsWith('http') && {
