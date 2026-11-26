@@ -1,4 +1,5 @@
 import projects from '../data/projects';
+import works from '../data/works';
 import { services, stages, questions } from '../data/content';
 import LineTitle from '../components/LineTitle';
 import Button from '../components/Button';
@@ -38,7 +39,7 @@ export default function Home({ onOpen }) {
               <div className="hero-actions">
                 <Button href="/kontak">Hubungi kami</Button>
                 <a className="button-outline" href="/karya">
-                  Lihat eksplorasi
+                  Lihat karya
                 </a>
               </div>
             </div>
@@ -151,19 +152,16 @@ export default function Home({ onOpen }) {
           <header className="section-heading" data-reveal>
             <div>
               <p className="label" data-index="03">
-                Eksplorasi
+                Karya
               </p>
-              <h2 id="work-title">Studi desain yang kami buat sendiri.</h2>
-              <p className="concept-note">
-                Ini eksplorasi, bukan proyek klien.
-              </p>
+              <h2 id="work-title">Website yang sudah kami bangun.</h2>
             </div>
             <Button href="/karya" secondary>
-              Semua studi desain
+              Semua karya
             </Button>
           </header>
           <div className="project-fan">
-            {projects.map((project) => (
+            {works.slice(0, 3).map((project) => (
               <ProjectCard key={project.id} project={project} onOpen={onOpen} />
             ))}
           </div>

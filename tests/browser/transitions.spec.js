@@ -81,7 +81,7 @@ test('karya flex toggle re-flows the gallery and keeps one option pressed', asyn
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/karya');
-  const gallery = page.getByRole('region', { name: 'Studi desain' });
+  const gallery = page.getByRole('region', { name: 'Karya', exact: true });
   const toggle = page.getByRole('group', { name: 'Tata letak karya' });
   await expect(gallery).toHaveAttribute('data-layout', 'wrap');
   for (const value of ['row', 'column', 'wrap']) {

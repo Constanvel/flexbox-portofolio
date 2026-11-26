@@ -23,7 +23,7 @@ if (pathname === '/' && legacy[window.location.hash.slice(1)])
   window.location.replace(legacy[window.location.hash.slice(1)]);
 const titles = {
   '/': 'Website yang jelas untuk usaha Anda',
-  '/karya': 'Eksplorasi website',
+  '/karya': 'Karya kami',
   '/layanan': 'Layanan & cara kerja',
   '/tentang': 'Tim Flexbox',
   '/kontak': 'Mari bahas website Anda',

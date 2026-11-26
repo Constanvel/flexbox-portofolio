@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 
 const routes = [
   ['/', /Website yang jelas\s*untuk usaha Anda\./],
-  ['/karya', 'Eksplorasi website.'],
+  ['/karya', 'Karya kami.'],
   ['/layanan', 'Layanan yang jelas, hasil yang terukur.'],
   ['/tentang', 'Tim kecil, kerja yang rapi.'],
   ['/kontak', 'Mari bangun website Anda.'],

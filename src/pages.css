@@ -277,10 +277,6 @@
 .explorations .section-heading h2 {
   margin-bottom: 16px;
 }
-.explorations .concept-note {
-  border-color: var(--color-on-accent);
-  color: var(--color-on-accent);
-}
 .project-fan {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -645,6 +641,17 @@ details[open] .faq-indicator::after {
 }
 
 /* ---------- Work & 404 ---------- */
+.work-studies {
+  margin-top: var(--space-section);
+}
+@media (min-width: 761px) {
+  .work-studies .project-flex .project-card {
+    flex: 1 1 calc(33.333% - 16px);
+  }
+  .work-studies .project-summary {
+    display: none;
+  }
+}
 .work-description {
   display: flex;
   flex-wrap: wrap;
