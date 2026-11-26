@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { titles } from '../data/content';
+import { titles, channels } from '../data/content';
 import '../pages.css';
 
 export default function Contact() {
@@ -43,6 +43,25 @@ export default function Contact() {
             <li>Website yang sudah ada, jika ingin diperbarui.</li>
             <li>Perkiraan waktu dan anggaran, jika sudah ada.</li>
           </ul>
+          <div className="contact-channels">
+            <h3>Atau hubungi langsung</h3>
+            <ul>
+              {channels.map(([label, href, text]) => (
+                <li key={label}>
+                  <span>{label}</span>
+                  <a
+                    href={href}
+                    {...(href.startsWith('http') && {
+                      target: '_blank',
+                      rel: 'noreferrer',
+                    })}
+                  >
+                    {text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
           <div className="contact-disclosure">
             <h3>Pratinjau lokal, bukan pengiriman.</h3>
             <p>

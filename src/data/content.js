@@ -122,7 +122,22 @@ export const roles = [
 // Kontak bisnis. Isi nilainya; baris yang kosong tidak ditampilkan.
 // whatsapp: format internasional tanpa + atau spasi, mis. '6281234567890'.
 export const contact = {
-  whatsapp: '',
-  email: '',
-  instagram: '',
+  whatsapp: '6285136971361',
+  email: 'admin@flexboxstudio.site',
+  instagram: 'flexbox.dev',
 };
+
+// [label, href, teks tampilan] untuk footer dan halaman kontak.
+export const channels = [
+  contact.whatsapp && [
+    'WhatsApp',
+    `https://wa.me/${contact.whatsapp}`,
+    `0${contact.whatsapp.slice(2)}`.replace(/(\d{4})(\d{4})(\d+)/, '$1-$2-$3'),
+  ],
+  contact.email && ['Email', `mailto:${contact.email}`, contact.email],
+  contact.instagram && [
+    'Instagram',
+    `https://instagram.com/${contact.instagram.replace(/^@/, '')}`,
+    `@${contact.instagram.replace(/^@/, '')}`,
+  ],
+].filter(Boolean);

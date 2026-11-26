@@ -69,6 +69,15 @@ test('local fonts, all FAQ items and honest local contact preview', async ({
   }
   await page.getByRole('link', { name: 'Bahas website bisnis' }).click();
   await expect(page).toHaveURL('/kontak');
+  await expect(
+    page.getByRole('link', { name: '0851-3697-1361' }),
+  ).toHaveAttribute('href', 'https://wa.me/6285136971361');
+  await expect(
+    page.getByRole('link', { name: 'admin@flexboxstudio.site' }),
+  ).toHaveAttribute('href', 'mailto:admin@flexboxstudio.site');
+  await expect(
+    page.getByRole('contentinfo').getByRole('link', { name: 'Instagram' }),
+  ).toHaveAttribute('href', 'https://instagram.com/flexbox.dev');
   const submit = page.getByRole('button', { name: 'Buat pratinjau pesan' });
   await submit.click();
   await expect(page.getByLabel('Nama Anda', { exact: true })).toBeFocused();
