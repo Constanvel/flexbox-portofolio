@@ -1,5 +1,5 @@
 import works from '../data/works';
-import { services, stages, questions } from '../data/content';
+import { services, stages, questions, testimonials } from '../data/content';
 import LineTitle from '../components/LineTitle';
 import Button from '../components/Button';
 import ProjectCard from '../components/ProjectCard';
@@ -180,6 +180,37 @@ export default function Home({ onOpen }) {
           </div>
         </div>
       </section>
+
+      {testimonials.length > 0 && (
+        <section
+          className="section container testimonials"
+          aria-labelledby="testimonials-title"
+        >
+          <header data-reveal>
+            <p className="label">Kata mereka</p>
+            <h2 id="testimonials-title">
+              Dari yang sudah bekerja bersama kami.
+            </h2>
+          </header>
+          <div className="testimonial-list">
+            {testimonials.map((item) => {
+              const work = works.find((w) => w.id === item.work);
+              return (
+                <figure className="testimonial" key={item.quote} data-reveal>
+                  <blockquote>
+                    <p>{item.quote}</p>
+                  </blockquote>
+                  <figcaption>
+                    <strong>{item.name}</strong>
+                    <span>{item.role}</span>
+                    {work && <span className="project-code">{work.code}</span>}
+                  </figcaption>
+                </figure>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       <section
         className="section container process"

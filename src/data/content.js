@@ -134,6 +134,12 @@ export const team = [
   },
 ];
 
+// Testimoni klien. Bagian ini tampil di Beranda begitu ada isinya.
+// Contoh isi:
+// { quote: 'Kutipan klien.', name: 'Nama', role: 'Pemilik SAGARA', work: 'sagara' }
+// work (opsional) = id karya di works.js; kodenya (WEB-01) ikut tampil.
+export const testimonials = [];
+
 // Kontak bisnis. Isi nilainya; baris yang kosong tidak ditampilkan.
 // whatsapp: format internasional tanpa + atau spasi, mis. '6281234567890'.
 export const contact = {
