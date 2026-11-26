@@ -105,18 +105,33 @@ export const titles = {
   notFound: 'Halaman ini tidak ditemukan',
 };
 
-// Peran di tim. Nama anggota sengaja tidak ditampilkan sampai datanya final.
-export const roles = [
+// Anggota tim, urut dari ketua.
+export const team = [
   {
-    role: 'Pengembangan',
-    focus: 'Arsitektur, performa, dan kode yang mudah dirawat.',
+    name: 'Adit',
+    role: 'Ketua',
+    focus: 'Memimpin tim, mengatur jadwal, dan menjaga arah setiap proyek.',
   },
   {
-    role: 'Desain antarmuka',
+    name: 'Rainer',
+    role: 'Wakil · Frontend',
+    focus: 'Halaman responsif dan interaksi yang ringan.',
+  },
+  {
+    name: 'Fahkri',
+    role: 'UI/UX',
     focus: 'Susunan informasi, riset kebutuhan, dan tampilan.',
   },
-  { role: 'Frontend', focus: 'Halaman responsif dan interaksi yang ringan.' },
-  { role: 'Backend', focus: 'Formulir, data, dan integrasi bila dibutuhkan.' },
+  {
+    name: 'Bima',
+    role: 'UI/UX',
+    focus: 'Susunan informasi, riset kebutuhan, dan tampilan.',
+  },
+  {
+    name: 'Kiandra',
+    role: 'Backend',
+    focus: 'Formulir, data, dan integrasi bila dibutuhkan.',
+  },
 ];
 
 // Kontak bisnis. Isi nilainya; baris yang kosong tidak ditampilkan.

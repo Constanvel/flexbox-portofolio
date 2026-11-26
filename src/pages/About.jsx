@@ -1,4 +1,4 @@
-import { titles, roles } from '../data/content';
+import { titles, team } from '../data/content';
 import '../pages.css';
 
 const principles = [
@@ -35,10 +35,11 @@ export default function About() {
           <h2 id="team-title">Siapa mengerjakan apa.</h2>
         </div>
         <div className="role-grid">
-          {roles.map((item) => (
-            <article className="role-card" key={item.role} data-reveal>
-              <h3>{item.role}</h3>
-              <p>{item.focus}</p>
+          {team.map((member) => (
+            <article className="role-card" key={member.name} data-reveal>
+              <p className="eyebrow">{member.role}</p>
+              <h3>{member.name}</h3>
+              <p>{member.focus}</p>
             </article>
           ))}
         </div>
