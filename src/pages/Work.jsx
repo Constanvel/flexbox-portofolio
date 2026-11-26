@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { Flip } from 'gsap/Flip';
 import projects from '../data/projects';
+import works from '../data/works';
 import LineTitle from '../components/LineTitle';
 import ProjectCard from '../components/ProjectCard';
 
@@ -42,15 +43,16 @@ export default function Work({ onOpen }) {
   return (
     <div className="container work-page">
       <header className="page-intro work-intro">
-        <p className="eyebrow">Karya · 3 studi konsep</p>
-        <LineTitle>Eksplorasi website.</LineTitle>
+        <p className="eyebrow">
+          Karya · {works.length} website · {projects.length} studi konsep
+        </p>
+        <LineTitle>Karya kami.</LineTitle>
         <div className="work-description">
           <p>
-            Studi desain internal untuk profil bisnis, katalog produk, dan
-            pengelolaan informasi. Setiap konsep menjelaskan kebutuhan yang
-            dituju dan keputusan desainnya.
+            Website dan aplikasi yang sudah tayang, dari profil usaha dan
+            sekolah sampai alat internal tim. Buka tiap karya untuk melihat
+            konteks dan apa yang kami kerjakan.
           </p>
-          <span className="concept-note">Bukan proyek klien</span>
         </div>
       </header>
       <div className="flex-toggle" role="group" aria-label="Tata letak karya">
@@ -73,10 +75,10 @@ export default function Work({ onOpen }) {
         ref={list}
         className="project-flex"
         data-layout={layout}
-        aria-label="Studi desain"
+        aria-label="Karya"
         data-lenis-prevent-horizontal
       >
-        {projects.map((project, index) => (
+        {works.map((project, index) => (
           <ProjectCard
             key={project.id}
             project={project}
@@ -84,6 +86,20 @@ export default function Work({ onOpen }) {
             onOpen={onOpen}
           />
         ))}
+      </section>
+      <section className="work-studies" aria-labelledby="studies-title">
+        <header className="section-heading">
+          <div>
+            <p className="label">Eksplorasi</p>
+            <h2 id="studies-title">Studi desain yang kami buat sendiri.</h2>
+          </div>
+          <span className="concept-note">Bukan proyek klien</span>
+        </header>
+        <div className="project-flex" data-layout="wrap">
+          {projects.map((project) => (
+            <ProjectCard key={project.id} project={project} onOpen={onOpen} />
+          ))}
+        </div>
       </section>
     </div>
   );
