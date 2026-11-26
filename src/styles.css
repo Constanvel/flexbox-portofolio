@@ -574,8 +574,17 @@ button {
   overflow: hidden;
   border-radius: var(--radius-2);
 }
-.project-image > .project-preview {
+.project-image > .project-preview,
+.project-image > .project-shot {
   transition: transform 0.6s var(--ease);
+}
+.project-shot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1.6;
+  object-fit: cover;
+  object-position: top;
 }
 .project-cutout {
   position: absolute;
@@ -591,7 +600,7 @@ button {
   transition: transform 0.3s var(--ease);
 }
 @media (hover: hover) and (pointer: fine) {
-  .project-open:hover .project-image > .project-preview {
+  .project-open:hover .project-image > :first-child {
     transform: scale(1.03);
   }
   .project-open:is(:hover, :focus-visible) .project-cutout {
@@ -673,6 +682,21 @@ button {
 .study-brief h3 {
   margin-bottom: 10px;
   font-size: 1.125rem;
+}
+.study-brief ul {
+  padding-left: 20px;
+  color: var(--color-text-muted);
+}
+.study-brief li + li {
+  margin-top: 8px;
+}
+.study-stack {
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+}
+.study-visit {
+  margin-top: 20px;
 }
 .preview-toolbar {
   margin-bottom: 16px;

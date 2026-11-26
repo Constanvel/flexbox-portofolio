@@ -1,6 +1,8 @@
 import ProjectPreview from './previews/ProjectPreview';
 import { Arrow } from './Button';
 export default function ProjectCard({ project, onOpen, featured = false }) {
+  const live = Boolean(project.url);
+  const action = live ? 'Lihat karya' : 'Lihat studi desain';
   return (
     <article
       className={`project-card ${featured ? 'is-featured' : ''}`}
@@ -9,10 +11,21 @@ export default function ProjectCard({ project, onOpen, featured = false }) {
       <button
         className="project-open"
         onClick={(event) => onOpen(project, event.currentTarget)}
-        aria-label={`Lihat studi desain ${project.name}`}
+        aria-label={`${action} ${project.name}`}
       >
         <span className="project-image">
-          <ProjectPreview project={project} />
+          {live ? (
+            <img
+              className="project-shot"
+              src={`/images/works/${project.image}.webp`}
+              alt=""
+              width="1200"
+              height="750"
+              loading="lazy"
+            />
+          ) : (
+            <ProjectPreview project={project} />
+          )}
           <span className="project-cutout">
             <Arrow />
           </span>
@@ -25,7 +38,7 @@ export default function ProjectCard({ project, onOpen, featured = false }) {
           <span className="project-card-title">{project.name}</span>
           <span className="project-summary">{project.summary}</span>
           <span className="text-link">
-            Lihat studi desain <Arrow />
+            {action} <Arrow />
           </span>
         </span>
       </button>
