@@ -5,8 +5,7 @@
 .support-stages li,
 .service-editorial-row,
 .contact-form,
-.contact-context,
-.contact-preview:not(:empty) {
+.contact-context {
   border-radius: var(--radius-3);
   background: var(--color-surface);
 }
@@ -625,31 +624,6 @@ details[open] .faq-indicator::after {
 }
 .contact-field :is(input, textarea)::placeholder {
   color: var(--color-placeholder);
-}
-.contact-preview:not(:empty) {
-  display: grid;
-  gap: 16px;
-  padding: 32px;
-  border: 1px solid var(--color-divider);
-}
-.contact-preview h2 {
-  font-size: 1.75rem;
-}
-.contact-preview dl {
-  display: grid;
-  gap: 12px;
-  margin: 0;
-}
-.contact-preview dt {
-  font-size: var(--text-label);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-.contact-preview dd {
-  margin: 0;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
 }
 
 /* ---------- Work & 404 ---------- */
