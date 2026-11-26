@@ -20,10 +20,10 @@ test('project studies support keyboard activation, modal focus, locking, Escape 
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/');
-  await expect(
-    page.getByRole('button', { name: /^Lihat studi desain/ }),
-  ).toHaveCount(3);
-  const allStudies = page.getByRole('link', { name: 'Semua studi desain' });
+  await expect(page.getByRole('button', { name: /^Lihat karya/ })).toHaveCount(
+    3,
+  );
+  const allStudies = page.getByRole('link', { name: 'Semua karya' });
   // The link is below the fold; let its scroll reveal finish before clicking.
   await allStudies.scrollIntoViewIfNeeded();
   await expect(allStudies.locator('xpath=ancestor::header')).toHaveCSS(
@@ -96,6 +96,34 @@ for (const name of [
     await axe(page);
   });
 }
+
+test('live work dialog links to the site and passes Axe', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/karya');
+  await expect(page.getByRole('button', { name: /^Lihat karya/ })).toHaveCount(
+    5,
+  );
+  await page
+    .getByRole('button', { name: 'Lihat karya SAGARA Rumah Sunat Modern' })
+    .click();
+  const dialog = page.getByRole('dialog', {
+    name: 'SAGARA Rumah Sunat Modern',
+  });
+  await expect(dialog).toBeVisible();
+  await expect(dialog).not.toContainText('Bukan proyek klien');
+  const visit = dialog.getByRole('link', { name: /^Kunjungi/ });
+  await expect(visit).toHaveAttribute(
+    'href',
+    'https://sagara-vert.vercel.app/',
+  );
+  await expect(visit).toHaveAttribute('target', '_blank');
+  await expect(
+    dialog.getByRole('img', { name: /Tangkapan layar desktop/ }),
+  ).toBeVisible();
+  await axe(page);
+  await page.keyboard.press('Escape');
+  await expect(dialog).toHaveCount(0);
+});
 
 test('touch devices use native scrolling and accessible modal menu navigation', async ({
   browser,
