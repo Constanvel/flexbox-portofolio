@@ -1,6 +1,5 @@
 /* ---------- Shared surfaces ---------- */
 .service-card,
-.role-card,
 .about-principles article,
 .support-stages li,
 .service-editorial-row,
@@ -514,25 +513,126 @@ details[open] .faq-indicator::after {
   background: var(--color-text);
 }
 .support-stages,
-.about-principles,
-.role-grid {
+.about-principles {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 .support-stages li,
-.about-principles article,
-.role-card {
+.about-principles article {
   display: grid;
   align-content: start;
   gap: 12px;
   padding: 28px;
 }
-.role-card {
+
+/* ---------- Team ---------- */
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.member-card {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 28px;
   border: 1px solid var(--color-divider);
+  border-radius: var(--radius-3);
+  background: var(--color-surface);
+  transition:
+    transform 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
+}
+.member-card.is-lead {
+  grid-column: span 2;
+  align-content: space-between;
+  border-color: transparent;
+  background: var(--color-text);
+  color: var(--color-surface);
+}
+.member-top {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.member-avatar {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.is-lead .member-avatar {
+  width: 96px;
+  height: 96px;
+  font-size: 2.5rem;
+}
+.member-index {
+  font: 500 var(--text-label) / 1 var(--font-mono);
+  color: var(--color-text-muted);
+}
+.is-lead .member-index,
+.is-lead .member-focus {
+  color: var(--color-on-dark-muted);
+}
+.member-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.member-roles li {
+  padding: 4px 12px;
+  border: 1px solid var(--color-control-border);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-label);
+  font-weight: 500;
+}
+.is-lead .member-roles li {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.member-card h3 {
+  font-size: 1.75rem;
+}
+.is-lead h3 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+.member-focus {
+  color: var(--color-text-muted);
+}
+@media (hover: hover) and (pointer: fine) {
+  .member-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-media);
+  }
+}
+@media (max-width: 900px) {
+  .member-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 560px) {
+  .member-grid {
+    grid-template-columns: 1fr;
+  }
+  .member-card.is-lead {
+    grid-column: auto;
+  }
 }
 
 /* ---------- Contact ---------- */
