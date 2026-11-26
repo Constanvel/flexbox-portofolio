@@ -101,3 +101,35 @@ test('local fonts, all FAQ items and contact form hands off to WhatsApp', async 
   expect(externalFonts).toEqual([]);
   expect(writes).toEqual([]);
 });
+
+test('each page sets its own description, canonical URL and share tags', async ({
+  page,
+  request,
+}) => {
+  await page.goto('/karya');
+  await expect(page).toHaveTitle('Karya kami — Flexbox');
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    'content',
+    /SAGARA, SMK Telkom Purwokerto/,
+  );
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'https://flexbox-portofolio.vercel.app/karya',
+  );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    'https://flexbox-portofolio.vercel.app/og-image.jpg',
+  );
+  await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+  await page.goto('/tidak-ada');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    'content',
+    'noindex',
+  );
+  for (const file of ['/favicon.svg', '/og-image.jpg', '/robots.txt']) {
+    expect((await request.get(file)).ok(), file).toBe(true);
+  }
+  expect(await (await request.get('/sitemap.xml')).text()).toContain(
+    '<loc>https://flexbox-portofolio.vercel.app/kontak</loc>',
+  );
+});

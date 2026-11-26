@@ -21,12 +21,29 @@ const legacy = {
 const pathname = window.location.pathname.replace(/\/$/, '') || '/';
 if (pathname === '/' && legacy[window.location.hash.slice(1)])
   window.location.replace(legacy[window.location.hash.slice(1)]);
-const titles = {
-  '/': 'Website yang jelas untuk usaha Anda',
-  '/karya': 'Karya kami',
-  '/layanan': 'Layanan & cara kerja',
-  '/tentang': 'Tim Flexbox',
-  '/kontak': 'Mari bahas website Anda',
+const SITE = 'https://flexbox-portofolio.vercel.app';
+// [judul tab, deskripsi untuk Google dan pratinjau share]
+const meta = {
+  '/': [
+    'Website yang jelas untuk usaha Anda',
+    'Tim kecil yang membuat website bisnis, katalog produk, dan pembaruan website untuk UMKM dan usaha lokal.',
+  ],
+  '/karya': [
+    'Karya kami',
+    'Website yang sudah kami bangun: SAGARA, SMK Telkom Purwokerto, Menfess Spenthree, FlexBoard, dan FlexKas.',
+  ],
+  '/layanan': [
+    'Layanan & cara kerja',
+    'Website bisnis, katalog produk, dan pembaruan website. Lingkup, biaya, dan tahapannya dibahas di awal.',
+  ],
+  '/tentang': [
+    'Tim Flexbox',
+    'Kenali tim Flexbox: Adit, Rainer, Fahkri, Bima, dan Kiandra, serta cara kami mengambil keputusan.',
+  ],
+  '/kontak': [
+    'Mari bahas website Anda',
+    'Ceritakan usaha Anda lewat WhatsApp 0851-3697-1361, email admin@flexboxstudio.site, atau Instagram @flexbox.dev.',
+  ],
 };
 export default function App() {
   const root = useRef(null);
@@ -35,7 +52,22 @@ export default function App() {
   const { reduced, scrollTo } = useSmoothScroll(menu || Boolean(selection));
   useReveal(root, reduced);
   useEffect(() => {
-    document.title = `${titles[pathname] || 'Halaman tidak ditemukan'} — Flexbox`;
+    const [title, description] = meta[pathname] || ['Halaman tidak ditemukan'];
+    document.title = `${title} — Flexbox`;
+    const set = (selector, value) =>
+      value && document.querySelector(selector)?.setAttribute('content', value);
+    set('meta[name="description"]', description);
+    set('meta[property="og:description"]', description);
+    set('meta[property="og:title"]', document.title);
+    set('meta[property="og:url"]', SITE + pathname);
+    document
+      .querySelector('link[rel="canonical"]')
+      ?.setAttribute('href', SITE + pathname);
+    if (!meta[pathname] && !document.querySelector('meta[name="robots"]'))
+      document.head.insertAdjacentHTML(
+        'beforeend',
+        '<meta name="robots" content="noindex" />',
+      );
   }, []);
   useEffect(() => {
     const handle = (event) => {
