@@ -296,6 +296,59 @@
   font-size: 1.25rem;
 }
 
+/* ---------- Testimonials ---------- */
+.testimonials header {
+  margin-bottom: clamp(32px, 4vw, 48px);
+}
+.testimonial-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+.testimonial {
+  display: grid;
+  align-content: space-between;
+  gap: 32px;
+  margin: 0;
+  padding: 32px;
+  border-radius: var(--radius-3);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-media);
+}
+.testimonial blockquote {
+  margin: 0;
+}
+.testimonial blockquote p {
+  max-width: none;
+  color: var(--color-text);
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+}
+.testimonial blockquote p::before {
+  content: '“';
+  display: block;
+  margin-bottom: 8px;
+  color: var(--color-accent);
+  font-size: 3.5rem;
+  line-height: 0.6;
+}
+.testimonial figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  font-size: var(--text-small);
+  color: var(--color-text-muted);
+}
+.testimonial figcaption strong {
+  color: var(--color-text);
+}
+.testimonial .project-code {
+  margin-left: auto;
+}
+
 /* ---------- Process ---------- */
 .process {
   display: grid;
