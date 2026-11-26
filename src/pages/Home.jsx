@@ -1,10 +1,10 @@
-import projects from '../data/projects';
 import works from '../data/works';
 import { services, stages, questions } from '../data/content';
 import LineTitle from '../components/LineTitle';
 import Button from '../components/Button';
 import ProjectCard from '../components/ProjectCard';
-import ProjectPreview from '../components/previews/ProjectPreview';
+
+const hero = works[0];
 
 const photos = [
   [
@@ -52,8 +52,15 @@ export default function Home({ onOpen }) {
                 <span />
               </div>
               <div className="hero-preview">
-                <ProjectPreview project={projects[0]} />
-                {projects[0].annotations.map((note, i) => (
+                <img
+                  className="project-shot"
+                  src={`/images/works/${hero.image}.webp`}
+                  alt={`Tampilan desktop website ${hero.name}`}
+                  width="1200"
+                  height="750"
+                  fetchPriority="high"
+                />
+                {hero.annotations.map((note, i) => (
                   <span
                     className="fig-pin"
                     key={note.text}
@@ -66,15 +73,21 @@ export default function Home({ onOpen }) {
               </div>
             </div>
             <div className="device-phone">
-              <ProjectPreview project={projects[0]} mobile />
+              <img
+                className="project-shot"
+                src={`/images/works/${hero.image}-mobile.webp`}
+                alt={`Tampilan mobile website ${hero.name}`}
+                width="585"
+                height="1266"
+              />
             </div>
             <figcaption>
               <span className="fig-title">
-                <span className="project-code">Fig. 01</span> Studi konsep ·{' '}
-                {projects[0].name}
+                <span className="project-code">Fig. 01</span> Karya ·{' '}
+                {hero.name}
               </span>
               <ol className="fig-notes">
-                {projects[0].annotations.map((note) => (
+                {hero.annotations.map((note) => (
                   <li key={note.text}>{note.text}</li>
                 ))}
               </ol>

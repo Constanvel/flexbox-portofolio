@@ -1,14 +1,6 @@
 import { navigation } from './Navbar';
-import { contact } from '../data/content';
-
-const channels = [
-  contact.whatsapp && ['WhatsApp', `https://wa.me/${contact.whatsapp}`],
-  contact.email && ['Email', `mailto:${contact.email}`],
-  contact.instagram && [
-    'Instagram',
-    `https://instagram.com/${contact.instagram.replace(/^@/, '')}`,
-  ],
-].filter(Boolean);
+import { channels } from '../data/content';
+import ContactIcon from './ContactIcon';
 
 export default function Footer({ scrollTo }) {
   return (
@@ -30,7 +22,15 @@ export default function Footer({ scrollTo }) {
           <p className="label">Kontak</p>
           <a href="/kontak">Formulir kontak</a>
           {channels.map(([label, href]) => (
-            <a href={href} key={label} target="_blank" rel="noreferrer">
+            <a
+              href={href}
+              key={label}
+              {...(href.startsWith('http') && {
+                target: '_blank',
+                rel: 'noreferrer',
+              })}
+            >
+              <ContactIcon name={label} />
               {label}
             </a>
           ))}

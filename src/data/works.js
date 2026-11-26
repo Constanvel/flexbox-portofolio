@@ -18,6 +18,12 @@ export const works = [
       'Tombol konsultasi WhatsApp di setiap layanan',
     ],
     stack: ['Next.js'],
+    // Titik anotasi di mockup hero; x/y dalam persen dari screenshot desktop.
+    annotations: [
+      { x: 58, y: 4.5, text: 'Navigasi ringkas, empat menu saja' },
+      { x: 44, y: 36, text: 'Judul hangat yang menenangkan keluarga' },
+      { x: 38, y: 62, text: 'Daftar atau lihat paket langsung dari hero' },
+    ],
   },
   {
     id: 'smktelkom',

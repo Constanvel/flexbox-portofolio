@@ -1,12 +1,10 @@
 /* ---------- Shared surfaces ---------- */
 .service-card,
-.role-card,
 .about-principles article,
 .support-stages li,
 .service-editorial-row,
 .contact-form,
-.contact-context,
-.contact-preview:not(:empty) {
+.contact-context {
   border-radius: var(--radius-3);
   background: var(--color-surface);
 }
@@ -90,14 +88,6 @@
 .hero-preview {
   position: relative;
   overflow: hidden;
-  container-type: inline-size;
-}
-/* Below ~485px the preview text hits its 8px floor and reflows,
-   so the pins would no longer point at the right spots. */
-@container (max-width: 500px) {
-  .hero-preview .fig-pin {
-    display: none;
-  }
 }
 /* Annotated mockup: numbered pins match the Fig. notes below. */
 .fig-pin {
@@ -153,7 +143,8 @@
   background: #22252c;
   box-shadow: 0 30px 60px -20px #000;
 }
-.device-phone .project-preview {
+.device-phone .project-shot {
+  aspect-ratio: 0.5;
   border-radius: 16px;
 }
 .hero-visual figcaption {
@@ -522,8 +513,7 @@ details[open] .faq-indicator::after {
   background: var(--color-text);
 }
 .support-stages,
-.about-principles,
-.role-grid {
+.about-principles {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
@@ -532,15 +522,117 @@ details[open] .faq-indicator::after {
   list-style: none;
 }
 .support-stages li,
-.about-principles article,
-.role-card {
+.about-principles article {
   display: grid;
   align-content: start;
   gap: 12px;
   padding: 28px;
 }
-.role-card {
+
+/* ---------- Team ---------- */
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.member-card {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 28px;
   border: 1px solid var(--color-divider);
+  border-radius: var(--radius-3);
+  background: var(--color-surface);
+  transition:
+    transform 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
+}
+.member-card.is-lead {
+  grid-column: span 2;
+  align-content: space-between;
+  border-color: transparent;
+  background: var(--color-text);
+  color: var(--color-surface);
+}
+.member-top {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.member-avatar {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.is-lead .member-avatar {
+  width: 96px;
+  height: 96px;
+  font-size: 2.5rem;
+}
+.member-index {
+  font: 500 var(--text-label) / 1 var(--font-mono);
+  color: var(--color-text-muted);
+}
+.is-lead .member-index,
+.is-lead .member-focus {
+  color: var(--color-on-dark-muted);
+}
+.member-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.member-roles li {
+  padding: 4px 12px;
+  border: 1px solid var(--color-control-border);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-label);
+  font-weight: 500;
+}
+.is-lead .member-roles li {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.member-card h3 {
+  font-size: 1.75rem;
+}
+.is-lead h3 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+.member-focus {
+  color: var(--color-text-muted);
+}
+@media (hover: hover) and (pointer: fine) {
+  .member-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-media);
+  }
+}
+@media (max-width: 900px) {
+  .member-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 560px) {
+  .member-grid {
+    grid-template-columns: 1fr;
+  }
+  .member-card.is-lead {
+    grid-column: auto;
+  }
 }
 
 /* ---------- Contact ---------- */
@@ -566,6 +658,33 @@ details[open] .faq-indicator::after {
   margin: 0;
   padding-left: 20px;
   color: var(--color-text-muted);
+}
+.contact-context .contact-channels ul {
+  padding: 0;
+  list-style: none;
+}
+.contact-channels h3 {
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+.contact-channels li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+  font-size: var(--text-small);
+}
+.contact-channels li > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.contact-icon {
+  flex: none;
+}
+.contact-channels a {
+  color: var(--color-text);
+  font-weight: 600;
 }
 .contact-disclosure {
   margin-top: 8px;
@@ -613,31 +732,6 @@ details[open] .faq-indicator::after {
 }
 .contact-field :is(input, textarea)::placeholder {
   color: var(--color-placeholder);
-}
-.contact-preview:not(:empty) {
-  display: grid;
-  gap: 16px;
-  padding: 32px;
-  border: 1px solid var(--color-divider);
-}
-.contact-preview h2 {
-  font-size: 1.75rem;
-}
-.contact-preview dl {
-  display: grid;
-  gap: 12px;
-  margin: 0;
-}
-.contact-preview dt {
-  font-size: var(--text-label);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-.contact-preview dd {
-  margin: 0;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
 }
 
 /* ---------- Work & 404 ---------- */

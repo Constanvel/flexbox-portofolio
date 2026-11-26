@@ -105,24 +105,54 @@ export const titles = {
   notFound: 'Halaman ini tidak ditemukan',
 };
 
-// Peran di tim. Nama anggota sengaja tidak ditampilkan sampai datanya final.
-export const roles = [
+// Anggota tim, urut dari ketua.
+export const team = [
   {
-    role: 'Pengembangan',
-    focus: 'Arsitektur, performa, dan kode yang mudah dirawat.',
+    name: 'Adit',
+    role: 'Ketua',
+    focus: 'Memimpin tim, mengatur jadwal, dan menjaga arah setiap proyek.',
   },
   {
-    role: 'Desain antarmuka',
+    name: 'Rainer',
+    role: 'Wakil · Frontend',
+    focus: 'Halaman responsif dan interaksi yang ringan.',
+  },
+  {
+    name: 'Fahkri',
+    role: 'UI/UX',
     focus: 'Susunan informasi, riset kebutuhan, dan tampilan.',
   },
-  { role: 'Frontend', focus: 'Halaman responsif dan interaksi yang ringan.' },
-  { role: 'Backend', focus: 'Formulir, data, dan integrasi bila dibutuhkan.' },
+  {
+    name: 'Bima',
+    role: 'UI/UX',
+    focus: 'Susunan informasi, riset kebutuhan, dan tampilan.',
+  },
+  {
+    name: 'Kiandra',
+    role: 'Backend',
+    focus: 'Formulir, data, dan integrasi bila dibutuhkan.',
+  },
 ];
 
 // Kontak bisnis. Isi nilainya; baris yang kosong tidak ditampilkan.
 // whatsapp: format internasional tanpa + atau spasi, mis. '6281234567890'.
 export const contact = {
-  whatsapp: '',
-  email: '',
-  instagram: '',
+  whatsapp: '6285136971361',
+  email: 'admin@flexboxstudio.site',
+  instagram: 'flexbox.dev',
 };
+
+// [label, href, teks tampilan] untuk footer dan halaman kontak.
+export const channels = [
+  contact.whatsapp && [
+    'WhatsApp',
+    `https://wa.me/${contact.whatsapp}`,
+    `0${contact.whatsapp.slice(2)}`.replace(/(\d{4})(\d{4})(\d+)/, '$1-$2-$3'),
+  ],
+  contact.email && ['Email', `mailto:${contact.email}`, contact.email],
+  contact.instagram && [
+    'Instagram',
+    `https://instagram.com/${contact.instagram.replace(/^@/, '')}`,
+    `@${contact.instagram.replace(/^@/, '')}`,
+  ],
+].filter(Boolean);

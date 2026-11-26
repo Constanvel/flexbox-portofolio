@@ -33,7 +33,7 @@ for (const [route, title] of routes) {
   });
 }
 
-test('local fonts, all FAQ items and honest local contact preview', async ({
+test('local fonts, all FAQ items and contact form hands off to WhatsApp', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -69,32 +69,35 @@ test('local fonts, all FAQ items and honest local contact preview', async ({
   }
   await page.getByRole('link', { name: 'Bahas website bisnis' }).click();
   await expect(page).toHaveURL('/kontak');
-  const submit = page.getByRole('button', { name: 'Buat pratinjau pesan' });
+  await expect(
+    page.getByRole('link', { name: '0851-3697-1361' }),
+  ).toHaveAttribute('href', 'https://wa.me/6285136971361');
+  await expect(
+    page.getByRole('link', { name: 'admin@flexboxstudio.site' }),
+  ).toHaveAttribute('href', 'mailto:admin@flexboxstudio.site');
+  await expect(
+    page.getByRole('contentinfo').getByRole('link', { name: 'Instagram' }),
+  ).toHaveAttribute('href', 'https://instagram.com/flexbox.dev');
+  await page.evaluate(() => {
+    window.open = (url) => {
+      window.openedUrl = url;
+      return { opener: window };
+    };
+  });
+  const submit = page.getByRole('button', { name: 'Lanjut ke WhatsApp' });
   await submit.click();
   await expect(page.getByLabel('Nama Anda', { exact: true })).toBeFocused();
-  await expect(page.getByRole('status')).toBeEmpty();
+  expect(await page.evaluate(() => window.openedUrl)).toBeUndefined();
   await page.getByLabel('Nama Anda', { exact: true }).fill(' Pengunjung demo ');
-  await page
-    .getByLabel('Email atau nomor WhatsApp', { exact: true })
-    .fill('demo@example.test');
   await page
     .getByLabel('Kebutuhan website Anda', { exact: true })
     .fill('Katalog usaha lokal.');
   await submit.click();
-  const preview = page.getByRole('status');
-  await expect(preview).toHaveAttribute('aria-live', 'polite');
-  await expect(preview).toBeFocused();
-  await expect(preview).toContainText('Pesan Anda belum dikirim.');
-  await expect(preview).toContainText('Pengunjung demo');
-  await expect(preview).toContainText('Katalog usaha lokal.');
-  await page
-    .getByLabel('Kebutuhan website Anda', { exact: true })
-    .fill('Pembaruan informasi usaha.');
-  await submit.click();
-  await expect(preview).toContainText('Pembaruan informasi usaha.');
-  await expect(preview).not.toContainText('Katalog usaha lokal.');
+  const opened = new URL(await page.evaluate(() => window.openedUrl));
+  expect(opened.origin + opened.pathname).toBe('https://wa.me/6285136971361');
+  expect(opened.searchParams.get('text')).toBe(
+    'Halo Flexbox, saya Pengunjung demo.\n\nKatalog usaha lokal.',
+  );
   expect(externalFonts).toEqual([]);
   expect(writes).toEqual([]);
-  await page.reload();
-  await expect(page.getByRole('status')).toBeEmpty();
 });

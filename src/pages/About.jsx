@@ -1,4 +1,4 @@
-import { titles, roles } from '../data/content';
+import { titles, team } from '../data/content';
 import '../pages.css';
 
 const principles = [
@@ -34,14 +34,30 @@ export default function About() {
           <p className="eyebrow">Tim</p>
           <h2 id="team-title">Siapa mengerjakan apa.</h2>
         </div>
-        <div className="role-grid">
-          {roles.map((item) => (
-            <article className="role-card" key={item.role} data-reveal>
-              <h3>{item.role}</h3>
-              <p>{item.focus}</p>
-            </article>
+        <ol className="member-grid">
+          {team.map((member, i) => (
+            <li
+              className={`member-card ${i === 0 ? 'is-lead' : ''}`}
+              key={member.name}
+              data-reveal
+            >
+              <div className="member-top" aria-hidden="true">
+                <span className="member-avatar">{member.name[0]}</span>
+                <span className="member-index">
+                  {String(i + 1).padStart(2, '0')}/
+                  {String(team.length).padStart(2, '0')}
+                </span>
+              </div>
+              <h3>{member.name}</h3>
+              <ul className="member-roles" aria-label="Peran">
+                {member.role.split(' · ').map((role) => (
+                  <li key={role}>{role}</li>
+                ))}
+              </ul>
+              <p className="member-focus">{member.focus}</p>
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
 
       <section
